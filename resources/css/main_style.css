@@ -1,0 +1,126 @@
+/* Custom Palette Variables ============================================================================ */
+
+:root {
+    --dark-blue: #233D4D;
+    --orange: #FE7F2D;
+    --yellow: #FCCA46;
+    --light-green: #A1C181;
+    --teal: #619B8A;
+
+
+    --prymary-color: #343434;
+    --secondary-color: #F0A202;
+    --cta-color: #7B9E89;
+}
+
+/* Global Styles ======================================================================================= */
+
+* {box-sizing: border-box;}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+}
+
+@font-face {
+    font-family: 'Climbzone-Font';
+    src: url('../fonts/RocksDeath.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+h1, .display-1, .display-4 {
+    font-family: 'Climbzone-Font';
+}
+
+/* Navbar ============================================================================================== */
+
+.navbar {
+    background-color: var(--prymary-color);
+}
+
+.navbar-brand {
+    color: var(--secondary-color);
+}
+
+.navbar-brand:hover {
+    color: var(--secondary-color);
+}
+
+.navbar .nav-link {
+    color: var(--secondary-color);;
+}
+
+.navbar .nav-link:hover{
+    color: white;
+}
+
+/* Buttons and Colors ================================================================================== */
+
+.bg-primary-cta {
+    background-color: var(--orange);
+    color: white;
+    border: none;
+    transition: 0.3s;
+}
+
+.bg-primary-cta:hover {
+    background-color: #ecc1a5;
+    color: white;
+}
+
+.color-cta {
+    color: var(--orange);
+}
+
+.bg-secondary-color {
+    background-color: var(--teal);
+}
+
+.bg-primary-color {
+    background-color: var(--dark-blue);
+}
+
+/* Cards =============================================================================================== */
+
+.card {
+    transition: transform 0.3s ease, shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+}
+
+/* Modals Custom Styles ================================================================================ */
+
+.modal-header, .offcanvas-header {
+    background-color: var(--dark-blue);
+    color: white;
+}
+
+.modal-header .modal-title, .offcanvas-header .offcanvas-title {
+    color: white;
+}
+
+.modal-header .btn-close, .offcanvas-header .btn-close {
+    filter: invert(1);
+}
+
+/* Footer ============================================================================================== */
+
+footer {
+    background-color: var(--secondary-color);
+    color: white;
+
+    & a {
+        text-decoration: none !important;
+        color: white;
+        transition: color 0.3s ease;
+    }
+
+    & a:hover {
+        color: var(--prymary-color) !important;
+        font-weight: bold;
+    }
+}
