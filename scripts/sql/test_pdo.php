@@ -19,12 +19,6 @@ echo "===================================================\n";
 echo "     Supabase Database Connection Test\n";
 echo "===================================================\n\n";
 
-echo "Connection details:\n";
-echo "\tHost: " . $host . "\n";
-echo "\tPort: " . $port . "\n";
-echo "\tDatabase: " . $database . "\n";
-echo "\tUsername: " . $username . "\n\n";
-
 echo "Attempting to connect...\n";
 
 try {
