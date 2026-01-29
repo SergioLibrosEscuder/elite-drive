@@ -25,7 +25,7 @@
                 <div class="col-md-4 mb-4 text-md-end">
                     <h5 class="fw-bold">Legal</h5>
                     <ul class="list-unstyled">
-                        <li><a href="legal.html" class="text-decoration-none">Terms & Conditions</a></li>
+                        <li><RouterLink class="nav-link" to="/legal">Terms & Conditions</RouterLink></li>
                     </ul>
                 </div>
             </div>

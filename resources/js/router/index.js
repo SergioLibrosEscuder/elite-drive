@@ -1,7 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Index from "../pages/Index.vue";
+import Admin from "../pages/Admin.vue";
+import Cars from "../pages/Cars.vue";
+import Contact from "../pages/Contact.vue";
+import Gallery from "../pages/Gallery.vue";
+import Legal from "../pages/Legal.vue";
+import Profile from "../pages/Profile.vue";
 
-const routes = [{ path: "/", component: Index }];
+const routes = [
+    { path: "/", component: Index },
+    { path: "/admin", component: Admin },
+    { path: "/cars", component: Cars },
+    { path: "/contact", component: Contact },
+    { path: "/gallery", component: Gallery },
+    { path: "/legal", component: Legal },
+    { path: "/profile", component: Profile }
+];
 
 const router = createRouter({
     history: createWebHistory(),
