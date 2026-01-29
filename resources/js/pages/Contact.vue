@@ -5,5 +5,8 @@
 
 <template>
     <HeaderCustom />
+    
+    <h1>Contact</h1>
+    
     <FooterCustom />
 </template>

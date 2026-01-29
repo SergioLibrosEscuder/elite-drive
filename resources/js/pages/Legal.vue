@@ -5,5 +5,8 @@
 
 <template>
     <HeaderCustom />
+    
+    <h1>Terms & Conditions</h1>
+    
     <FooterCustom />
 </template>

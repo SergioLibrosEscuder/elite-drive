@@ -5,5 +5,8 @@
 
 <template>
     <HeaderCustom />
+    
+    <h1>Gallery</h1>
+    
     <FooterCustom />
 </template>
