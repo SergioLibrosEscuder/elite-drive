@@ -1,9 +1,8 @@
 <script setup>
-    import HeaderCustom from "../components/HeaderCustom.vue";
-    import FooterCustom from "../components/FooterCustom.vue";
 </script>
 
 <template>
-    <HeaderCustom />
-    <FooterCustom />
+
+    <h1>ELITE DRIVE</h1>
+    
 </template>
