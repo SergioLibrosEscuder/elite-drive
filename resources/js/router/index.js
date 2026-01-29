@@ -23,3 +23,35 @@ const router = createRouter({
 });
 
 export default router;
+
+// Navigation guards
+
+router.beforeEach((to, from, next) => {
+    const userRole = localStorage.getItem('user_role');
+
+    // Route /admin
+    if (to.path === '/admin') {
+        if (userRole === 'admin') {
+            next();
+        } else {
+            alert('Access denied: Administrator role required');
+            next('/');
+        }
+    }
+
+    // Route /profile
+    else if (to.path === '/profile') {
+        if (userRole === 'customer') {
+            next();
+        } else {
+            alert('Access denied: User authentication required');
+            next('/');
+        }
+    }
+
+    // Other routes
+    else {
+        next();
+    }
+});
+
