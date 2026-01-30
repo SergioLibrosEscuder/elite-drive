@@ -15,18 +15,21 @@ const car = ref(null);
 
 
 onMounted(async () => {
-    const carJSON = await axios.get(`/api/cars/${carId}`);
-    car.value = carJSON.data;
-    console.log("Coche recibido:", carJSON.data);
+    try {
+        const carJSON = await axios.get(`/api/cars/${carId}`);
+        car.value = carJSON.data;
+    } catch (error) {
+        console.error("Error fetching car details:", error);
+    }
 });
 </script>
 
 <template>
-    <div v-if="car" class="container py-4">
+    <div v-if="car" class="container py-5">
         <!-- HERO  -->
-        <div class="position-relative mb-5">
-            <!-- <img :src="car.images[0]" class="img-fluid rounded w-100" :alt="car.name"
-                style="max-height: 60vh; object-fit: cover" /> -->
+        <div class="position-relative my-5">
+            <img v-if="carId >= 61 && carId <= 70" :src="`/images/cars/${carId}.webp`" class="img-fluid rounded w-100"
+                :alt="`${car.brand} ${car.model}`" style="max-height: 60vh; object-fit: cover" />
             <div class="position-absolute bottom-0 start-0 p-4 text-white" style="
                     background: linear-gradient(
                         to top,
