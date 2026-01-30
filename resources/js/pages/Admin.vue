@@ -65,11 +65,16 @@
         address: ''
     });
 
+    // REQUEST =================================================
     const fetchCustomers = async () => {
         const res = await axios.get('/admin/customers');
         customers.value = res.data;
     };
 
+    // LOAD DATA ===============================================
+    onMounted(fetchCustomers);
+
+    // CREATE CUSTOMER MODAL ===================================
     const openCreateModal = () => {
         isEditingCustomer.value = false;
         Object.assign(form, { 
@@ -87,6 +92,7 @@
         showModal.value = true;
     };
 
+    // EDIT CUSTOMER MODAL =====================================
     const openEditModal = (customer) => {
         isEditingCustomer.value = true;
         Object.assign(form, customer);
@@ -94,6 +100,7 @@
         showModal.value = true;
     };
 
+    // SAVE CUSTOMER ===========================================
     const saveCustomer = async () => {
         try {
             if (isEditingCustomer.value) {
@@ -107,6 +114,7 @@
         } catch (e) { alert('Error saving customer'); }
     };
 
+    // DELETE CUSTOMER =========================================
     const deleteCustomer = async (id) => {
         if (confirm('Are you sure you want to delete this customer?')) {
             await axios.delete(`/admin/customers/${id}`);
@@ -114,7 +122,20 @@
         }
     };
 
-    onMounted(fetchCustomers);
+    // AGE VALIDATION ==========================================
+    const age = computed(() => {
+        if (!form.birth_date) return null;
+        const birth = new Date(form.birth_date);
+        const today = new Date();
+        let ageCalc = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            ageCalc--;
+        }
+        return ageCalc;
+    });
+
+    const isUnderage = computed(() => age.value !== null && age.value < 18);
 
 </script>
 
@@ -300,13 +321,27 @@
                     <form @submit.prevent="saveCustomer">
                         <div class="modal-body">
                             <div class="row g-2">
+                                
+                                <!-- DATA ============================================================ -->
                                 <div class="col-md-6">
                                     <label class="small fw-bold">DNI</label>
                                     <input v-model="form.dni" :disabled="isEditingCustomer" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small fw-bold">Birth Date</label>
-                                    <input v-model="form.birth_date" type="date" class="form-control" required>
+                                    <input 
+                                        v-model="form.birth_date" 
+                                        type="date" 
+                                        class="form-control" 
+                                        :class="{ 'is-invalid': isUnderage }"
+                                        required
+                                    >
+                                    <div v-if="isUnderage" class="invalid-feedback">
+                                        Must be at least 18 years old.
+                                    </div>
+                                    <div v-else-if="age !== null" class="small text-success">
+                                        Age: {{ age }} years.
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="small fw-bold">First Name</label>
@@ -340,7 +375,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" @click="showModal = false" class="btn btn-secondary">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save Customer</button>
+                            <button type="submit" class="btn btn-primary" :disabled="isUnderage"> Save Customer</button>
                         </div>
                     </form>
                 </div>
