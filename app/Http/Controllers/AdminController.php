@@ -19,16 +19,18 @@ class AdminController extends Controller
     {
         $data = $request->validate([
             'dni' => 'required|unique:users',
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'second_last_name' => 'nullable|string|max:100',
+            'birth_date' => 'required|date',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:4',
-            'phone' => 'nullable',
-            'address' => 'nullable'
+            'phone' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
         ]);
 
         $data['password'] = Hash::make($data['password']);
-        $data['role'] = 'customer'; // Forzamos que sea cliente
+        $data['role'] = 'customer'; // Forzado por defecto
 
         $user = User::create($data);
         return response()->json($user, 201);

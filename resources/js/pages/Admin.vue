@@ -1,57 +1,68 @@
 <script setup>
-import { ref, onMounted, reactive } from 'vue';
-import axios from 'axios';
 
-// Mostrar y editar perfil de usuario
-// Control de la pestaña activa
-const activeTab = ref('users'); // Por defecto mostramos usuarios
+    import { ref, onMounted, reactive, computed } from 'vue';
+    import axios from 'axios';
 
-const isEditingProfile = ref(false);
-const showPasswordSection = ref(false);
-const user = reactive({
-    first_name: '', last_name: '', email: '', phone: '', address: ''
-});
+    // USER DATA DISPLAY FUNCTIONS ======================================================================
 
-const passForm = reactive({
-    current_password: '', password: '', password_confirmation: ''
-});
+    const activeTab = ref('users');
+    const isEditingProfile = ref(false);
+    const showPasswordSection = ref(false);
 
-// Cargar datos al iniciar
-onMounted(async () => {
-    try {
-        const response = await axios.get('/user/me');
-        Object.assign(user, response.data);
-    } catch (error) {
-        console.error("Error loading profile", error);
-    }
-});
+    const user = reactive({
+        first_name: '', last_name: '', email: '', phone: '', address: ''
+    });
 
-const saveProfile = async () => {
-    try {
-        await axios.put('/user/profile', user);
-        isEditingProfile.value = false;
-        alert("Profile updated!");
-    } catch (e) { alert("Error updating profile"); }
-};
+    const passForm = reactive({
+        current_password: '', password: '', password_confirmation: ''
+    });
 
-const changePassword = async () => {
-    try {
-        await axios.put('/user/password', passForm);
-        alert("Password updated!");
-        showPasswordSection.value = false;
-        passForm.current_password = ''; passForm.password = ''; passForm.password_confirmation = '';
-    } catch (e) { alert("Error: Check current password or confirmation"); }
-};
+    // LOAD DATA ===============================================
+    onMounted(async () => {
+        try {
+            const response = await axios.get('/user/me');
+            Object.assign(user, response.data);
+        } catch (error) {
+            console.error("Error loading profile", error);
+        }
+    });
 
+    // SAVE PROFILE ============================================
+    const saveProfile = async () => {
+        try {
+            await axios.put('/user/profile', user);
+            isEditingProfile.value = false;
+            alert("Profile updated!");
+        } catch (e) { alert("Error updating profile"); }
+    };
+    
+    // CHANGE PASSWORD =========================================
+    const changePassword = async () => {
+        try {
+            await axios.put('/user/password', passForm);
+            alert("Password updated!");
+            showPasswordSection.value = false;
+            passForm.current_password = ''; passForm.password = ''; passForm.password_confirmation = '';
+        } catch (e) { alert("Error: Check current password or confirmation"); }
+    };
 
-    // ADMIN DASHBOARD ==================================================================================
+    // ADMIN DASHBOARD FUNCTIONS ========================================================================
 
     const customers = ref([]);
     const isEditingCustomer = ref(false);
     const showModal = ref(false);
 
     const form = reactive({
-        id: null, dni: '', first_name: '', last_name: '', email: '', password: '', phone: '', address: ''
+        id: null, 
+        dni: '', 
+        first_name: '', 
+        last_name: '', 
+        second_last_name: '',
+        birth_date: '',
+        email: '', 
+        password: '', 
+        phone: '', 
+        address: ''
     });
 
     const fetchCustomers = async () => {
@@ -61,7 +72,18 @@ const changePassword = async () => {
 
     const openCreateModal = () => {
         isEditingCustomer.value = false;
-        Object.assign(form, { id: null, dni: '', first_name: '', last_name: '', email: '', password: '', phone: '', address: '' });
+        Object.assign(form, { 
+            id: null,
+            dni: '',
+            first_name: '',
+            last_name: '', 
+            second_last_name: '',
+            birth_date: '',
+            email: '', 
+            password: '',
+            phone: '',
+            address: '' 
+        });
         showModal.value = true;
     };
 
@@ -93,7 +115,7 @@ const changePassword = async () => {
     };
 
     onMounted(fetchCustomers);
-    
+
 </script>
 
 <template>
@@ -277,12 +299,44 @@ const changePassword = async () => {
                     </div>
                     <form @submit.prevent="saveCustomer">
                         <div class="modal-body">
-                            <input v-model="form.dni" :disabled="isEditingCustomer" placeholder="DNI" class="form-control mb-2" required>
-                            <input v-model="form.first_name" placeholder="First Name" class="form-control mb-2" required>
-                            <input v-model="form.last_name" placeholder="Last Name" class="form-control mb-2" required>
-                            <input v-model="form.email" type="email" placeholder="Email" class="form-control mb-2" required>
-                            <input v-if="!isEditingCustomer" v-model="form.password" type="password" placeholder="Password" class="form-control mb-2" required>
-                            <input v-model="form.phone" placeholder="Phone" class="form-control mb-2">
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">DNI</label>
+                                    <input v-model="form.dni" :disabled="isEditingCustomer" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">Birth Date</label>
+                                    <input v-model="form.birth_date" type="date" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small fw-bold">First Name</label>
+                                    <input v-model="form.first_name" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small fw-bold">First Surname</label>
+                                    <input v-model="form.last_name" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small fw-bold">Second Surname</label>
+                                    <input v-model="form.second_last_name" class="form-control">
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="small fw-bold">Email</label>
+                                    <input v-model="form.email" type="email" class="form-control" required>
+                                </div>
+                                <div class="col-md-12" v-if="!isEditingCustomer">
+                                    <label class="small fw-bold">Password</label>
+                                    <input v-model="form.password" type="password" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">Phone</label>
+                                    <input v-model="form.phone" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">Address</label>
+                                    <input v-model="form.address" class="form-control" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" @click="showModal = false" class="btn btn-secondary">Cancel</button>
