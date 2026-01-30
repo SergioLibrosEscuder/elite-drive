@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 
 // API/Actions Routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -13,6 +14,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/me', function () {
         return Auth::user();
     });
+    Route::get('/admin/customers', [AdminController::class, 'index']);
+    Route::post('/admin/customers', [AdminController::class, 'store']);
+    Route::put('/admin/customers/{id}', [AdminController::class, 'update']);
+    Route::delete('/admin/customers/{id}', [AdminController::class, 'destroy']);
 });
 
 // Wildcard Route
