@@ -28,7 +28,7 @@ onMounted(async () => {
     <div v-if="car" class="container py-5">
         <!-- HERO  -->
         <div class="position-relative my-5">
-            <img v-if="carId >= 61 && carId <= 70" :src="`/images/cars/${carId}.webp`" class="img-fluid rounded w-100"
+            <img :src="`/images/cars/covers/${carId}-cvr.webp`" class="img-fluid rounded w-100"
                 :alt="`${car.brand} ${car.model}`" style="max-height: 60vh; object-fit: cover" />
             <div class="position-absolute bottom-0 start-0 p-4 text-white" style="
                     background: linear-gradient(
@@ -48,15 +48,11 @@ onMounted(async () => {
             <button class="btn btn-dark btn-lg px-5 py-3">Book Now</button>
         </div>
 
-        <!-- GALLERY -->
-        <!-- <section class="mb-5">
-            <h2 class="mb-3">Gallery</h2>
-            <div class="row g-3">
-                <div v-for="(img, i) in car.images" :key="i" class="col-12 col-md-4">
-                    <img :src="img" class="img-fluid rounded shadow-sm" />
-                </div>
-            </div>
-        </section> -->
+        <!-- DESCRIPTION -->
+        <section class="mb-5">
+            <h2 class="mb-3">Description</h2>
+            <p class="fs-5">{{ car.description }}</p>
+        </section>
 
         <!-- SPECIFICATIONS -->
         <section class="mb-5">
@@ -90,12 +86,6 @@ onMounted(async () => {
                     <strong>Status:</strong> {{ car.status }}
                 </li>
             </ul>
-        </section>
-
-        <!-- DESCRIPTION -->
-        <section class="mb-5">
-            <h2 class="mb-3">Description</h2>
-            <p class="fs-5">{{ car.description }}</p>
         </section>
     </div>
 
