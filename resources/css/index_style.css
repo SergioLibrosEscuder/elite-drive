@@ -1,0 +1,57 @@
+/* Guillermo Soto ====================================================================================== */
+
+/* Hero ================================================================================================ */
+
+.hero-section {
+    background: url('../img/index/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    min-height: 80vh
+}
+
+/* Services ============================================================================================ */
+
+.service-image-container img {
+    min-height: 400px;
+    border: 1px solid var(--secondary-color);
+}
+
+.service-box {
+    background-color: var(--primary-light-color);
+    transition: all 0.3s ease;
+    border-color: var(--secondary-color) !important;
+}
+
+.service-box:hover {
+    transform: translateX(10px);
+}
+
+/* Carousel ============================================================================================ */
+
+/*.internal-frame,*/ .carousel-item {
+    border: 1px solid var(--secondary-color);
+
+    & img {
+        height: 600px;
+        object-fit: cover;
+    }
+
+}
+
+/* Road Carousel ======================================================================================= */
+
+.vertical-card {
+    height: 550px; /* Ajusta a la altura que quieras mostrar */
+    overflow: hidden;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--secondary-color);
+}
+
+.vertical-card img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+}

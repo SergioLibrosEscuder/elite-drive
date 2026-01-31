@@ -1,3 +1,5 @@
+<!-- Guillermo Soto ============================================================================= -->
+ 
 <template>
 
     <!-- LOGIN MODAL ================================================================================ -->
@@ -34,7 +36,7 @@
 
                     <div class="text-center mt-4 border-top pt-3">
                         <p class="mb-2">Don't have an account?</p>
-                        <button class="btn btn-outline-dark w-100" data-bs-target="#registerModal" data-bs-toggle="modal">Register here</button>
+                        <button class="btn btn-outline-light w-100" data-bs-target="#registerModal" data-bs-toggle="modal">Register here</button>
                     </div>
                 </div>
             </div>
