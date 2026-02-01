@@ -57,7 +57,7 @@
     <div class="modal fade" id="registerModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header border-0">
                     <h5 class="modal-title fw-bold">Join Elite Drive</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -145,7 +145,7 @@
 
                     <div class="text-center mt-4 border-top pt-3">
                         <p class="mb-2">Already have an account?</p>
-                        <button class="btn btn-outline-dark w-100" data-bs-target="#loginModal" data-bs-toggle="modal">
+                        <button class="btn btn-outline-light w-100" data-bs-target="#loginModal" data-bs-toggle="modal">
                             <i class="bi bi-person-circle me-2"></i> Login here
                         </button>
                     </div>

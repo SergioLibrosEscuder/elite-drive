@@ -1,14 +1,10 @@
+/* Guillermo Soto ====================================================================================== */
+
 /* Custom Palette Variables ============================================================================ */
 
 :root {
-    --dark-blue: #233D4D;
-    --orange: #FE7F2D;
-    --yellow: #FCCA46;
-    --light-green: #A1C181;
-    --teal: #619B8A;
-
-
-    --prymary-color: #343434;
+    --primary-color: #343434;
+    --primary-light-color: #444444;
     --secondary-color: #F0A202;
     --cta-color: #7B9E89;
 }
@@ -18,25 +14,39 @@
 * {box-sizing: border-box;}
 
 body {
+    background-color: var(--primary-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
+    color: var(--secondary-color);
 }
 
 @font-face {
-    font-family: 'Climbzone-Font';
-    src: url('../fonts/RocksDeath.ttf') format('truetype');
+    font-family: 'EliteDrive-Font-h1';
+    src: url('../fonts/doctor_glitch.otf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }
 
-h1, .display-1, .display-4 {
-    font-family: 'Climbzone-Font';
+h1, h2, h3, h4 {
+    font-family: 'EliteDrive-Font-h1';
+    letter-spacing: 1px;
+}
+
+@font-face {
+    font-family: 'EliteDrive-Font';
+    src: url('../fonts/zenitha_classic.otf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+h2, h3, h4 {
+    font-family: 'EliteDrive-Font';
+    letter-spacing: 1px;
 }
 
 /* Navbar ============================================================================================== */
 
 .navbar {
-    background-color: var(--prymary-color);
+    background-color: var(--primary-color);
 }
 
 .navbar-brand {
@@ -58,27 +68,15 @@ h1, .display-1, .display-4 {
 /* Buttons and Colors ================================================================================== */
 
 .bg-primary-cta {
-    background-color: var(--orange);
+    background-color: var(--cta-color);
     color: white;
     border: none;
     transition: 0.3s;
 }
 
 .bg-primary-cta:hover {
-    background-color: #ecc1a5;
-    color: white;
-}
-
-.color-cta {
-    color: var(--orange);
-}
-
-.bg-secondary-color {
-    background-color: var(--teal);
-}
-
-.bg-primary-color {
-    background-color: var(--dark-blue);
+    background-color: white;
+    color: var(--cta-color);
 }
 
 /* Cards =============================================================================================== */
@@ -94,16 +92,25 @@ h1, .display-1, .display-4 {
 
 /* Modals Custom Styles ================================================================================ */
 
-.modal-header, .offcanvas-header {
-    background-color: var(--dark-blue);
+.modal-content, .modal-header {
+    border-radius: 0 !important; /* Modals are rounded by default */
+    border: 1px solid var(--secondary-color);
+}
+
+.modal-content {
+    background-color: var(--primary-light-color);
     color: white;
 }
 
-.modal-header .modal-title, .offcanvas-header .offcanvas-title {
-    color: white;
+.modal-header {
+    background-color: var(--primary-color);
 }
 
-.modal-header .btn-close, .offcanvas-header .btn-close {
+.modal-header .modal-title {
+    color: var(--secondary-color);
+}
+
+.modal-header .btn-close {
     filter: invert(1);
 }
 
@@ -120,7 +127,6 @@ footer {
     }
 
     & a:hover {
-        color: var(--prymary-color) !important;
-        font-weight: bold;
+        color: var(--primary-color) !important;
     }
 }

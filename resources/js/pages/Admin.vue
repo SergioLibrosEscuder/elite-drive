@@ -380,7 +380,7 @@ const uploadVehicleImages = async () => {
     <div class="container mt-4 mb-5">
 
         <!-- HEADER ========================================================== -->
-        <h4 class="mb-4 text-white bg-dark p-3 rounded shadow-sm">Admin Dashboard</h4>
+        <h4 class="mb-4 text-white bg-dark p-3 shadow-sm">Admin Dashboard</h4>
 
         <ul class="nav nav-tabs mb-4">
             <li class="nav-item">
@@ -396,14 +396,13 @@ const uploadVehicleImages = async () => {
             </li>
             <li class="nav-item">
                 <button class="nav-link" :class="{ active: activeTab === 'users' }" @click="activeTab = 'users'">
-                    <i class="bi bi-people me-2"></i>Customers
+                    <i class="bi bi-people me-2"></i> Customers
                 </button>
             </li>
         </ul>
 
         <!-- TAB ============================================================= -->
         <div class="tab-content border p-4 bg-white rounded shadow-sm min-vh-50">
-
             <!-- RESERVATIONS ================================================ -->
             <div v-if="activeTab === 'reservations'">
                 <h4><i class="bi bi-calendar-check"></i> Reservation Management</h4>
