@@ -26,9 +26,17 @@ body {
     font-style: normal;
 }
 
-h1, h2, h3, h4 {
+h1 {
     font-family: 'EliteDrive-Font-h1';
     letter-spacing: 1px;
+
+    background: linear-gradient(var(--primary-color) 60%, var(--secondary-color) 80%);
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    -webkit-text-fill-color: transparent;
+    color: transparent; 
 }
 
 @font-face {
