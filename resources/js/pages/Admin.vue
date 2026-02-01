@@ -435,41 +435,45 @@ const uploadVehicleImages = async () => {
                 <!-- HEADER ================================================== -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h4><i class="bi bi-car-front"></i> Vehicle Fleet</h4>
-                    <button @click="openCreateVehicleModal" class="btn btn-primary">
-                        <i class="bi bi-plus-square me-2"></i>New Vehicle
+                    <button @click="openCreateVehicleModal" class="btn bg-primary-cta">
+                        <i class="bi bi-plus-circle me-2"></i>New Vehicle
                     </button>
                 </div>
                 <!-- DATA TABLE ============================================== -->
-                <table class="table table-hover border">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>License Plate</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Manufacturing Year</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="v in vehicles" :key="v.id">
-                            <td>{{ v.license_plate }}</td>
-                            <td>{{ v.brand }}</td>
-                            <td>{{ v.model }}</td>
-                            <td>{{ v.manufacturing_year }}</td>
-                            <td>{{ v.status }}</td>
-                            <td>
-                                <button @click="openUploadVehicleImagesModal(v)"
-                                    class="btn btn-sm btn-info me-1 text-white">
-                                    <i class="bi bi-camera"></i></button>
-                                <button @click="openEditVehicleModal(v)" class="btn btn-sm btn-warning me-2"><i
-                                        class="bi bi-pencil"></i></button>
-                                <button @click="deleteVehicle(v.id)" class="btn btn-sm btn-danger"><i
-                                        class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table custom-table">
+                        <thead>
+                            <tr>
+                                <th><i class="bi bi-card-text me-2"></i> License Plate</th>
+                                <th><i class="bi bi-car-front me-2"></i> Brand</th>
+                                <th><i class="bi bi-car-front me-2"></i> Model</th>
+                                <th><i class="bi bi-calendar me-2"></i> Manufacturing Year</th>
+                                <th><i class="bi bi-info-circle me-2"></i> ActionsStatus</th>
+                                <th><i class="bi bi-gear me-2"></i> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="v in vehicles" :key="v.id">
+                                <td>{{ v.license_plate }}</td>
+                                <td>{{ v.brand }}</td>
+                                <td>{{ v.model }}</td>
+                                <td>{{ v.manufacturing_year }}</td>
+                                <td>{{ v.status }}</td>
+                                <td>
+                                    <button @click="openUploadVehicleImagesModal(v)" class="btn btn-sm bg-primary-cta me-1">
+                                        <i class="bi bi-camera"></i>
+                                    </button>
+                                    <button @click="openEditVehicleModal(v)" class="btn btn-sm bg-primary-cta me-2">
+                                        <i class="bi bi-pen"></i>
+                                    </button>
+                                    <button @click="deleteVehicle(v.id)" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- CUSTOMERS =================================================== -->
@@ -621,7 +625,7 @@ const uploadVehicleImages = async () => {
         <div class="modal d-block" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header border-0">
                         <h5 class="modal-title">{{ isEditingVehicle ? 'Edit' : 'Create' }} Vehicle</h5>
                         <button @click="showVehicleModal = false" class="btn-close"></button>
                     </div>
@@ -630,64 +634,92 @@ const uploadVehicleImages = async () => {
                             <div class="row g-2">
                                 <!-- DATA ============================================================ -->
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">License Plate</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-card-text me-2"></i> License Plate
+                                    </label>
                                     <input v-model="vehicleForm.license_plate" :disabled="isEditingVehicle"
                                         class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Hourly Price (€)</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-cash me-2"></i> Hourly Price (€)
+                                    </label>
                                     <input v-model="vehicleForm.hourly_price" type="number" class="form-control"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Brand</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-car-front me-2"></i> Brand
+                                    </label>
                                     <input v-model="vehicleForm.brand" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Model</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-car-front me-2"></i> Model
+                                    </label>
                                     <input v-model="vehicleForm.model" class="form-control" required>
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="small fw-bold">Description</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-list-columns-reverse me-2"></i> Description
+                                    </label>
                                     <textarea v-model="vehicleForm.description" class="form-control"
                                         required></textarea>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Year</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-calendar me-2"></i> Year
+                                    </label>
                                     <input v-model="vehicleForm.manufacturing_year" type="number" class="form-control"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Color</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-palette me-2"></i> Color
+                                    </label>
                                     <input v-model="vehicleForm.color" class="form-control" required>
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="small fw-bold">Engine</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-gear me-2"></i> Engine
+                                    </label>
                                     <input v-model="vehicleForm.engine" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Engine Capacity (cc)</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-gear me-2"></i> Engine Capacity (cc)
+                                    </label>
                                     <input v-model="vehicleForm.engine_capacity" type="number" class="form-control"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Fuel Type</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-fuel-pump me-2"></i> Fuel Type
+                                    </label>
                                     <input v-model="vehicleForm.fuel_type" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Traction</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-gear me-2"></i> Traction
+                                    </label>
                                     <input v-model="vehicleForm.traction" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Transmission</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-gear me-2"></i> Transmission
+                                    </label>
                                     <input v-model="vehicleForm.transmission" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Doors</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-door-closed me-2"></i> Doors
+                                    </label>
                                     <input v-model="vehicleForm.doors" type="number" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Status</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-info-circle me-2"></i> Status
+                                    </label>
                                     <select v-model="vehicleForm.status" class="form-select" required>
                                         <option value="available">available</option>
                                         <option value="reserved">reserved</option>
@@ -697,10 +729,12 @@ const uploadVehicleImages = async () => {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" @click="showVehicleModal = false"
-                                class="btn btn-secondary">Cancel</button>
-                            <button type="submit" class="btn btn-primary"> Save
-                                Vehicle</button>
+                            <button type="button" @click="showVehicleModal = false" class="btn bg-primary-cta">
+                                <i class="bi bi-x-circle me-2"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn bg-primary-cta">
+                                <i class="bi bi-floppy me-2"></i> Save Vehicle
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -708,13 +742,14 @@ const uploadVehicleImages = async () => {
         </div>
     </div>
 
-    <!-- UPLOAD VEHICLE IMAGES MODAL -->
+    <!-- UPLOAD VEHICLE IMAGES ====================================================================== -->
+
     <div v-if="showUploadVehicleImagesModal">
         <div class="modal-backdrop fade show"></div>
         <div class="modal d-block" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header bg-info text-white">
+                    <div class="modal-header border-0">
                         <h5 class="modal-title">Manage Images (ID: {{ selectVehicleForImageUpload.id }})</h5>
                         <button @click="showUploadVehicleImagesModal = false" class="btn-close"></button>
                     </div>
@@ -742,9 +777,10 @@ const uploadVehicleImages = async () => {
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" @click="showUploadVehicleImagesModal = false"
-                            class="btn btn-secondary">Cancel</button>
-                        <button type="button" @click="uploadVehicleImages" class="btn btn-info text-white">
+                        <button type="button" @click="showUploadVehicleImagesModal = false" class="btn bg-primary-cta">
+                            <i class="bi bi-x-circle me-2"></i> Cancel
+                        </button>
+                        <button type="button" @click="uploadVehicleImages" class="btn bg-primary-cta">
                             <i class="bi bi-cloud-upload me-2"></i> Upload
                         </button>
                     </div>

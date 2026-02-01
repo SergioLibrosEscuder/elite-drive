@@ -47,98 +47,136 @@
 
 </script>
 
+<style scoped>
+  @import "../../css/admin_style.css";
+</style>
+
 <template>
 
     <!-- USER DATA DISPLAY ========================================================================== -->
 
     <div class="container mt-5">
-        <div class="card shadow">
 
-            <!-- HEADER ========================================================== -->
+        <!-- HEADER ========================================================== -->
 
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">My Profile</h4>
-                <button @click="isEditing = !isEditing" class="btn btn-sm btn-outline-light">
-                    {{ isEditing ? 'Cancel' : 'Edit Profile' }}
-                </button>
-            </div>
+        <div class="dashboard-title mb-4 p-3 shadow-sm d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">My Profile</h4>
+            <button @click="isEditing = !isEditing" class="btn bg-primary-cta">
+                <i class="bi bi-pen me-2"></i>
+                {{ isEditing ? 'Cancel' : 'Edit Profile' }}
+            </button>
+        </div>
+
+        <!-- DATA ============================================================ -->
+
+        <div class="custom-panel mb-4 p-4 shadow-sm">
 
             <!-- DATA ============================================================ -->
-
-            <div class="card-body">
-
-                <!-- DATA ============================================================ -->
-                <div class="row g-3">
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Name</label>
-                        <input v-if="isEditing" v-model="user.first_name" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.first_name }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">First surname</label>
-                        <input v-if="isEditing" v-model="user.last_name" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.last_name }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Second surname</label>
-                        <input v-if="isEditing" v-model="user.second_last_name" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.second_last_name }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">DNI</label>
-                        <p class="form-control-plaintext text-muted">{{ user.dni }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Birth date</label>
-                        <p class="form-control-plaintext text-muted">{{ user.birth_date }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Register date</label>
-                        <p class="form-control-plaintext text-muted">{{ user.registration_date }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Phone</label>
-                        <input v-if="isEditing" v-model="user.phone" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.phone }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Email</label>
-                        <input v-if="isEditing" v-model="user.email" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.email }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Address</label>
-                        <input v-if="isEditing" v-model="user.address" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.address }}</p>
-                    </div>
+            <div class="row g-3">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-person me-2"></i> Name
+                    </label>
+                    <input v-if="isEditing" v-model="user.first_name" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.first_name }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-person me-2"></i> First surname
+                    </label>
+                    <input v-if="isEditing" v-model="user.last_name" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.last_name }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-person me-2"></i> Second surname
+                    </label>
+                    <input v-if="isEditing" v-model="user.second_last_name" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.second_last_name }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-card-text me-2"></i> DNI
+                    </label>
+                    <p class="form-control-plaintext text-white">{{ user.dni }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-calendar me-2"></i> Birth date
+                    </label>
+                    <p class="form-control-plaintext text-white">{{ user.birth_date }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-calendar me-2"></i> Register date
+                    </label>
+                    <p class="form-control-plaintext text-white">{{ user.registration_date }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-phone me-2"></i> Phone
+                    </label>
+                    <input v-if="isEditing" v-model="user.phone" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.phone }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-envelope-at me-2"></i> Email
+                    </label>
+                    <input v-if="isEditing" v-model="user.email" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.email }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-geo-alt me-2"></i> Address
+                    </label>
+                    <input v-if="isEditing" v-model="user.address" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.address }}</p>
                 </div>
 
                 <div v-if="isEditing" class="mt-4">
-                    <button @click="saveProfile" class="btn btn-success">Save Changes</button>
+                    <button @click="saveProfile" class="btn bg-primary-cta">
+                        <i class="bi bi-floppy me-2"></i> Save Changes
+                    </button>
+                </div>
+                
+                <!-- PASSWORD ======================================================== -->
+
+                <hr class="my-2">
+                
+                <div class="d-flex justify-content-start align-items-center mb-3">
+                    <button @click="showPasswordSection = !showPasswordSection" class="btn bg-primary-cta">
+                        <i class="bi bi-key me-2"></i>
+                        {{ showPasswordSection ? 'Cancel' : 'Change Password' }}
+                    </button>
                 </div>
 
-                <hr class="my-4">
-
-                <!-- PASSWORD ======================================================== -->
-                <button @click="showPasswordSection = !showPasswordSection" class="btn btn-outline-danger">
-                    <i class="bi bi-key me-2"></i>Change Password
-                </button>
-
-                <div v-if="showPasswordSection" class="card mt-3 bg-light">
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <input type="password" v-model="passForm.current_password" placeholder="Current Password" class="form-control">
-                        </div>
-                        <div class="mb-2">
-                            <input type="password" v-model="passForm.password" placeholder="New Password" class="form-control">
-                        </div>
-                        <div class="mb-2">
-                            <input type="password" v-model="passForm.password_confirmation" placeholder="Confirm New Password" class="form-control">
-                        </div>
-                        <button @click="changePassword" class="btn btn-danger">Update Password</button>
-                    </div>
+                <div v-if="showPasswordSection" class="custom-panel p-4 shadow-sm">
+                    <div class="mb-2"><input type="password" v-model="passForm.current_password" placeholder="Current Password" class="form-control"></div>
+                    <div class="mb-2"><input type="password" v-model="passForm.password" placeholder="New Password" class="form-control"></div>
+                    <div class="mb-2"><input type="password" v-model="passForm.password_confirmation" placeholder="Confirm New Password" class="form-control"></div>
+                    <button @click="changePassword" class="btn bg-primary-cta">
+                        <i class="bi bi-floppy me-2"></i> Update Password
+                    </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- RESERVATIONS DISPLAY ======================================================================= -->
+
+    <div class="container">
+
+        <!-- HEADER ========================================================== -->
+
+        <div class="dashboard-title mb-4 p-3 shadow-sm d-flex justify-content-between align-items-start">
+            <h4 class="mb-0">Reservations</h4>
+        </div>
+
+        <!-- DATA ============================================================ -->
+
+        <div class="custom-panel mb-4 p-4 shadow-sm">
+                
         </div>
     </div>
 
