@@ -12,6 +12,7 @@ const filters = ref({
     maxPrice: null,
     doors: "",
     fuel: "",
+    status: "",
     minYear: null,
     maxYear: null,
 });
@@ -38,6 +39,7 @@ function addToCart(car) {
 const brands = computed(() => getAll("brand"));
 const doors = computed(() => getAll("doors"));
 const fuels = computed(() => getAll("fuel_type"));
+const statuses = computed(() => getAll("status"));
 
 const filteredCars = computed(() => {
     return cars.value.filter((c) => {
@@ -45,6 +47,7 @@ const filteredCars = computed(() => {
         if (filters.value.brand && c.brand !== filters.value.brand) return false;
         if (filters.value.fuel && c.fuel_type !== filters.value.fuel) return false;
         if (filters.value.doors && Number(c.doors) !== Number(filters.value.doors)) return false;
+        if (filters.value.status && c.status !== filters.value.status) return false;
         if (filters.value.minPrice && Number(c.hourly_price) < Number(filters.value.minPrice)) return false;
         if (filters.value.maxPrice && Number(c.hourly_price) > Number(filters.value.maxPrice)) return false;
         if (filters.value.minYear && Number(c.manufacturing_year) < Number(filters.value.minYear)) return false;
@@ -61,6 +64,7 @@ const resetFilters = () => {
         maxPrice: null,
         doors: "",
         fuel: "",
+        status: "",
         minYear: null,
         maxYear: null,
     };
@@ -132,6 +136,14 @@ function getThumbnail(car) {
                                 </select>
                             </div>
 
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select v-model="filters.status" class="form-select">
+                                    <option value="">Any</option>
+                                    <option v-for="s in statuses" :key="s" :value="s">{{ s }}</option>
+                                </select>
+                            </div>
+
                             <div class="row g-2 mb-3">
                                 <div class="col-6">
                                     <label class="form-label">Min year</label>
@@ -168,10 +180,6 @@ function getThumbnail(car) {
                             <div class="position-relative">
                                 <img :src="getThumbnail(car)" class="card-img-top" :alt="`${car.brand} ${car.model}`"
                                     style="height:160px; object-fit:cover;" />
-                                <button @click.stop="addToCart(car)" class="btn btn-primary add-overlay"
-                                    title="Add to cart">
-                                    <i class="bi bi-cart-plus"></i>
-                                </button>
                             </div>
 
                             <div class="card-body d-flex flex-column">
@@ -199,30 +207,9 @@ function getThumbnail(car) {
 .vehicle-card {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
     overflow: hidden;
-}
 
-.vehicle-card:hover {
-    transform: translateY(-6px);
-
-    & .add-overlay {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.add-overlay {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    opacity: 0;
-    transform: translateY(-6px);
-    transition: opacity 0.15s ease, transform 0.15s ease;
-}
-
-@media (max-width: 576px) {
-    .add-overlay {
-        opacity: 1;
-        transform: none;
+    &:hover {
+        transform: translateY(-6px);
     }
 }
 </style>
