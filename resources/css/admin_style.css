@@ -1,23 +1,14 @@
 /* Guillermo Soto ====================================================================================== */
 
-/* Hero ================================================================================================ */
+/* Panels ============================================================================================== */
 
 .dashboard-title, .custom-panel {
     background-color: var(--primary-light-color);
     border: 1px solid var(--secondary-color);
 }
-/*
-.background-primary {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-}
 
-.background-primary-light {
-    background-color: var(--primary-light-color);
-    color: white;
-}
-*/
-/* Encabezado: Color principal oscuro y letras naranjas */
+/* Tabs ================================================================================================ */
+
 .table.custom-table thead tr th {
     background-color: var(--primary-color) !important;
     color: var(--secondary-color) !important;
@@ -26,22 +17,19 @@
     font-size: 0.85rem;
 }
 
-/* Cuerpo: Color principal claro y texto blanco */
 .table.custom-table tbody tr td {
     background-color: var(--primary-light-color) !important;
     color: white !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisoria sutil */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     vertical-align: middle;
 }
 
-/* Efecto Hover para que la fila resalte al pasar el ratón */
 .table.custom-table tbody tr:hover td {
     background-color: var(--primary-color) !important;
     filter: brightness(1.2);
     transition: 0.2s;
 }
 
-/* Quitar bordes externos de la tabla para que encaje con tu diseño limpio */
 .custom-table {
     border-collapse: separate;
     border-spacing: 0;
