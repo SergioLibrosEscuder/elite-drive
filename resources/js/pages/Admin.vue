@@ -435,41 +435,45 @@ const uploadVehicleImages = async () => {
                 <!-- HEADER ================================================== -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h4><i class="bi bi-car-front"></i> Vehicle Fleet</h4>
-                    <button @click="openCreateVehicleModal" class="btn btn-primary">
-                        <i class="bi bi-plus-square me-2"></i>New Vehicle
+                    <button @click="openCreateVehicleModal" class="btn bg-primary-cta">
+                        <i class="bi bi-plus-circle me-2"></i>New Vehicle
                     </button>
                 </div>
                 <!-- DATA TABLE ============================================== -->
-                <table class="table table-hover border">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>License Plate</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Manufacturing Year</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="v in vehicles" :key="v.id">
-                            <td>{{ v.license_plate }}</td>
-                            <td>{{ v.brand }}</td>
-                            <td>{{ v.model }}</td>
-                            <td>{{ v.manufacturing_year }}</td>
-                            <td>{{ v.status }}</td>
-                            <td>
-                                <button @click="openUploadVehicleImagesModal(v)"
-                                    class="btn btn-sm btn-info me-1 text-white">
-                                    <i class="bi bi-camera"></i></button>
-                                <button @click="openEditVehicleModal(v)" class="btn btn-sm btn-warning me-2"><i
-                                        class="bi bi-pencil"></i></button>
-                                <button @click="deleteVehicle(v.id)" class="btn btn-sm btn-danger"><i
-                                        class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table custom-table">
+                        <thead>
+                            <tr>
+                                <th><i class="bi bi-card-text me-2"></i> License Plate</th>
+                                <th><i class="bi bi-car-front me-2"></i> Brand</th>
+                                <th><i class="bi bi-car-front me-2"></i> Model</th>
+                                <th><i class="bi bi-calendar me-2"></i> Manufacturing Year</th>
+                                <th><i class="bi bi-info-circle me-2"></i> ActionsStatus</th>
+                                <th><i class="bi bi-gear me-2"></i> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="v in vehicles" :key="v.id">
+                                <td>{{ v.license_plate }}</td>
+                                <td>{{ v.brand }}</td>
+                                <td>{{ v.model }}</td>
+                                <td>{{ v.manufacturing_year }}</td>
+                                <td>{{ v.status }}</td>
+                                <td>
+                                    <button @click="openUploadVehicleImagesModal(v)" class="btn btn-sm bg-primary-cta me-1">
+                                        <i class="bi bi-camera"></i>
+                                    </button>
+                                    <button @click="openEditVehicleModal(v)" class="btn btn-sm bg-primary-cta me-2">
+                                        <i class="bi bi-pen"></i>
+                                    </button>
+                                    <button @click="deleteVehicle(v.id)" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- CUSTOMERS =================================================== -->
@@ -621,7 +625,7 @@ const uploadVehicleImages = async () => {
         <div class="modal d-block" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header border-0">
                         <h5 class="modal-title">{{ isEditingVehicle ? 'Edit' : 'Create' }} Vehicle</h5>
                         <button @click="showVehicleModal = false" class="btn-close"></button>
                     </div>
