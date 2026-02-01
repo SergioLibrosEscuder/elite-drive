@@ -7,7 +7,10 @@ export const useCartStore = defineStore("cart", () => {
     const count = computed(() => cartItems.value.length);
 
     const total = computed(() =>
-        cartItems.value.reduce((total, item) => total + item.price, 0),
+        cartItems.value.reduce(
+            (total, item) => Number(total) + Number(item.price),
+            0,
+        ),
     );
 
     function addToCart(vehicle, startDate, endDate) {
