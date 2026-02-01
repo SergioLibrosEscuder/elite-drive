@@ -93,8 +93,8 @@ class VehicleController extends Controller
     public function uploadImages(Request $request, $id)
     {
         $request->validate([
-            'thumbnail' => 'nullable|image|mimes:webp,jpeg,png,jpg',
-            'cover' => 'nullable|image|mimes:webp,jpeg,png,jpg',
+            'thumbnail' => 'nullable|image|mimes:webp,jpeg,png,jpg|max:10240',
+            'cover' => 'nullable|image|mimes:webp,jpeg,png,jpg|max:10240',
         ]);
 
         $thmPath = public_path('images/cars/thumbnails/');
