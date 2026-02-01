@@ -742,13 +742,14 @@ const uploadVehicleImages = async () => {
         </div>
     </div>
 
-    <!-- UPLOAD VEHICLE IMAGES MODAL -->
+    <!-- UPLOAD VEHICLE IMAGES ====================================================================== -->
+
     <div v-if="showUploadVehicleImagesModal">
         <div class="modal-backdrop fade show"></div>
         <div class="modal d-block" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header bg-info text-white">
+                    <div class="modal-header border-0">
                         <h5 class="modal-title">Manage Images (ID: {{ selectVehicleForImageUpload.id }})</h5>
                         <button @click="showUploadVehicleImagesModal = false" class="btn-close"></button>
                     </div>
@@ -776,9 +777,10 @@ const uploadVehicleImages = async () => {
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" @click="showUploadVehicleImagesModal = false"
-                            class="btn btn-secondary">Cancel</button>
-                        <button type="button" @click="uploadVehicleImages" class="btn btn-info text-white">
+                        <button type="button" @click="showUploadVehicleImagesModal = false" class="btn bg-primary-cta">
+                            <i class="bi bi-x-circle me-2"></i> Cancel
+                        </button>
+                        <button type="button" @click="uploadVehicleImages" class="btn bg-primary-cta">
                             <i class="bi bi-cloud-upload me-2"></i> Upload
                         </button>
                     </div>
