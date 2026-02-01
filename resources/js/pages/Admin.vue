@@ -66,6 +66,12 @@ const isEditingVehicle = ref(false);
 
 const showUserModal = ref(false);
 const showVehicleModal = ref(false);
+const showUploadVehicleImagesModal = ref(false);
+
+const selectVehicleForImageUpload = ref(null);
+
+const thumbnailFile = ref(null);
+const coverFile = ref(null);
 
 const userForm = reactive({
     id: null,
@@ -148,6 +154,16 @@ const openCreateVehicleModal = () => {
     });
     showVehicleModal.value = true;
 };
+// UPLOAD VEHICLE IMAGES MODAL ============================
+const openUploadVehicleImagesModal = (vehicle) => {
+    selectVehicleForImageUpload.value = vehicle;
+
+    // Reset files
+    thumbnailFile.value = null;
+    coverFile.value = null;
+
+    showUploadVehicleImagesModal.value = true;
+};
 
 // EDIT CUSTOMER MODAL =====================================
 const openEditUserModal = (customer) => {
@@ -223,6 +239,43 @@ const age = computed(() => {
 
 const isUnderage = computed(() => age.value !== null && age.value < 18);
 
+// DETECT VEHICLE IMAGE FILES ==============================
+const handleImagesFileChange = (event, type) => {
+    const file = event.target.files[0];
+    if (type === 'thumbnail') {
+        thumbnailFile.value = file;
+    } else if (type === 'cover') {
+        coverFile.value = file;
+    }
+};
+
+// UPLOAD VEHICLE IMAGES ====================================
+const uploadVehicleImages = async () => {
+    if (!thumbnailFile.value && !coverFile.value) {
+        alert('Please select at least one image to upload.');
+        return;
+    };
+
+    try {
+        const formData = new FormData();
+        if (thumbnailFile.value) {
+            formData.append('thumbnail', thumbnailFile.value);
+        }
+        if (coverFile.value) {
+            formData.append('cover', coverFile.value);
+        }
+
+        await axios.post(`/cars/${selectVehicleForImageUpload.value.id}/images`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        alert('Images uploaded successfully!');
+        showUploadVehicleImagesModal.value = false;
+    } catch (e) {
+        console.error('Error uploading images', e);
+        alert('Error uploading images');
+    }
+}
 </script>
 
 <template>
@@ -386,6 +439,9 @@ const isUnderage = computed(() => age.value !== null && age.value < 18);
                             <td>{{ v.manufacturing_year }}</td>
                             <td>{{ v.status }}</td>
                             <td>
+                                <button @click="openUploadVehicleImagesModal(v)"
+                                    class="btn btn-sm btn-info me-1 text-white">
+                                    <i class="bi bi-camera"></i></button>
                                 <button @click="openEditVehicleModal(v)" class="btn btn-sm btn-warning me-2"><i
                                         class="bi bi-pencil"></i></button>
                                 <button @click="deleteVehicle(v.id)" class="btn btn-sm btn-danger"><i
@@ -598,6 +654,51 @@ const isUnderage = computed(() => age.value !== null && age.value < 18);
                                 Vehicle</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPLOAD VEHICLE IMAGES MODAL -->
+    <div v-if="showUploadVehicleImagesModal">
+        <div class="modal-backdrop fade show"></div>
+        <div class="modal d-block" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title">Manage Images (ID: {{ selectVehicleForImageUpload.id }})</h5>
+                        <button @click="showUploadVehicleImagesModal = false" class="btn-close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="alert alert-light border">
+                            <small class="text-muted">
+                                Images will be saved as: <br>
+                                <code>{{ selectVehicleForImageUpload.id }}-thm.webp</code> (Thumbnail)<br>
+                                <code>{{ selectVehicleForImageUpload.id }}-cvr.webp</code> (Cover)
+                            </small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Thumbnail</label>
+                            <input type="file" class="form-control" accept="image/*"
+                                @change="handleImagesFileChange($event, 'thumbnail')">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Cover</label>
+                            <input type="file" class="form-control" accept="image/*"
+                                @change="handleImagesFileChange($event, 'cover')">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" @click="showUploadVehicleImagesModal = false"
+                            class="btn btn-secondary">Cancel</button>
+                        <button type="button" @click="uploadVehicleImages" class="btn btn-info text-white">
+                            <i class="bi bi-cloud-upload me-2"></i> Upload
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
