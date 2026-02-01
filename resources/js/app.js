@@ -1,5 +1,6 @@
 import "./bootstrap";
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import App from "./pages/App.vue";
 import router from "./router";
 import axios from "axios";
@@ -16,4 +17,6 @@ if (token) {
     console.error("CSRF token not found");
 }
 
-createApp(App).use(router).mount("#app");
+const pinia = createPinia();
+
+createApp(App).use(router).use(pinia).mount("#app");
