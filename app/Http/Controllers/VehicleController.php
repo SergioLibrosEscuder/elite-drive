@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
 
@@ -74,6 +75,43 @@ class VehicleController extends Controller
         $vehicle = Vehicle::findOrFail($id);
 
         $vehicle->delete();
-        return response()->json(['message' => 'Vehicle deleted']);
+
+        $thmPath = public_path("images/cars/thumbnails/{$id}-thm.webp");
+        $cvrPath = public_path("images/cars/covers/{$id}-cvr.webp");
+
+        if (File::exists($thmPath)) {
+            File::delete($thmPath);
+        }
+
+        if (File::exists($cvrPath)) {
+            File::delete($cvrPath);
+        }
+
+        return response()->json(['message' => 'Vehicle and associated images deleted']);
+    }
+
+    public function uploadImages(Request $request, $id)
+    {
+        $request->validate([
+            'thumbnail' => 'nullable|image|mimes:webp,jpeg,png,jpg',
+            'cover' => 'nullable|image|mimes:webp,jpeg,png,jpg',
+        ]);
+
+        $thmPath = public_path('images/cars/thumbnails/');
+        $cvrPath = public_path('images/cars/covers/');
+
+        if ($request->hasFile('thumbnail')) {
+            $thumbnail = $request->file('thumbnail');
+            $thumbnailName = $id . "-thm.webp";
+            $thumbnail->move($thmPath, $thumbnailName);
+        }
+
+        if ($request->hasFile('cover')) {
+            $cover = $request->file('cover');
+            $coverName = $id . "-cvr.webp";
+            $cover->move($cvrPath, $coverName);
+        }
+
+        return response()->json(['message' => 'Images uploaded successfully']);
     }
 }
