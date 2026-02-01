@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\VehicleController;
 
 // API/Actions Routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -19,6 +20,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/customers', [AdminController::class, 'store']);
     Route::put('/admin/customers/{id}', [AdminController::class, 'update']);
     Route::delete('/admin/customers/{id}', [AdminController::class, 'destroy']);
+
+    Route::post('/cars', [VehicleController::class, 'store']);
+    Route::put('/cars/{id}', [VehicleController::class, 'update']);
+    Route::delete('/cars/{id}', [VehicleController::class, 'destroy']);
+
+    Route::post('/cars/{id}/images', [VehicleController::class, 'uploadImages']);
 });
 
 // Wildcard Route
