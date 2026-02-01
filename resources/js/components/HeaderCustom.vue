@@ -10,10 +10,18 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item"><RouterLink class="nav-link" to="/">Home</RouterLink></li>
-                        <li class="nav-item"><RouterLink class="nav-link" to="/cars">Cars</RouterLink></li>
-                        <li class="nav-item"><RouterLink class="nav-link" to="/gallery">Gallery</RouterLink></li>
-                        <li class="nav-item"><RouterLink class="nav-link" to="/contact">Contact</RouterLink></li>
+                        <li class="nav-item">
+                            <RouterLink class="nav-link" to="/">Home</RouterLink>
+                        </li>
+                        <li class="nav-item">
+                            <RouterLink class="nav-link" to="/cars">Cars</RouterLink>
+                        </li>
+                        <li class="nav-item">
+                            <RouterLink class="nav-link" to="/gallery">Gallery</RouterLink>
+                        </li>
+                        <li class="nav-item">
+                            <RouterLink class="nav-link" to="/contact">Contact</RouterLink>
+                        </li>
                         <!-- Conditional links based on user role -->
                         <li v-if="userRole === 'admin'" class="nav-item">
                             <RouterLink class="nav-link" to="/admin">Admin</RouterLink>
@@ -21,9 +29,21 @@
                         <li v-if="userRole === 'customer'" class="nav-item">
                             <RouterLink class="nav-link" to="/profile">My Profile</RouterLink>
                         </li>
+                        <li class="nav-item ms-2 me-2" v-if="userRole">
+                            <a class="nav-link position-relative cursor-pointer" data-bs-toggle="modal"
+                                data-bs-target="#cartModal" style="cursor: pointer;">
+                                <i class="bi bi-cart3 fs-5"></i>
+                                <span v-if="cartStore.count > 0"
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="font-size: 0.65rem;">
+                                    {{ cartStore.count }}
+                                </span>
+                            </a>
+                        </li>
                         <!-- Conditional buttons based on user role -->
                         <li class="nav-item ms-lg-3">
-                            <button v-if="!userRole" class="btn bg-primary-cta btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <button v-if="!userRole" class="btn bg-primary-cta btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#loginModal">
                                 <i class="bi bi-person-circle me-2"></i> Login
                             </button>
 
@@ -39,23 +59,25 @@
 </template>
 
 <script setup>
-    import { ref, onMounted } from 'vue';
-    import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCartStore } from '../stores/cartStore';
 
-    const router = useRouter();
-    const userRole = ref(localStorage.getItem('user_role'));
+const router = useRouter();
+const userRole = ref(localStorage.getItem('user_role'));
 
-    // Logout function
-    const handleLogout = () => {
-        // 1. Clear browser storage
-        localStorage.removeItem('user_role');
-        localStorage.removeItem('user_name');
-        
-        // 2. Update userRole ref
-        userRole.value = null;
-        
-        // 3. Redirect to Home
-        router.push('/');
-        
-    };
+const cartStore = useCartStore();
+
+// Logout function
+const handleLogout = () => {
+    // 1. Clear browser storage
+    localStorage.removeItem('user_role');
+    localStorage.removeItem('user_name');
+
+    // 2. Update userRole ref
+    userRole.value = null;
+
+    // 3. Redirect to Home
+    router.push('/');
+};
 </script>
