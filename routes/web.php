@@ -24,6 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/cars', [VehicleController::class, 'store']);
     Route::put('/cars/{id}', [VehicleController::class, 'update']);
     Route::delete('/cars/{id}', [VehicleController::class, 'destroy']);
+
+    Route::post('/cars/{id}/images', [VehicleController::class, 'uploadImages']);
 });
 
 // Wildcard Route
