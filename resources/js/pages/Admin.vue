@@ -634,64 +634,92 @@ const uploadVehicleImages = async () => {
                             <div class="row g-2">
                                 <!-- DATA ============================================================ -->
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">License Plate</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-card-text me-2"></i> License Plate
+                                    </label>
                                     <input v-model="vehicleForm.license_plate" :disabled="isEditingVehicle"
                                         class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Hourly Price (€)</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-cash me-2"></i> Hourly Price (€)
+                                    </label>
                                     <input v-model="vehicleForm.hourly_price" type="number" class="form-control"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Brand</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-car-front me-2"></i> Brand
+                                    </label>
                                     <input v-model="vehicleForm.brand" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Model</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-car-front me-2"></i> Model
+                                    </label>
                                     <input v-model="vehicleForm.model" class="form-control" required>
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="small fw-bold">Description</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-list-columns-reverse me-2"></i> Description
+                                    </label>
                                     <textarea v-model="vehicleForm.description" class="form-control"
                                         required></textarea>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Year</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-calendar me-2"></i> Year
+                                    </label>
                                     <input v-model="vehicleForm.manufacturing_year" type="number" class="form-control"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Color</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-palette me-2"></i> Color
+                                    </label>
                                     <input v-model="vehicleForm.color" class="form-control" required>
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="small fw-bold">Engine</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-gear me-2"></i> Engine
+                                    </label>
                                     <input v-model="vehicleForm.engine" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Engine Capacity (cc)</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-gear me-2"></i> Engine Capacity (cc)
+                                    </label>
                                     <input v-model="vehicleForm.engine_capacity" type="number" class="form-control"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Fuel Type</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-fuel-pump me-2"></i> Fuel Type
+                                    </label>
                                     <input v-model="vehicleForm.fuel_type" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Traction</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-gear me-2"></i> Traction
+                                    </label>
                                     <input v-model="vehicleForm.traction" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Transmission</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-gear me-2"></i> Transmission
+                                    </label>
                                     <input v-model="vehicleForm.transmission" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Doors</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-door-closed me-2"></i> Doors
+                                    </label>
                                     <input v-model="vehicleForm.doors" type="number" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Status</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-info-circle me-2"></i> Status
+                                    </label>
                                     <select v-model="vehicleForm.status" class="form-select" required>
                                         <option value="available">available</option>
                                         <option value="reserved">reserved</option>
@@ -701,10 +729,12 @@ const uploadVehicleImages = async () => {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" @click="showVehicleModal = false"
-                                class="btn btn-secondary">Cancel</button>
-                            <button type="submit" class="btn btn-primary"> Save
-                                Vehicle</button>
+                            <button type="button" @click="showVehicleModal = false" class="btn bg-primary-cta">
+                                <i class="bi bi-x-circle me-2"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn bg-primary-cta">
+                                <i class="bi bi-floppy me-2"></i> Save Vehicle
+                            </button>
                         </div>
                     </form>
                 </div>
