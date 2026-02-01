@@ -5,7 +5,6 @@
 
     // USER DATA DISPLAY FUNCTIONS ======================================================================
 
-    const activeTab = ref('users');
     const isEditingProfile = ref(false);
     const showPasswordSection = ref(false);
 
@@ -47,7 +46,8 @@
     };
 
     // ADMIN DASHBOARD FUNCTIONS ========================================================================
-
+    
+    const activeTab = ref('users');
     const customers = ref([]);
     const isEditingCustomer = ref(false);
     const showModal = ref(false);
@@ -139,95 +139,116 @@
 
 </script>
 
+<style scoped>
+  @import "../../css/admin_style.css";
+</style>
+
+
 <template>
 
     <!-- USER DATA DISPLAY ========================================================================== -->
 
     <div class="container mt-5">
-        <div class="card shadow">
+        
+        <!-- HEADER ========================================================== -->
 
-            <!-- HEADER ========================================================== -->
+        <div class="dashboard-title mb-4 p-3 shadow-sm d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">My Profile</h4>
+            <button @click="isEditingProfile = !isEditingProfile" class="btn bg-primary-cta">
+                <i class="bi bi-pen me-2"></i>
+                {{ isEditingProfile ? 'Cancel' : 'Edit Profile' }}
+            </button>
+        </div>
+        
+        <!-- DATA ============================================================ -->
 
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">My Profile</h4>
-                <button @click="isEditingProfile = !isEditingProfile" class="btn btn-sm btn-outline-light">
-                    {{ isEditingProfile ? 'Cancel' : 'Edit Profile' }}
-                </button>
-            </div>
-
-            <!-- DATA ============================================================ -->
-
-            <div class="card-body">
-
-                <!-- DATA ============================================================ -->
-                <div class="row g-3">
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Name</label>
-                        <input v-if="isEditingProfile" v-model="user.first_name" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.first_name }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">First surname</label>
-                        <input v-if="isEditingProfile" v-model="user.last_name" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.last_name }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Second surname</label>
-                        <input v-if="isEditingProfile" v-model="user.second_last_name" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.second_last_name }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">DNI</label>
-                        <p class="form-control-plaintext text-muted">{{ user.dni }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Birth date</label>
-                        <p class="form-control-plaintext text-muted">{{ user.birth_date }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Register date</label>
-                        <p class="form-control-plaintext text-muted">{{ user.registration_date }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Phone</label>
-                        <input v-if="isEditingProfile" v-model="user.phone" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.phone }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Email</label>
-                        <input v-if="isEditingProfile" v-model="user.email" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.email }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <label class="fw-bold">Address</label>
-                        <input v-if="isEditingProfile" v-model="user.address" class="form-control">
-                        <p v-else class="form-control-plaintext">{{ user.address }}</p>
-                    </div>
+        <div class="custom-panel mb-4 p-4 shadow-sm">
+            
+            <div class="row g-3">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-person me-2"></i> Name
+                    </label>
+                    <input v-if="isEditingProfile" v-model="user.first_name" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.first_name }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-person me-2"></i> First surname
+                    </label>
+                    <input v-if="isEditingProfile" v-model="user.last_name" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.last_name }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-person me-2"></i> Second surname
+                    </label>
+                    <input v-if="isEditingProfile" v-model="user.second_last_name" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.second_last_name }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-card-text me-2"></i> DNI
+                    </label>
+                    <p class="form-control-plaintext text-white">{{ user.dni }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-calendar me-2"></i> Birth date
+                    </label>
+                    <p class="form-control-plaintext text-white">{{ user.birth_date }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-calendar me-2"></i> Register date
+                    </label>
+                    <p class="form-control-plaintext text-white">{{ user.registration_date }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-phone me-2"></i> Phone
+                    </label>
+                    <input v-if="isEditingProfile" v-model="user.phone" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.phone }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-envelope-at me-2"></i> Email
+                    </label>
+                    <input v-if="isEditingProfile" v-model="user.email" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.email }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label class="fw-bold">
+                        <i class="bi bi-geo-alt me-2"></i> Address
+                    </label>
+                    <input v-if="isEditingProfile" v-model="user.address" class="form-control">
+                    <p v-else class="form-control-plaintext text-white">{{ user.address }}</p>
                 </div>
 
                 <div v-if="isEditingProfile" class="mt-4">
-                    <button @click="saveProfile" class="btn btn-success">Save Changes</button>
+                    <button @click="saveProfile" class="btn bg-primary-cta">
+                        <i class="bi bi-floppy me-2"></i> Save Changes
+                    </button>
                 </div>
 
-                <hr class="my-4">
+                <hr class="my-2">
                 
-                <!-- PASSWORD ======================================================== -->
-                <button @click="showPasswordSection = !showPasswordSection" class="btn btn-outline-danger">
-                    <i class="bi bi-key me-2"></i>Change Password
-                </button>
 
-                <!-- Detalle pendiente cambiar texto del botón pero mantener icono y estilos -->
-                <!-- <button @click="showPasswordSection = !showPasswordSection" class="btn btn-sm btn-outline-light">
-                    {{ showPasswordSection ? 'Cancel' : 'Change Password' }}
-                </button> -->
+                <div class="d-flex justify-content-start align-items-center mb-3">
+                    <button @click="showPasswordSection = !showPasswordSection" class="btn bg-primary-cta">
+                        <i class="bi bi-key me-2"></i>
+                        {{ showPasswordSection ? 'Cancel' : 'Change Password' }}
+                    </button>
+                </div>
 
-                <div v-if="showPasswordSection" class="card mt-3 bg-light">
-                    <div class="card-body">
-                        <div class="mb-2"><input type="password" v-model="passForm.current_password" placeholder="Current Password" class="form-control"></div>
-                        <div class="mb-2"><input type="password" v-model="passForm.password" placeholder="New Password" class="form-control"></div>
-                        <div class="mb-2"><input type="password" v-model="passForm.password_confirmation" placeholder="Confirm New Password" class="form-control"></div>
-                        <button @click="changePassword" class="btn btn-danger">Update Password</button>
-                    </div>
+                <div v-if="showPasswordSection" class="custom-panel p-4 shadow-sm">
+                    <div class="mb-2"><input type="password" v-model="passForm.current_password" placeholder="Current Password" class="form-control"></div>
+                    <div class="mb-2"><input type="password" v-model="passForm.password" placeholder="New Password" class="form-control"></div>
+                    <div class="mb-2"><input type="password" v-model="passForm.password_confirmation" placeholder="Confirm New Password" class="form-control"></div>
+                    <button @click="changePassword" class="btn bg-primary-cta">
+                        <i class="bi bi-floppy me-2"></i> Update Password
+                    </button>
                 </div>
             </div>
         </div>
@@ -238,28 +259,28 @@
     <div class="container mt-4 mb-5">
         
         <!-- HEADER ========================================================== -->
-        <h4 class="mb-4 text-white bg-dark p-3 shadow-sm">Admin Dashboard</h4>
+        <h4 class="dashboard-title mb-4 p-3 shadow-sm">Admin Dashboard</h4>
 
         <ul class="nav nav-tabs mb-4">
             <li class="nav-item">
-                <button class="nav-link" :class="{ active: activeTab === 'reservations' }" @click="activeTab = 'reservations'">
+                <button class="nav-link bg-tab" :class="{ active: activeTab === 'reservations' }" @click="activeTab = 'reservations'">
                     <i class="bi bi-calendar-check me-2"></i>Reservations
                 </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" :class="{ active: activeTab === 'vehicles' }" @click="activeTab = 'vehicles'">
+                <button class="nav-link bg-tab" :class="{ active: activeTab === 'vehicles' }" @click="activeTab = 'vehicles'">
                     <i class="bi bi-car-front me-2"></i>Vehicles
                 </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" :class="{ active: activeTab === 'users' }" @click="activeTab = 'users'">
+                <button class="nav-link bg-tab" :class="{ active: activeTab === 'users' }" @click="activeTab = 'users'">
                     <i class="bi bi-people me-2"></i> Customers
                 </button>
             </li>
         </ul>
         
         <!-- TAB ============================================================= -->
-        <div class="tab-content border p-4 bg-white shadow-sm min-vh-50">
+        <div class="custom-panel tab-content p-4 shadow-sm min-vh-50">
             
             <!-- RESERVATIONS ================================================ -->
             <div v-if="activeTab === 'reservations'">
@@ -278,31 +299,42 @@
                 <!-- HEADER ================================================== -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h4><i class="bi bi-people"></i> Customer Directory</h4>
-                    <button @click="openCreateModal" class="btn btn-primary">
+                    <button @click="openCreateModal" class="btn bg-primary-cta">
                         <i class="bi bi-person-plus me-2"></i>New Customer
                     </button>
                 </div>
                 <!-- DATA TABLE ============================================== -->
-                <table class="table table-hover border">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>DNI</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="c in customers" :key="c.id">
-                            <td>{{ c.dni }}</td>
-                            <td>{{ c.first_name }} {{ c.last_name }} {{ c.second_last_name }}</td>
-                            <td>{{ c.email }}</td>
-                            <td>{{ c.phone }}</td>
-                            <td>{{ c.address }}</td>
-                            <td>
-                                <button @click="openEditModal(c)" class="btn btn-sm btn-warning me-2"><i class="bi bi-pencil"></i></button>
-                                <button @click="deleteCustomer(c.id)" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table custom-table">
+                        <thead>
+                            <tr>
+                                <th><i class="bi bi-card-text me-2"></i> DNI</th>
+                                <th><i class="bi bi-person me-2"></i> Name</th>
+                                <th><i class="bi bi-envelope-at me-2"></i> Email</th>
+                                <th><i class="bi bi-phone me-2"></i> Phone</th>
+                                <th><i class="bi bi-geo-alt me-2"></i> Address</th>
+                                <th><i class="bi bi-gear me-2"></i> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="c in customers" :key="c.id">
+                                <td>{{ c.dni }}</td>
+                                <td>{{ c.first_name }} {{ c.last_name }} {{ c.second_last_name }}</td>
+                                <td>{{ c.email }}</td>
+                                <td>{{ c.phone }}</td>
+                                <td>{{ c.address }}</td>
+                                <td>
+                                    <button @click="openEditModal(c)" class="btn btn-sm bg-primary-cta me-2">
+                                        <i class="bi bi-pen"></i>
+                                    </button>
+                                    <button @click="deleteCustomer(c.id)" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -314,7 +346,7 @@
         <div class="modal d-block" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header border-0">
                         <h5 class="modal-title">{{ isEditingCustomer ? 'Edit' : 'Create' }} Customer</h5>
                         <button @click="showModal = false" class="btn-close"></button>
                     </div>
@@ -324,11 +356,15 @@
                                 
                                 <!-- DATA ============================================================ -->
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">DNI</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-card-text me-2"></i> DNI
+                                    </label>
                                     <input v-model="form.dni" :disabled="isEditingCustomer" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Birth Date</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-calendar me-2"></i> Birthday
+                                    </label>
                                     <input 
                                         v-model="form.birth_date" 
                                         type="date" 
@@ -344,38 +380,56 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="small fw-bold">First Name</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-person me-2"></i> First Name
+                                    </label>
                                     <input v-model="form.first_name" class="form-control" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="small fw-bold">First Surname</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-person me-2"></i> First Surname
+                                    </label>
                                     <input v-model="form.last_name" class="form-control" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="small fw-bold">Second Surname</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-person me-2"></i> Second Surname
+                                    </label>
                                     <input v-model="form.second_last_name" class="form-control">
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="small fw-bold">Email</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-envelope-at me-2"></i> Email
+                                    </label>
                                     <input v-model="form.email" type="email" class="form-control" required>
                                 </div>
                                 <div class="col-md-12" v-if="!isEditingCustomer">
-                                    <label class="small fw-bold">Password</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-key me-2"></i> Password
+                                    </label>
                                     <input v-model="form.password" type="password" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Phone</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-phone me-2"></i> Phone
+                                    </label>
                                     <input v-model="form.phone" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small fw-bold">Address</label>
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-geo-alt me-2"></i> Address
+                                    </label>
                                     <input v-model="form.address" class="form-control" required>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" @click="showModal = false" class="btn btn-secondary">Cancel</button>
-                            <button type="submit" class="btn btn-primary" :disabled="isUnderage"> Save Customer</button>
+                            <button type="button" @click="showModal = false" class="btn bg-primary-cta">
+                                <i class="bi bi-x-circle me-2"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn bg-primary-cta" :disabled="isUnderage">
+                                <i class="bi bi-floppy me-2"></i> Save Customer
+                            </button>
                         </div>
                     </form>
                 </div>
