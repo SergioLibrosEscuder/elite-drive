@@ -32,11 +32,10 @@ const goToCheckout = () => {
                     <div v-if="cartStore.count === 0" class="text-center py-5">
                         <i class="bi bi-cart-x text-muted" style="font-size: 3rem;"></i>
                         <p class="mt-3 text-muted">Your cart is empty.</p>
-                        <button class="btn btn-sm btn-outline-primary" data-bs-dismiss="modal">Browse Cars</button>
                     </div>
 
                     <ul v-else class="list-group list-group-flush">
-                        <li v-for="item in cartStore.cartItems" :key="item.cartId" class="list-group-item">
+                        <li v-for="item in cartStore.cartItems" :key="item.id" class="list-group-item">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-0 fw-bold">{{ item.vehicle.brand }} {{ item.vehicle.model }}</h6>
@@ -44,13 +43,11 @@ const goToCheckout = () => {
                                         {{ formatDate(item.start) }} <i class="bi bi-arrow-right-short"></i> {{
                                             formatDate(item.end) }}
                                     </small>
-                                    <small class="text-primary fw-bold">{{ item.hours }}h x {{ item.vehicle.hourly_price
-                                        }}€</small>
                                 </div>
 
                                 <div class="text-end ms-2">
-                                    <div class="fw-bold fs-6">{{ item.price }}€</div>
-                                    <button @click="cartStore.removeFromCart(item.cartId)"
+                                    <div class="fw-bold fs-6">{{ Number(item.price).toLocaleString('es-ES') }}€</div>
+                                    <button @click="cartStore.removeFromCart(item.id)"
                                         class="btn btn-link text-danger p-0 mt-1" title="Remove">
                                         <i class="bi bi-trash"></i>
                                     </button>
@@ -63,7 +60,8 @@ const goToCheckout = () => {
                 <div class="modal-footer d-flex justify-content-between bg-light">
                     <div>
                         <small class="text-muted">Total:</small>
-                        <span class="fs-5 fw-bold ms-2 text-dark">{{ cartStore.total.toFixed(2) }}€</span>
+                        <span class="fs-5 fw-bold ms-2 text-dark">{{
+                            Number(cartStore.total.toFixed(2)).toLocaleString('es-ES') }}€</span>
                     </div>
                     <div>
                         <button type="button" class="btn btn-sm btn-secondary me-2"

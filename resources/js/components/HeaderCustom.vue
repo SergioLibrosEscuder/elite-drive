@@ -34,7 +34,7 @@
                                 data-bs-target="#cartModal" style="cursor: pointer;">
                                 <i class="bi bi-cart3 fs-5"></i>
                                 <span v-if="cartStore.count > 0"
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    class="position-absolute bottom-0 start-100 translate-middle badge rounded-pill bg-danger"
                                     style="font-size: 0.65rem;">
                                     {{ cartStore.count }}
                                 </span>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
 
