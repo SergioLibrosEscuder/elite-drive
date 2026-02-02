@@ -1,0 +1,76 @@
+  body {
+            background-color: var(--main-bg, #000);
+            color: var(--text-color, #fff);
+            font-family: var(--font-primary, 'Montserrat', sans-serif);
+        }
+
+        .legal-hero {
+            padding: 100px 0 50px;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
+                        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000') center/cover;
+            border-bottom: 3px solid var(--accent-color, #ff4d00);
+        }
+
+        .legal-section-title {
+            font-family: var(--font-display, 'Rajdhani', sans-serif);
+            color: var(--accent-color, #ff4d00);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .legal-section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: rgba(255, 77, 0, 0.3);
+        }
+
+        .legal-card {
+            background: var(--secondary-bg, #121212);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 100px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .data-box {
+            border-left: 3px solid var(--gold-luxury, #d4af37);
+            padding-left: 20px;
+            margin: 20px 0;
+            background: rgba(212, 175, 55, 0.05);
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .legal-text {
+            color: var(--text-muted, #b3b3b3);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .highlight-gold { color: var(--gold-luxury, #d4af37); }
+
+        .btn-back {
+            border: 1px solid var(--accent-color, #ff4d00);
+            color: #fff;
+            padding: 12px 30px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        .btn-back:hover {
+            background: var(--accent-color, #ff4d00);
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 77, 0, 0.4);
+        }
+        
