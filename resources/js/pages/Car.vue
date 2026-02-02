@@ -94,7 +94,7 @@ onMounted(async () => {
                     width: 100%;
                 ">
                 <h1 class="display-4 fw-bold">{{ car.brand }} {{ car.model }}</h1>
-                <p class="fs-4">€{{ car.hourly_price }} day</p>
+                <p class="fs-4">€{{ car.hourly_price }} per hour</p>
             </div>
         </div>
 

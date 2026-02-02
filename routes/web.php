@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/reservations', [ReservationController::class, 'store']);
     Route::put('/reservations/{id}', [ReservationController::class, 'update']);
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy']);
+    Route::put('/reservations/{id}/confirm', [ReservationController::class, 'confirm']);
+    Route::put('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
 
     Route::get('/admin/customers', [AdminController::class, 'index']);
     Route::post('/admin/customers', [AdminController::class, 'store']);
