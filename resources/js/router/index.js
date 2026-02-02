@@ -7,6 +7,7 @@ import Gallery from "../pages/Gallery.vue";
 import Legal from "../pages/Legal.vue";
 import Profile from "../pages/Profile.vue";
 import Car from "../pages/Car.vue";
+import Checkout from "../pages/Checkout.vue";
 
 const routes = [
     { path: "/", component: Index },
@@ -17,6 +18,7 @@ const routes = [
     { path: "/legal", component: Legal },
     { path: "/profile", component: Profile },
     { path: "/cars/:id", component: Car, props: true },
+    { path: "/checkout", component: Checkout },
 ];
 
 const router = createRouter({
