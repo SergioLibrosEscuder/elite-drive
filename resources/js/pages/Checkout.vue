@@ -47,7 +47,7 @@ const handlePayment = async () => {
     } else {
         cartStore.clearCart();
         alert('Reservation confirmed successfully! Thank you.');
-        router.push('/user/reservations');
+        router.push('/profile');
     }
 };
 </script>
@@ -57,7 +57,6 @@ const handlePayment = async () => {
         <h2 class="fw-bold mb-4">Checkout</h2>
 
         <div v-if="cartStore.count > 0" class="row g-5">
-
             <div class="col-lg-8">
                 <div class="card shadow-sm border-0 mb-3" v-for="item in cartStore.cartItems" :key="item.id">
                     <div class="row g-0">
