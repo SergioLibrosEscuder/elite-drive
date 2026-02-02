@@ -77,6 +77,7 @@ function getThumbnail(car) {
 
 <style scoped>
   @import "../../css/admin_style.css";
+  @import "../../css/cars_style.css";
 </style>
 
 
@@ -205,10 +206,13 @@ function getThumbnail(car) {
 
                             <div class="card-body d-flex flex-column">
                                 <h6 class="card-title mb-1">{{ car.brand }} {{ car.model }}</h6>
-                                <p class="mb-3 fw-bold">€{{ car.hourly_price }} <small class="text-muted">/ hour</small>
+                                <p class="mb-3 fw-bold">
+                                    €{{ car.hourly_price }}
+                                    <span class="price-label">/ hour</span>
                                 </p>
                                 <div class="mt-auto d-grid">
-                                    <RouterLink :to="`/cars/${car.id}`" class="btn btn-outline-dark btn-sm">Details
+                                    <RouterLink :to="`/cars/${car.id}`" class="btn bg-primary-cta btn-sm">
+                                        <i class="bi bi-info-circle me-2"></i> Details
                                     </RouterLink>
                                 </div>
                             </div>
