@@ -123,6 +123,25 @@ h4 {
     border-bottom: none;
 }
 
+.panel-content,
+.panel-header {
+    background-color: var(--primary-color);
+    border: 1px solid var(--secondary-color);
+}
+
+.panel-content {
+    background-color: var(--primary-light-color);
+    color: white;
+}
+
+.panel-header .panel-title {
+    color: var(--secondary-color);
+}
+
+.panel-header .btn-close {
+    filter: invert(1);
+}
+
 
 /* Cards =============================================================================================== */
 
