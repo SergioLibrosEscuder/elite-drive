@@ -11,7 +11,9 @@
 
 /* Global Styles ======================================================================================= */
 
-* {box-sizing: border-box;}
+* {
+    box-sizing: border-box;
+}
 
 body {
     background-color: var(--primary-color);
@@ -34,9 +36,11 @@ h1 {
 
     -webkit-background-clip: text;
     background-clip: text;
-    
+
     -webkit-text-fill-color: transparent;
-    color: transparent; 
+    color: transparent;
+
+    -webkit-text-stroke: 0.5px var(--secondary-color);
 }
 
 @font-face {
@@ -46,7 +50,9 @@ h1 {
     font-style: normal;
 }
 
-h2, h3, h4 {
+h2,
+h3,
+h4 {
     font-family: 'EliteDrive-Font';
     letter-spacing: 1px;
 }
@@ -55,6 +61,7 @@ h2, h3, h4 {
 
 .navbar {
     background-color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
 }
 
 .navbar-brand {
@@ -66,10 +73,11 @@ h2, h3, h4 {
 }
 
 .navbar .nav-link {
-    color: var(--secondary-color);;
+    color: var(--secondary-color);
+    ;
 }
 
-.navbar .nav-link:hover{
+.navbar .nav-link:hover {
     color: white;
 }
 
@@ -124,13 +132,15 @@ h2, h3, h4 {
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* Modals Custom Styles ================================================================================ */
 
-.modal-content, .modal-header {
-    border-radius: 0 !important; /* Modals are rounded by default */
+.modal-content,
+.modal-header {
+    border-radius: 0 !important;
+    /* Modals are rounded by default */
     border: 1px solid var(--secondary-color);
 }
 
