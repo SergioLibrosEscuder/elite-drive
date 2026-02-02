@@ -79,11 +79,16 @@ onMounted(async () => {
 
 </script>
 
+<style scoped>
+  @import "../../css/admin_style.css";
+  @import "../../css/cars_style.css";
+</style>
+
 <template>
     <div v-if="car" class="container py-5">
         <!-- HERO  -->
-        <div class="position-relative my-5">
-            <img :src="`/images/cars/covers/${carId}-cvr.webp`" class="img-fluid rounded w-100"
+        <div class="hero-image-container img position-relative my-5">
+            <img :src="`/images/cars/covers/${carId}-cvr.webp`" class="img-fluid w-100"
                 :alt="`${car.brand} ${car.model}`" style="max-height: 60vh; object-fit: cover" />
             <div class="position-absolute bottom-0 start-0 p-4 text-white" style="
                     background: linear-gradient(
@@ -93,53 +98,73 @@ onMounted(async () => {
                     );
                     width: 100%;
                 ">
-                <h1 class="display-4 fw-bold">{{ car.brand }} {{ car.model }}</h1>
-                <p class="fs-4">€{{ car.hourly_price }} per hour</p>
+                <h2 class="fw-bold">{{ car.brand }} {{ car.model }}</h2>
+                <p class="fs-4"> {{ car.hourly_price }}€ per hour</p>
             </div>
         </div>
 
         <!-- CALL TO ACTION -->
         <div class="text-center mb-5">
-            <button class="btn btn-dark btn-lg px-5 py-3" data-bs-toggle="offcanvas"
-                data-bs-target="#reservationOffcanvas">Book Now</button>
+            <button class="btn bg-primary-cta btn-lg px-5 py-3" data-bs-toggle="offcanvas"
+                data-bs-target="#reservationOffcanvas">
+                <i class="bi bi-cart-check me-2"></i> Book Now
+            </button>
         </div>
 
         <!-- DESCRIPTION -->
-        <section class="mb-5">
-            <h2 class="mb-3">Description</h2>
-            <p class="fs-5">{{ car.description }}</p>
+        <section class="dashboard-title mb-4 p-3 shadow-sm">
+            <h4 class="mb-3">Description</h4>
+            <hr class="my-2">
+            <p class="fs-5 mb-4 p-3 text-white">{{ car.description }}</p>
         </section>
 
         <!-- SPECIFICATIONS -->
-        <section class="mb-5">
-            <h2 class="mb-3">Specifications</h2>
-            <ul class="list-group">
+        <section class="dashboard-title mb-4 p-3 shadow-sm">
+            <h4 class="mb-3">Specifications</h4>
+            <ul class="list-group mb-4 p-3">
                 <li class="list-group-item">
-                    <strong>Manufacturing Year:</strong> {{ car.manufacturing_year }}
+                    <strong><i class="bi bi-calendar me-2"></i> Manufacturing Year: </strong>
+                    <span class="text-white"> {{ car.manufacturing_year }}</span>
+                    <hr class="my-2">
                 </li>
                 <li class="list-group-item">
-                    <strong>Traction:</strong> {{ car.traction }}
+                    <strong><i class="bi bi-gear me-2"></i> Traction: </strong>
+                    <span class="text-white"> {{ car.traction }}</span>
+                    <hr class="my-2">
                 </li>
                 <li class="list-group-item">
-                    <strong>Transmission:</strong> {{ car.transmission }}
+                    <strong><i class="bi bi-gear me-2"></i> Transmission: </strong>
+                    <span class="text-white"> {{ car.transmission }}</span>
+                    <hr class="my-2">
                 </li>
                 <li class="list-group-item">
-                    <strong>Engine:</strong> {{ car.engine }}
+                    <strong><i class="bi bi-gear me-2"></i> Engine: </strong>
+                    <span class="text-white"> {{ car.engine }}</span>
+                    <hr class="my-2">
                 </li>
                 <li class="list-group-item">
-                    <strong>Engine Capacity:</strong> {{ car.engine_capacity }}
+                    <strong><i class="bi bi-gear me-2"></i> Engine Capacity: </strong>
+                    <span class="text-white"> {{ car.engine_capacity }}</span>
+                    <hr class="my-2">
                 </li>
                 <li class="list-group-item">
-                    <strong>Doors:</strong> {{ car.doors }}
+                    <strong><i class="bi bi-door-closed me-2"></i> Doors: </strong>
+                    <span class="text-white"> {{ car.doors }}</span>
+                    <hr class="my-2">
                 </li>
                 <li class="list-group-item">
-                    <strong>Fuel Type:</strong> {{ car.fuel_type }}
+                    <strong><i class="bi bi-fuel-pump me-2"></i> Fuel Type: </strong>
+                    <span class="text-white"> {{ car.fuel_type }}</span>
+                    <hr class="my-2">
                 </li>
                 <li class="list-group-item">
-                    <strong>Color:</strong> {{ car.color }}
+                    <strong><i class="bi bi-palette me-2"></i> Color: </strong>
+                    <span class="text-white"> {{ car.color }}</span>
+                    <hr class="my-2">
                 </li>
                 <li class="list-group-item">
-                    <strong>Status:</strong> {{ car.status }}
+                    <strong><i class="bi bi-info-circle me-2"></i> Status: </strong>
+                    <span class="text-white"> {{ car.status }}</span>
                 </li>
             </ul>
         </section>
