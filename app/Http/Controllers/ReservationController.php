@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -71,5 +72,59 @@ class ReservationController extends Controller
             ->get();
 
         return response()->json($reservations);
+    }
+
+    public function cancel($id)
+    {
+        return DB::transaction(function () use ($id) {
+            $reservation = Reservation::where('id', $id)
+                ->where('user_id', Auth::id())
+                ->whereIn('status', ['confirmed', 'pending'])
+                ->firstOrFail();
+
+            if ($reservation->status === 'completed') {
+                return response()->json(['error' => 'Completed reservations cannot be cancelled.'], 400);
+            }
+
+            if ($reservation->status === 'confirmed') {
+                $vehicle = $reservation->vehicle;
+                if ($vehicle) {
+                    $vehicle->status = 'available';
+                    $vehicle->save();
+                }
+            }
+            $reservation->status = 'cancelled';
+            $reservation->save();
+
+            return response()->json($reservation);
+        });
+    }
+
+    public function confirm($id)
+    {
+        return DB::transaction(function () use ($id) {
+            $reservation = Reservation::with('vehicle')
+                ->where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
+
+            $vehicle = $reservation->vehicle;
+
+            if ($reservation->status !== 'pending') {
+                return response()->json(['error' => 'Only pending reservations can be confirmed.'], 400);
+            }
+
+            if ($vehicle->status !== 'available') {
+                return response()->json(['error' => 'The vehicle is no longer available for reservation.'], 400);
+            }
+
+            $vehicle->status = 'reserved';
+            $vehicle->save();
+
+            $reservation->status = 'confirmed';
+            $reservation->save();
+
+            return response()->json($reservation);
+        });
     }
 }
