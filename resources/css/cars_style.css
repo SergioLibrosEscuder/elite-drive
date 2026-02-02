@@ -3,8 +3,22 @@
 /* Panels ============================================================================================== */
 /* Cards =============================================================================================== */
 
+.hero-image-container {
+    border: 1px solid var(--secondary-color);
+
+    & div p {
+        color: var(--secondary-color);
+    }
+}
+
 .price-label {
     color: var(--secondary-color) !important;
     font-weight: normal;
     font-size: 0.85rem;
+}
+
+ul.list-group .list-group-item {
+    background-color: var(--primary-color-light);
+    border: none;
+    color: var(--secondary-color);
 }
