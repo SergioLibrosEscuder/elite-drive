@@ -95,6 +95,12 @@ h4 {
     color: var(--cta-color);
 }
 
+/* Colors ============================================================================================== */
+
+.color-secondary {
+    color: var(--secondary-color);
+}
+
 /* Panels & Tabs ======================================================================================= */
 
 .nav-tabs .nav-link.bg-tab {
@@ -162,6 +168,12 @@ h4 {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
 }
 
+.inner-panel-primary {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--secondary-color);
+}
+
 /* Modals Custom Styles ================================================================================ */
 
 .modal-content,
@@ -176,7 +188,7 @@ h4 {
     color: white;
 }
 
-.modal-header {
+.modal-header, .modal-footer {
     background-color: var(--primary-color);
 }
 
@@ -186,6 +198,14 @@ h4 {
 
 .modal-header .btn-close {
     filter: invert(1);
+}
+
+/* Cart ================================================================================================ */
+
+#cartModal .list-group-item {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--secondary-color);
 }
 
 /* Footer ============================================================================================== */

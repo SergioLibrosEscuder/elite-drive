@@ -1,0 +1,12 @@
+/* Guillermo Soto ====================================================================================== */
+
+/* Bottom Image ======================================================================================== */
+
+.img-bottom-banner {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border: 1px solid var(--secondary-color);
+    display: block;
+    margin: 0 auto;
+}
