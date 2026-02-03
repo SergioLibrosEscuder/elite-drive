@@ -204,46 +204,48 @@ const cancelReservation = async (reservationId) => {
 
         <!-- DATA ============================================================ -->
 
-        <div class="custom-panel mb-4 p-4 shadow-sm">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Vehicle</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Total Price</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="reservation in reservations" :key="reservation.id">
-                        <td>
-                            <span v-if="reservation.vehicle">{{ reservation.vehicle.brand }} {{
-                                reservation.vehicle.model }}</span>
-                            <span v-else>No Vehicle Available</span>
-                        </td>
-                        <td>{{ new Date(reservation.start_date).toLocaleDateString('es-ES') }}</td>
-                        <td>{{ new Date(reservation.end_date).toLocaleDateString('es-ES') }}</td>
-                        <td>{{ Number(reservation.amount).toLocaleString('es-ES') }} €</td>
-                        <td>{{ reservation.status }}</td>
-                        <td class="d-flex gap-2">
-                            <button class="btn btn-sm btn-success" v-if="reservation.status === 'pending'"
-                                @click="completeReservation(reservation.id)">
-                                <i class="bi bi-check-circle"></i> Confirm
-                            </button>
-                            <button class="btn btn-sm btn-danger"
-                                v-if="reservation.status === 'confirmed' || reservation.status === 'pending'"
-                                @click="cancelReservation(reservation.id)">
-                                <i class="bi bi-x-circle"></i> Cancel
-                            </button>
-                            <div class="text-danger"
-                                v-if="reservation.status === 'cancelled' || reservation.status === 'completed'">No
-                                Actions for this reservation</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="custom-panel tab-content p-4 shadow-sm min-vh-50 mb-4">
+            <div class="table-responsive">
+                <table class="table custom-table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><i class="bi bi-car-front me-2"></i> Vehicle</th>
+                            <th scope="col"><i class="bi bi-calendar me-2"></i> Start Date</th>
+                            <th scope="col"><i class="bi bi-calendar me-2"></i> End Date</th>
+                            <th scope="col"><i class="bi bi-cash me-2"></i> Total Price</th>
+                            <th scope="col"><i class="bi bi-info-circle me-2"></i> Status</th>
+                            <th scope="col"><i class="bi bi-gear me-2"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="reservation in reservations" :key="reservation.id">
+                            <td>
+                                <span v-if="reservation.vehicle">{{ reservation.vehicle.brand }} {{
+                                    reservation.vehicle.model }}</span>
+                                <span v-else>No Vehicle Available</span>
+                            </td>
+                            <td>{{ new Date(reservation.start_date).toLocaleDateString('es-ES') }}</td>
+                            <td>{{ new Date(reservation.end_date).toLocaleDateString('es-ES') }}</td>
+                            <td>{{ Number(reservation.amount).toLocaleString('es-ES') }} €</td>
+                            <td>{{ reservation.status }}</td>
+                            <td class="d-flex gap-2">
+                                <button class="btn btn-sm btn-success" v-if="reservation.status === 'pending'"
+                                    @click="completeReservation(reservation.id)">
+                                    <i class="bi bi-check-circle"></i> Confirm
+                                </button>
+                                <button class="btn btn-sm btn-danger"
+                                    v-if="reservation.status === 'confirmed' || reservation.status === 'pending'"
+                                    @click="cancelReservation(reservation.id)">
+                                    <i class="bi bi-x-circle"></i> Cancel
+                                </button>
+                                <div class="text-danger"
+                                    v-if="reservation.status === 'cancelled' || reservation.status === 'completed'">No
+                                    Actions for this reservation</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
