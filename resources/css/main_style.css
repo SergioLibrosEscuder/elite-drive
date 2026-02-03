@@ -168,6 +168,12 @@ h4 {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
 }
 
+.inner-panel-primary {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--secondary-color);
+}
+
 /* Modals Custom Styles ================================================================================ */
 
 .modal-content,
