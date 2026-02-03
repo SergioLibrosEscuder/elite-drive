@@ -25,15 +25,18 @@ onMounted(async () => {
     try {
         const responseUsers = await axios.get('/user/me');
         const responseCars = await axios.get('/api/cars');
+        const responseReservations = await axios.get('/reservations');
 
         Object.assign(user, responseUsers.data);
         Object.assign(vehicle, responseCars.data);
+        Object.assign(reservations, responseReservations.data);
     } catch (error) {
         console.error("Error loading profile", error);
     }
 
     fetchCustomers();
     fetchVehicles();
+    fetchReservations();
 });
 
 // SAVE PROFILE ============================================
@@ -60,13 +63,16 @@ const changePassword = async () => {
 const activeTab = ref('users');
 const customers = ref([]);
 const vehicles = ref([]);
+const reservations = ref([]);
 
 const isEditingCustomer = ref(false);
 const isEditingVehicle = ref(false);
+const isEditingReservation = ref(false);
 
 const showUserModal = ref(false);
 const showVehicleModal = ref(false);
 const showUploadVehicleImagesModal = ref(false);
+const showReservationModal = ref(false);
 
 const selectVehicleForImageUpload = ref(null);
 
@@ -104,6 +110,16 @@ const vehicleForm = reactive({
     status: ''
 });
 
+const reservationForm = reactive({
+    id: null,
+    user_id: null,
+    vehicle_id: null,
+    start_date: '',
+    end_date: '',
+    amount: '',
+    status: ''
+});
+
 // REQUEST =================================================
 const fetchCustomers = async () => {
     const res = await axios.get('/admin/customers');
@@ -113,6 +129,11 @@ const fetchCustomers = async () => {
 const fetchVehicles = async () => {
     const res = await axios.get('/api/cars');
     vehicles.value = res.data;
+};
+
+const fetchReservations = async () => {
+    const res = await axios.get('/reservations');
+    reservations.value = res.data;
 };
 
 // CREATE CUSTOMER MODAL ===================================
@@ -156,6 +177,21 @@ const openCreateVehicleModal = () => {
     showVehicleModal.value = true;
 };
 
+// CREATE RESERVATION MODAL ================================
+const openCreateReservationModal = () => {
+    isEditingReservation.value = false;
+    Object.assign(reservationForm, {
+        id: null,
+        user_id: '',
+        vehicle_id: '',
+        start_date: '',
+        end_date: '',
+        amount: '',
+        status: ''
+    });
+    showReservationModal.value = true;
+};
+
 // UPLOAD VEHICLE IMAGES MODAL ============================
 const openUploadVehicleImagesModal = (vehicle) => {
     selectVehicleForImageUpload.value = vehicle;
@@ -180,6 +216,17 @@ const openEditVehicleModal = (vehicle) => {
     isEditingVehicle.value = true;
     Object.assign(vehicleForm, vehicle);
     showVehicleModal.value = true;
+};
+
+// EDIT RESERVATION MODAL ================================
+const openEditReservationModal = (reservation) => {
+    isEditingReservation.value = true;
+    Object.assign(reservationForm, reservation);
+
+    reservationForm.start_date = formatDateTimeForInput(reservation.start_date);
+    reservationForm.end_date = formatDateTimeForInput(reservation.end_date);
+
+    showReservationModal.value = true;
 };
 
 // SAVE CUSTOMER ===========================================
@@ -210,6 +257,20 @@ const saveVehicle = async () => {
     } catch (e) { alert('Error saving vehicle'); }
 };
 
+// SAVE RESERVATION ========================================
+const saveReservation = async () => {
+    try {
+        if (isEditingReservation.value) {
+            await axios.put(`/reservations/${reservationForm.id}`, reservationForm);
+        } else {
+            await axios.post('/reservations', reservationForm);
+        }
+        showReservationModal.value = false;
+        fetchReservations();
+        alert('Success!');
+    } catch (e) { alert('Error saving reservation'); }
+};
+
 // DELETE CUSTOMER =========================================
 const deleteCustomer = async (id) => {
     if (confirm('Are you sure you want to delete this customer?')) {
@@ -223,6 +284,14 @@ const deleteVehicle = async (id) => {
     if (confirm('Are you sure you want to delete this vehicle?')) {
         await axios.delete(`/cars/${id}`);
         fetchVehicles();
+    }
+};
+
+// DELETE RESERVATION =======================================
+const deleteReservation = async (id) => {
+    if (confirm('Are you sure you want to delete this reservation?')) {
+        await axios.delete(`/reservations/${id}`);
+        fetchReservations();
     }
 };
 
@@ -278,10 +347,53 @@ const uploadVehicleImages = async () => {
         alert('Error uploading images');
     }
 }
+
+// ESTIMATE RENTAL AMOUNT ===================================
+const estimatedPrice = computed(() => {
+    if (!reservationForm.vehicle_id || !reservationForm.start_date || !reservationForm.end_date) {
+        return 0;
+    }
+
+    const selectedCar = vehicles.value.find(v => v.id === reservationForm.vehicle_id);
+    if (!selectedCar) return 0;
+
+    const start = new Date(reservationForm.start_date);
+    const end = new Date(reservationForm.end_date);
+
+    const diffMs = end - start;
+    let diffHours = diffMs / (1000 * 60 * 60);
+    diffHours = Math.ceil(diffHours);
+
+    if (diffHours <= 0) return 0;
+
+    return (diffHours * Number(selectedCar.hourly_price)).toFixed(2);
+});
+
+// FILTER AVAILABLE VEHICLES FOR RESERVATION =================
+const availableVehicles = computed(() => {
+    return vehicles.value.filter(v => {
+        return v.status === 'available' || (isEditingReservation.value && v.id === reservationForm.vehicle_id);
+    });
+});
+
+// FORMAT DATE FOR INPUT =====================================
+const formatDateTimeForInput = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
 </script>
 
 <style scoped>
-  @import "../../css/admin_style.css";
+@import "../../css/admin_style.css";
 </style>
 
 
@@ -290,7 +402,7 @@ const uploadVehicleImages = async () => {
     <!-- USER DATA DISPLAY ========================================================================== -->
 
     <div class="container mt-5">
-        
+
         <!-- HEADER ========================================================== -->
 
         <div class="dashboard-title mb-4 p-3 shadow-sm d-flex justify-content-between align-items-center">
@@ -300,11 +412,11 @@ const uploadVehicleImages = async () => {
                 {{ isEditingProfile ? 'Cancel' : 'Edit Profile' }}
             </button>
         </div>
-        
+
         <!-- DATA ============================================================ -->
 
         <div class="custom-panel mb-4 p-4 shadow-sm">
-            
+
             <div class="row g-3">
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <label class="fw-bold">
@@ -374,7 +486,7 @@ const uploadVehicleImages = async () => {
                 </div>
 
                 <!-- PASSWORD ======================================================== -->
-                 
+
                 <hr class="my-2">
 
                 <div class="d-flex justify-content-start align-items-center mb-3">
@@ -385,9 +497,12 @@ const uploadVehicleImages = async () => {
                 </div>
 
                 <div v-if="showPasswordSection" class="custom-panel p-4 shadow-sm">
-                    <div class="mb-2"><input type="password" v-model="passForm.current_password" placeholder="Current Password" class="form-control"></div>
-                    <div class="mb-2"><input type="password" v-model="passForm.password" placeholder="New Password" class="form-control"></div>
-                    <div class="mb-2"><input type="password" v-model="passForm.password_confirmation" placeholder="Confirm New Password" class="form-control"></div>
+                    <div class="mb-2"><input type="password" v-model="passForm.current_password"
+                            placeholder="Current Password" class="form-control"></div>
+                    <div class="mb-2"><input type="password" v-model="passForm.password" placeholder="New Password"
+                            class="form-control"></div>
+                    <div class="mb-2"><input type="password" v-model="passForm.password_confirmation"
+                            placeholder="Confirm New Password" class="form-control"></div>
                     <button @click="changePassword" class="btn bg-primary-cta">
                         <i class="bi bi-floppy me-2"></i> Update Password
                     </button>
@@ -405,12 +520,14 @@ const uploadVehicleImages = async () => {
 
         <ul class="nav nav-tabs mb-4">
             <li class="nav-item">
-                <button class="nav-link bg-tab" :class="{ active: activeTab === 'reservations' }" @click="activeTab = 'reservations'">
+                <button class="nav-link bg-tab" :class="{ active: activeTab === 'reservations' }"
+                    @click="activeTab = 'reservations'">
                     <i class="bi bi-calendar-check me-2"></i>Reservations
                 </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link bg-tab" :class="{ active: activeTab === 'vehicles' }" @click="activeTab = 'vehicles'">
+                <button class="nav-link bg-tab" :class="{ active: activeTab === 'vehicles' }"
+                    @click="activeTab = 'vehicles'">
                     <i class="bi bi-car-front me-2"></i>Vehicles
                 </button>
             </li>
@@ -423,11 +540,48 @@ const uploadVehicleImages = async () => {
 
         <!-- TAB ============================================================= -->
         <div class="custom-panel tab-content p-4 shadow-sm min-vh-50">
-            
+
             <!-- RESERVATIONS ================================================ -->
             <div v-if="activeTab === 'reservations'">
-                <h4><i class="bi bi-calendar-check"></i> Reservation Management</h4>
-                <p class="text-muted">Proximamente: Gestión de reservas.</p>
+                <!-- HEADER ================================================== -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4><i class="bi bi-car-front"></i> Reservation Management</h4>
+                    <button @click="openCreateReservationModal" class="btn bg-primary-cta">
+                        <i class="bi bi-bookmark-plus"></i> New Reservation
+                    </button>
+                </div>
+                <!-- DATA TABLE ============================================== -->
+                <div class="table-responsive">
+                    <table class="table custom-table">
+                        <thead>
+                            <tr>
+                                <th><i class="bi bi-car-front me-2"></i> Vehicle</th>
+                                <th><i class="bi bi-person me-2"></i> Customer</th>
+                                <th><i class="bi bi-calendar me-2"></i> Start Date</th>
+                                <th><i class="bi bi-calendar me-2"></i> End Date</th>
+                                <th><i class="bi bi-info-circle me-2"></i> Status</th>
+                                <th><i class="bi bi-gear me-2"></i> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="r in reservations" :key="r.id">
+                                <td>{{ r.vehicle.license_plate }}</td>
+                                <td>{{ r.user.dni }}</td>
+                                <td>{{ new Date(r.start_date).toLocaleDateString() }}</td>
+                                <td>{{ new Date(r.end_date).toLocaleDateString() }}</td>
+                                <td>{{ r.status }}</td>
+                                <td>
+                                    <button @click="openEditReservationModal(r)" class="btn btn-sm bg-primary-cta me-2">
+                                        <i class="bi bi-pen"></i>
+                                    </button>
+                                    <button @click="deleteReservation(r.id)" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- VEHICLES ==================================================== -->
@@ -460,7 +614,8 @@ const uploadVehicleImages = async () => {
                                 <td>{{ v.manufacturing_year }}</td>
                                 <td>{{ v.status }}</td>
                                 <td>
-                                    <button @click="openUploadVehicleImagesModal(v)" class="btn btn-sm bg-primary-cta me-1">
+                                    <button @click="openUploadVehicleImagesModal(v)"
+                                        class="btn btn-sm bg-primary-cta me-1">
                                         <i class="bi bi-camera"></i>
                                     </button>
                                     <button @click="openEditVehicleModal(v)" class="btn btn-sm bg-primary-cta me-2">
@@ -541,19 +696,15 @@ const uploadVehicleImages = async () => {
                                     <label class="small fw-bold">
                                         <i class="bi bi-card-text me-2"></i> DNI
                                     </label>
-                                    <input v-model="userForm.dni" :disabled="isEditingCustomer" class="form-control" required>
+                                    <input v-model="userForm.dni" :disabled="isEditingCustomer" class="form-control"
+                                        required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small fw-bold">
                                         <i class="bi bi-calendar me-2"></i> Birthday
                                     </label>
-                                    <input 
-                                        v-model="userForm.birth_date" 
-                                        type="date" 
-                                        class="form-control" 
-                                        :class="{ 'is-invalid': isUnderage }"
-                                        required
-                                    >
+                                    <input v-model="userForm.birth_date" type="date" class="form-control"
+                                        :class="{ 'is-invalid': isUnderage }" required>
                                     <div v-if="isUnderage" class="invalid-feedback">
                                         Must be at least 18 years old.
                                     </div>
@@ -784,6 +935,97 @@ const uploadVehicleImages = async () => {
                             <i class="bi bi-cloud-upload me-2"></i> Upload
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INSERT RESERVATION MODAL ================================================================== -->
+    <div v-if="showReservationModal">
+        <div class="modal-backdrop fade show"></div>
+        <div class="modal d-block" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title">{{ isEditingReservation ? 'Edit' : 'Create' }} Reservation</h5>
+                        <button @click="showReservationModal = false" class="btn-close"></button>
+                    </div>
+                    <form @submit.prevent="saveReservation">
+                        <div class="modal-body">
+                            <div class="row g-2">
+
+                                <div class="col-md-12">
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-person me-2"></i> Customer
+                                    </label>
+                                    <select v-model="reservationForm.user_id" class="form-select" required>
+                                        <option value="" disabled>Select a Customer</option>
+                                        <option v-for="c in customers" :key="c.id" :value="c.id">
+                                            {{ c.first_name }} {{ c.last_name }} (DNI: {{ c.dni }})
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-car-front me-2"></i> Vehicle
+                                    </label>
+                                    <select v-model="reservationForm.vehicle_id" class="form-select" required>
+                                        <option value="" disabled>Select a Vehicle</option>
+                                        <option v-for="v in availableVehicles" :key="v.id" :value="v.id">
+                                            {{ v.brand }} {{ v.model }} - {{ v.license_plate }} - {{
+                                                v.hourly_price }}€/h
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-calendar-event me-2"></i> Start Date & Time
+                                    </label>
+                                    <input v-model="reservationForm.start_date" type="datetime-local"
+                                        class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">
+                                        <i class="bi bi-calendar-event me-2"></i> End Date & Time
+                                    </label>
+                                    <input v-model="reservationForm.end_date" type="datetime-local" class="form-control"
+                                        required>
+                                </div>
+
+                                <div class="col-md-12 mt-3">
+                                    <div
+                                        class="p-3 bg-light border rounded d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="small fw-bold d-block text-muted">Total Amount</span>
+                                        </div>
+                                        <span class="fs-4 fw-bold text-primary">
+                                            {{ estimatedPrice }} €
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mt-2" v-if="isEditingReservation">
+                                    <label class="small fw-bold">Status</label>
+                                    <select v-model="reservationForm.status" class="form-select">
+                                        <option value="pending">pending</option>
+                                        <option value="confirmed">confirmed</option>
+                                        <option value="cancelled">cancelled</option>
+                                        <option value="completed">completed</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" @click="showReservationModal = false" class="btn bg-primary-cta">
+                                <i class="bi bi-x-circle me-2"></i> Cancel
+                            </button>
+                            <button type="submit" class="btn bg-primary-cta">
+                                <i class="bi bi-floppy me-2"></i> Save Reservation
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
