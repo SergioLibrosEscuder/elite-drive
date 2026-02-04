@@ -29,7 +29,7 @@
                         <li v-if="userRole === 'customer'" class="nav-item">
                             <RouterLink class="nav-link" to="/profile">My Profile</RouterLink>
                         </li>
-                        <li class="nav-item ms-2 me-2" v-if="userRole">
+                        <li class="nav-item ms-2 me-2" v-if="userRole === 'customer'">
                             <a class="nav-link position-relative cursor-pointer" data-bs-toggle="modal"
                                 data-bs-target="#cartModal" style="cursor: pointer;">
                                 <i class="bi bi-cart3 fs-5"></i>
@@ -59,12 +59,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
+import { onMounted, ref } from 'vue';
 
 const router = useRouter();
-const userRole = ref(localStorage.getItem('user_role'));
+const userRole = ref(null);
+
+onMounted(async () => {
+    const res = await axios.get("/user/me");
+    userRole.value = res.data.role;
+})
 
 const cartStore = useCartStore();
 

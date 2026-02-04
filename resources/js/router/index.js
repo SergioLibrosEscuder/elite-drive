@@ -30,8 +30,9 @@ export default router;
 
 // Navigation guards
 
-router.beforeEach((to, from, next) => {
-    const userRole = localStorage.getItem("user_role");
+router.beforeEach(async (to, from, next) => {
+    const res = await axios.get("/user/me");
+    const userRole = res.data.role;
 
     // Route /admin
     if (to.path === "/admin") {
