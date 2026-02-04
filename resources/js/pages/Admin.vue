@@ -20,6 +20,46 @@ const vehicle = reactive({
     license_plate: '', model: '', manufacturing_year: '', hourly_price: '', status: ''
 });
 
+const reservation = reactive({
+    vehicle_id: '', start_date: '', end_date: '', amount: '', status: ''
+});
+
+const searchCustomer = ref('');
+const searchVehicle = ref('');
+const searchReservation = ref('');
+
+const filteredCustomers = computed(() => {
+    if (!searchCustomer.value) return customers.value;
+    const query = searchCustomer.value.toLowerCase();
+    return customers.value.filter(c =>
+        c.dni.toLowerCase().startsWith(query) ||
+        c.email.toLowerCase().startsWith(query) ||
+        c.phone.toLowerCase().startsWith(query) ||
+        (c.first_name + ' ' + c.last_name + ' ' + (c.second_last_name || '')).toLowerCase().includes(query)
+    );
+});
+
+const filteredVehicles = computed(() => {
+    if (!searchVehicle.value) return vehicles.value;
+    const query = searchVehicle.value.toLowerCase();
+    return vehicles.value.filter(v =>
+        v.license_plate.toLowerCase().startsWith(query) ||
+        v.brand.toLowerCase().startsWith(query) ||
+        v.model.toLowerCase().startsWith(query) ||
+        v.status.toLowerCase().startsWith(query)
+    );
+});
+
+const filteredReservations = computed(() => {
+    if (!searchReservation.value) return reservations.value;
+    const query = searchReservation.value.toLowerCase();
+    return reservations.value.filter(r =>
+        r.user.dni.toLowerCase().startsWith(query) ||
+        r.vehicle.license_plate.toLowerCase().startsWith(query) ||
+        r.status.toLowerCase().startsWith(query)
+    );
+});
+
 // LOAD DATA ===============================================
 onMounted(async () => {
     try {
@@ -29,7 +69,7 @@ onMounted(async () => {
 
         Object.assign(user, responseUsers.data);
         Object.assign(vehicle, responseCars.data);
-        Object.assign(reservations, responseReservations.data);
+        Object.assign(reservation, responseReservations.data);
     } catch (error) {
         console.error("Error loading profile", error);
     }
@@ -550,6 +590,14 @@ const formatDateTimeForInput = (dateString) => {
                         <i class="bi bi-bookmark-plus"></i> New Reservation
                     </button>
                 </div>
+                <!-- FILTERS -->
+                <div class="w-25 my-3">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input v-model="searchReservation" type="text" class="form-control"
+                            placeholder="Search (Plate, DNI, Status...)">
+                    </div>
+                </div>
                 <!-- DATA TABLE ============================================== -->
                 <div class="table-responsive">
                     <table class="table custom-table">
@@ -564,7 +612,7 @@ const formatDateTimeForInput = (dateString) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="r in reservations" :key="r.id">
+                            <tr v-for="r in filteredReservations" :key="r.id">
                                 <td>{{ r.vehicle.license_plate }}</td>
                                 <td>{{ r.user.dni }}</td>
                                 <td>{{ new Date(r.start_date).toLocaleDateString() }}</td>
@@ -593,6 +641,14 @@ const formatDateTimeForInput = (dateString) => {
                         <i class="bi bi-plus-circle me-2"></i>New Vehicle
                     </button>
                 </div>
+                <!-- FILTERS -->
+                <div class="w-25 my-3">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input v-model="searchVehicle" type="text" class="form-control"
+                            placeholder="Search (Plate, Brand, Model, Status...)">
+                    </div>
+                </div>
                 <!-- DATA TABLE ============================================== -->
                 <div class="table-responsive">
                     <table class="table custom-table">
@@ -602,12 +658,12 @@ const formatDateTimeForInput = (dateString) => {
                                 <th><i class="bi bi-car-front me-2"></i> Brand</th>
                                 <th><i class="bi bi-car-front me-2"></i> Model</th>
                                 <th><i class="bi bi-calendar me-2"></i> Manufacturing Year</th>
-                                <th><i class="bi bi-info-circle me-2"></i> ActionsStatus</th>
+                                <th><i class="bi bi-info-circle me-2"></i> Status</th>
                                 <th><i class="bi bi-gear me-2"></i> Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="v in vehicles" :key="v.id">
+                            <tr v-for="v in filteredVehicles" :key="v.id">
                                 <td>{{ v.license_plate }}</td>
                                 <td>{{ v.brand }}</td>
                                 <td>{{ v.model }}</td>
@@ -640,6 +696,14 @@ const formatDateTimeForInput = (dateString) => {
                         <i class="bi bi-person-plus me-2"></i>New Customer
                     </button>
                 </div>
+                <!-- FILTERS -->
+                <div class="w-25 my-3">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input v-model="searchCustomer" type="text" class="form-control"
+                            placeholder="Search (DNI, Name, Email, Phone, ...)">
+                    </div>
+                </div>
                 <!-- DATA TABLE ============================================== -->
                 <div class="table-responsive">
                     <table class="table custom-table">
@@ -654,7 +718,7 @@ const formatDateTimeForInput = (dateString) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="c in customers" :key="c.id">
+                            <tr v-for="c in filteredCustomers" :key="c.id">
                                 <td>{{ c.dni }}</td>
                                 <td>{{ c.first_name }} {{ c.last_name }} {{ c.second_last_name }}</td>
                                 <td>{{ c.email }}</td>
