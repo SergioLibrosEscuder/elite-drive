@@ -20,7 +20,7 @@ const cartStore = useCartStore();
 const startDate = ref("");
 const endDate = ref("");
 
-const userRole = ref(localStorage.getItem("user_role"));
+const userRole = ref(null);
 
 const estimatedPrice = computed(() => {
     if (startDate.value && endDate.value && car.value) {
@@ -71,7 +71,9 @@ const handleAddToCart = () => {
 onMounted(async () => {
     try {
         const carJSON = await axios.get(`/api/cars/${carId}`);
+        const userData = await axios.get('/user/me');
         car.value = carJSON.data;
+        userRole.value = userData.data.role;
     } catch (error) {
         console.error("Error fetching car details:", error);
     }
@@ -80,8 +82,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-  @import "../../css/admin_style.css";
-  @import "../../css/cars_style.css";
+@import "../../css/admin_style.css";
+@import "../../css/cars_style.css";
 </style>
 
 <template>
@@ -106,7 +108,7 @@ onMounted(async () => {
         <!-- CALL TO ACTION -->
         <div class="text-center mb-5">
             <button class="btn bg-primary-cta btn-lg px-5 py-3" data-bs-toggle="offcanvas"
-                data-bs-target="#reservationOffcanvas">
+                data-bs-target="#reservationOffcanvas" v-if="userRole !== 'admin'">
                 <i class="bi bi-cart-check me-2"></i> Book Now
             </button>
         </div>
@@ -170,7 +172,8 @@ onMounted(async () => {
         </section>
 
         <!-- RESERVATION OFFCANVAS -->
-        <div class="offcanvas offcanvas-end custom-panel color-secondary" tabindex="-1" id="reservationOffcanvas" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas offcanvas-end custom-panel color-secondary" tabindex="-1" id="reservationOffcanvas"
+            aria-labelledby="offcanvasLabel">
 
             <div class="offcanvas-header panel-header border-0">
                 <h5 class="panel-title">Configure Reservation</h5>
