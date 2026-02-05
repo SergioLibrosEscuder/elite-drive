@@ -20,7 +20,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate(); // Seguridad para web.php
             $user = Auth::user();
-            
+
             return response()->json([
                 'status' => 'success',
                 'user' => [
@@ -31,6 +31,16 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => 'Credenciales incorrectas'], 401);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->json(['message' => 'Logged out correctly']);
     }
 
     public function register(Request $request)
@@ -65,7 +75,7 @@ class AuthController extends Controller
     public function updateProfile(Request $request)
     {
         $user = Auth::user(); // Obtenemos al usuario autenticado por la sesión
-        
+
         $data = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name'  => 'required|string|max:255',
@@ -94,4 +104,3 @@ class AuthController extends Controller
         return response()->json(['message' => 'Password changed successfully']);
     }
 }
-

@@ -20,7 +20,7 @@ const cartStore = useCartStore();
 const startDate = ref("");
 const endDate = ref("");
 
-const userRole = ref(localStorage.getItem("user_role"));
+const userRole = ref(null);
 
 const estimatedPrice = computed(() => {
     if (startDate.value && endDate.value && car.value) {
@@ -71,7 +71,9 @@ const handleAddToCart = () => {
 onMounted(async () => {
     try {
         const carJSON = await axios.get(`/api/cars/${carId}`);
+        const userData = await axios.get('/user/me');
         car.value = carJSON.data;
+        userRole.value = userData.data.role;
     } catch (error) {
         console.error("Error fetching car details:", error);
     }
@@ -80,8 +82,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-  @import "../../css/admin_style.css";
-  @import "../../css/cars_style.css";
+@import "../../css/admin_style.css";
+@import "../../css/cars_style.css";
 </style>
 
 <template>
@@ -106,7 +108,7 @@ onMounted(async () => {
         <!-- CALL TO ACTION -->
         <div class="text-center mb-5">
             <button class="btn bg-primary-cta btn-lg px-5 py-3" data-bs-toggle="offcanvas"
-                data-bs-target="#reservationOffcanvas">
+                data-bs-target="#reservationOffcanvas" v-if="userRole !== 'admin'">
                 <i class="bi bi-cart-check me-2"></i> Book Now
             </button>
         </div>
@@ -169,10 +171,12 @@ onMounted(async () => {
             </ul>
         </section>
 
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="reservationOffcanvas" aria-labelledby="offcanvasLabel">
+        <!-- RESERVATION OFFCANVAS -->
+        <div class="offcanvas offcanvas-end custom-panel color-secondary" tabindex="-1" id="reservationOffcanvas"
+            aria-labelledby="offcanvasLabel">
 
-            <div class="offcanvas-header bg-dark text-white">
-                <h5 class="offcanvas-title" id="offcanvasLabel">Configure Reservation</h5>
+            <div class="offcanvas-header panel-header border-0">
+                <h5 class="panel-title">Configure Reservation</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
             </div>
@@ -184,7 +188,7 @@ onMounted(async () => {
                         style="width: 80px; height: 50px; object-fit: cover;">
                     <div class="ms-3">
                         <h6 class="mb-0 fw-bold">{{ car.brand }} {{ car.model }}</h6>
-                        <small class="text-muted">{{ car.hourly_price }}€ / hour</small>
+                        <small class="text-white">{{ car.hourly_price }}€ / hour</small>
                     </div>
                 </div>
 
@@ -198,21 +202,21 @@ onMounted(async () => {
                     <input type="datetime-local" class="form-control" v-model="endDate" :min="startDate || minDate">
                 </div>
 
-                <div v-if="estimatedPrice > 0" class="alert alert-success border-0 text-center mb-auto">
+                <div v-if="estimatedPrice > 0" class="inner-panel-primary text-center p-3">
                     <small class="d-block text-uppercase mb-1">Total Estimated</small>
-                    <span class="display-6 fw-bold">{{ estimatedPrice.toLocaleString('es-ES') }}€</span>
+                    <span class="display-6 text-white fw-bold">{{ estimatedPrice.toLocaleString('es-ES') }}€</span>
                 </div>
-                <div v-else class="alert alert-light border text-center mb-auto text-muted">
+                <div v-else class="alert inner-panel border-0 text-center mb-auto text-white">
                     <small>Select dates to see price</small>
                 </div>
 
                 <div class="mt-4">
-                    <button @click="handleAddToCart" class="btn btn-primary w-100 py-3 fw-bold fs-5 shadow"
+                    <button @click="handleAddToCart" class="btn bg-primary-cta w-100 fs-5"
                         :disabled="!startDate || !endDate || estimatedPrice <= 0">
                         Add to Cart
                     </button>
                     <div class="text-center mt-3">
-                        <small class="text-muted" style="font-size: 0.75rem;">
+                        <small class="text-white">
                             You won't be charged yet.
                         </small>
                     </div>

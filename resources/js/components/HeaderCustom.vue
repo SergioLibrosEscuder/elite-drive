@@ -23,13 +23,13 @@
                             <RouterLink class="nav-link" to="/contact">Contact</RouterLink>
                         </li>
                         <!-- Conditional links based on user role -->
-                        <li v-if="userRole === 'admin'" class="nav-item">
+                        <li v-if="isAdmin" class="nav-item">
                             <RouterLink class="nav-link" to="/admin">Admin</RouterLink>
                         </li>
-                        <li v-if="userRole === 'customer'" class="nav-item">
+                        <li v-if="isCustomer" class="nav-item">
                             <RouterLink class="nav-link" to="/profile">My Profile</RouterLink>
                         </li>
-                        <li class="nav-item ms-2 me-2" v-if="userRole">
+                        <li class="nav-item ms-2 me-2" v-if="isCustomer">
                             <a class="nav-link position-relative cursor-pointer" data-bs-toggle="modal"
                                 data-bs-target="#cartModal" style="cursor: pointer;">
                                 <i class="bi bi-cart3 fs-5"></i>
@@ -42,7 +42,7 @@
                         </li>
                         <!-- Conditional buttons based on user role -->
                         <li class="nav-item ms-lg-3">
-                            <button v-if="!userRole" class="btn bg-primary-cta btn-sm" data-bs-toggle="modal"
+                            <button v-if="!isAuthenticated" class="btn bg-primary-cta btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#loginModal">
                                 <i class="bi bi-person-circle me-2"></i> Login
                             </button>
@@ -59,23 +59,23 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
+import { useAuth } from '../composables/useAuth';
+import { onMounted, ref } from 'vue';
 
 const router = useRouter();
-const userRole = ref(localStorage.getItem('user_role'));
+const { isAuthenticated, isAdmin, isCustomer, logout, fetchUser } = useAuth();
+
+onMounted(async () => {
+    fetchUser();
+})
 
 const cartStore = useCartStore();
 
 // Logout function
-const handleLogout = () => {
-    // 1. Clear browser storage
-    localStorage.removeItem('user_role');
-    localStorage.removeItem('user_name');
-
-    // 2. Update userRole ref
-    userRole.value = null;
+const handleLogout = async () => {
+    await logout();
 
     // 3. Redirect to Home
     router.push('/');
