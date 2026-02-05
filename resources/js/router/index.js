@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useAuth } from "../composables/useAuth";
+
 import Index from "../pages/Index.vue";
 import Admin from "../pages/Admin.vue";
 import Cars from "../pages/Cars.vue";
@@ -31,12 +33,16 @@ export default router;
 // Navigation guards
 
 router.beforeEach(async (to, from, next) => {
-    const res = await axios.get("/user/me");
-    const userRole = res.data.role;
+    const { fetchUser, isAdmin, isCustomer, isInitialized } = useAuth();
+
+    // Wait until verify user data
+    if (!isInitialized.value) {
+        await fetchUser();
+    }
 
     // Route /admin
     if (to.path === "/admin") {
-        if (userRole === "admin") {
+        if (isAdmin.value) {
             next();
         } else {
             alert("Access denied: Administrator role required");
@@ -46,7 +52,7 @@ router.beforeEach(async (to, from, next) => {
 
     // Route /profile
     else if (to.path === "/profile") {
-        if (userRole === "customer") {
+        if (isCustomer.value) {
             next();
         } else {
             alert("Access denied: User authentication required");
