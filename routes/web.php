@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/me', function () {
         return Auth::user();
     });
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/reservations', [ReservationController::class, 'index']);
     Route::get('/reservations/{id}', [ReservationController::class, 'show']);
