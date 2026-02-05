@@ -147,7 +147,8 @@ const handlePayment = async () => {
         <section class="container-fluid px-0 mt-4 mb-5">
             <div class="row g-0">
                 <div class="col-12 text-center">
-                    <img src="../../img/checkout/landscape.jpg" 
+                    <!-- <img src="../../img/checkout/landscape.jpg" :src="'/images/checkout/landscape.jpg'" -->
+                    <img :src="'/images/checkout/landscape.jpg'"
                         alt="Banner Publicitario" 
                         class="img-bottom-banner shadow-sm">
                 </div>

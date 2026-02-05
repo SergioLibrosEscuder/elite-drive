@@ -3,14 +3,21 @@
 <script setup>
     import RoadCarousel from "../components/RoadCarousel.vue";
 
-    const roadImages = [
-        '/images/index/road/road1.jpg',
-        '/images/index/road/road2.jpg',
-        '/images/index/road/road3.jpg',
-        '/images/index/road/road4.jpg',
-        '/images/index/road/road5.jpg',
-        '/images/index/road/road6.jpg',
-        '/images/index/road/road7.jpg'
+    const roadImages1 = [
+        '/images/index/road/road1_1.jpg', '/images/index/road/road1_2.jpg',
+        '/images/index/road/road1_3.jpg', '/images/index/road/road1_4.jpg'
+    ];
+    const roadImages2 = [
+        '/images/index/road/road2_1.jpg', '/images/index/road/road2_2.jpg',
+        '/images/index/road/road2_3.jpg', '/images/index/road/road2_4.jpg'
+    ];
+    const roadImages3 = [
+        '/images/index/road/road3_1.jpg', '/images/index/road/road3_2.jpg',
+        '/images/index/road/road3_3.jpg', '/images/index/road/road3_4.jpg'
+    ];
+    const roadImages4 = [
+        '/images/index/road/road4_1.jpg', '/images/index/road/road4_2.jpg',
+        '/images/index/road/road4_3.jpg', '/images/index/road/road4_4.jpg'
     ];
 </script>
 
@@ -89,7 +96,9 @@
 
     <section class="py-5">
         <div class="container">
+
             <h2 class="text-center fw-bold mb-5">The most exclusive vehicles at your complete disposal</h2>
+
             <div id="routeCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner shadow">
                     <div class="carousel-item active">
@@ -140,8 +149,17 @@
 
     <!-- ROUTES CAROUSEL ====================================================== -->
 
-    <section class="d-flex justify-content-center gap-5 my-5 flex-wrap">
-        <RoadCarousel v-for="i in 4" :key="i" :images="roadImages" />
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5">The world is too big to stay in the same place.</h2>
+
+            <div class="d-flex justify-content-center gap-5 my-5 flex-wrap">
+                <RoadCarousel :images="roadImages1" />
+                <RoadCarousel :images="roadImages2" />
+                <RoadCarousel :images="roadImages3" />
+                <RoadCarousel :images="roadImages4" />
+            </div>
+        </div>
     </section>
     
 </template>
