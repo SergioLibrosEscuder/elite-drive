@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuth } from "../composables/useAuth";
+import { useToast } from "../composables/useToast";
 
 import Index from "../pages/Index.vue";
 import Admin from "../pages/Admin.vue";
@@ -30,6 +31,8 @@ const router = createRouter({
 
 export default router;
 
+const toast = useToast();
+
 // Navigation guards
 
 router.beforeEach(async (to, from, next) => {
@@ -45,7 +48,7 @@ router.beforeEach(async (to, from, next) => {
         if (isAdmin.value) {
             next();
         } else {
-            alert("Access denied: Administrator role required");
+            toast.error("You must be an Admin to access this page", "Security");
             next("/");
         }
     }
@@ -55,7 +58,10 @@ router.beforeEach(async (to, from, next) => {
         if (isCustomer.value) {
             next();
         } else {
-            alert("Access denied: User authentication required");
+            toast.error(
+                "You must be an Authorized Customer to access this page",
+                "Security",
+            );
             next("/");
         }
     }

@@ -3,6 +3,9 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cartStore';
 import axios from 'axios';
+import { useToast } from '../composables/useToast';
+
+const toast = useToast();
 
 const cartStore = useCartStore();
 const router = useRouter();
@@ -43,18 +46,18 @@ const handlePayment = async () => {
     isProcessing.value = false;
 
     if (errors.length > 0) {
-        alert(`Could not book: ${errors.join(', ')}. Please try again.`);
+        toast.error(`Could not book: ${errors.join(', ')}. Please try again.`, "Checkout Error");
     } else {
         cartStore.clearCart();
-        alert('Reservation confirmed successfully! Thank you.');
+        toast.success('Reservation confirmed successfully! Thank you.', "Checkout");
         router.push('/profile');
     }
 };
 </script>
 
 <style scoped>
-  @import "../../css/admin_style.css";
-  @import "../../css/checkout_style.css";
+@import "../../css/admin_style.css";
+@import "../../css/checkout_style.css";
 </style>
 
 <template>
@@ -69,15 +72,16 @@ const handlePayment = async () => {
                 <div class="card panel-content shadow-sm mb-3" v-for="item in cartStore.cartItems" :key="item.id">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img :src="`/images/cars/thumbnails/${item.vehicle.id}-thm.webp`"
-                                class="img-fluid h-100" style="object-fit: cover; min-height: 150px;"
-                                alt="Car" @error="$event.target.src = '/images/placeholder.webp'">
+                            <img :src="`/images/cars/thumbnails/${item.vehicle.id}-thm.webp`" class="img-fluid h-100"
+                                style="object-fit: cover; min-height: 150px;" alt="Car"
+                                @error="$event.target.src = '/images/placeholder.webp'">
                         </div>
 
                         <div class="col-md-8">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h5 class="card-title fw-bold mb-0 color-secondary">{{ item.vehicle.brand }} {{ item.vehicle.model
+                                    <h5 class="card-title fw-bold mb-0 color-secondary">{{ item.vehicle.brand }} {{
+                                        item.vehicle.model
                                         }}</h5>
                                     <span class="fs-5 fw-bold text-white">{{
                                         Number(item.price).toLocaleString('es-ES') }}€</span>
@@ -124,11 +128,10 @@ const handlePayment = async () => {
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <span class="fs-5 fw-bold">Total:</span>
                             <span class="fs-3 fw-bold text-white">{{ Number(cartStore.total).toLocaleString('es-ES')
-                                }}€</span>
+                            }}€</span>
                         </div>
 
-                        <button @click="handlePayment" class="btn bg-primary-cta w-100 py-2"
-                            :disabled="isProcessing">
+                        <button @click="handlePayment" class="btn bg-primary-cta w-100 py-2" :disabled="isProcessing">
                             <span v-if="isProcessing" class="spinner-border spinner-border-sm me-2"></span>
                             {{ isProcessing ? 'Processing Payment...' : 'Confirm & Pay' }}
                         </button>
@@ -147,8 +150,7 @@ const handlePayment = async () => {
         <section class="container-fluid px-0 mt-4 mb-5">
             <div class="row g-0">
                 <div class="col-12 text-center">
-                    <img src="../../img/checkout/landscape.jpg" 
-                        alt="Banner Publicitario" 
+                    <img src="../../img/checkout/landscape.jpg" alt="Banner Publicitario"
                         class="img-bottom-banner shadow-sm">
                 </div>
             </div>
