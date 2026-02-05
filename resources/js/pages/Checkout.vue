@@ -1,55 +1,58 @@
+<!-- Sergio Libros - Programming ================================================================ -->
+<!-- Guillermo Soto - Style ===================================================================== -->
+
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useCartStore } from '../stores/cartStore';
-import axios from 'axios';
+    import { ref } from 'vue';
+    import { useRouter } from 'vue-router';
+    import { useCartStore } from '../stores/cartStore';
+    import axios from 'axios';
 
-const cartStore = useCartStore();
-const router = useRouter();
-const isProcessing = ref(false);
+    const cartStore = useCartStore();
+    const router = useRouter();
+    const isProcessing = ref(false);
 
-// Avoid accessing checkout if cart is empty
-if (cartStore.count === 0) {
-    router.push('/cars');
-}
+    // Avoid accessing checkout if cart is empty
+    if (cartStore.count === 0) {
+        router.push('/cars');
+    }
 
-// Date formatting
-const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('es-ES', {
-        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
-};
+    // Date formatting
+    const formatDate = (dateString) => {
+        return new Date(dateString).toLocaleDateString('es-ES', {
+            year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+    };
 
-// Payment handling
-const handlePayment = async () => {
-    isProcessing.value = true;
-    const errors = [];
+    // Payment handling
+    const handlePayment = async () => {
+        isProcessing.value = true;
+        const errors = [];
 
-    // Realizar reservas para cada ítem en el carrito
-    for (const item of cartStore.cartItems) {
-        try {
-            await axios.post('/reservations', {
-                vehicle_id: item.vehicle.id,
-                start_date: item.start,
-                end_date: item.end,
-                amount: item.price
-            });
-        } catch (error) {
-            console.error(`Error booking ${item.vehicle.brand}:`, error);
-            errors.push(item.vehicle.model);
+        // Realizar reservas para cada ítem en el carrito
+        for (const item of cartStore.cartItems) {
+            try {
+                await axios.post('/reservations', {
+                    vehicle_id: item.vehicle.id,
+                    start_date: item.start,
+                    end_date: item.end,
+                    amount: item.price
+                });
+            } catch (error) {
+                console.error(`Error booking ${item.vehicle.brand}:`, error);
+                errors.push(item.vehicle.model);
+            }
         }
-    }
 
-    isProcessing.value = false;
+        isProcessing.value = false;
 
-    if (errors.length > 0) {
-        alert(`Could not book: ${errors.join(', ')}. Please try again.`);
-    } else {
-        cartStore.clearCart();
-        alert('Reservation confirmed successfully! Thank you.');
-        router.push('/profile');
-    }
-};
+        if (errors.length > 0) {
+            alert(`Could not book: ${errors.join(', ')}. Please try again.`);
+        } else {
+            cartStore.clearCart();
+            alert('Reservation confirmed successfully! Thank you.');
+            router.push('/profile');
+        }
+    };
 </script>
 
 <style scoped>
@@ -65,6 +68,7 @@ const handlePayment = async () => {
         <div v-if="cartStore.count > 0" class="row g-5">
 
             <!-- PRODUCT ITEM ==================================================== -->
+            
             <div class="col-lg-8">
                 <div class="card panel-content shadow-sm mb-3" v-for="item in cartStore.cartItems" :key="item.id">
                     <div class="row g-0">
@@ -107,6 +111,7 @@ const handlePayment = async () => {
             </div>
 
             <!-- SUMARY ========================================================== -->
+            
             <div class="col-lg-4">
                 <div class="dashboard-title sticky-top" style="top: 100px;">
                     <div class="card-body p-4">
@@ -143,13 +148,13 @@ const handlePayment = async () => {
             </div>
         </div>
 
-        <!-- IMAGE =========================================================== -->
+        <!-- BOTTOM IMAGE ==================================================== -->
+
         <section class="container-fluid px-0 mt-4 mb-5">
             <div class="row g-0">
                 <div class="col-12 text-center">
-                    <!-- <img src="../../img/checkout/landscape.jpg" :src="'/images/checkout/landscape.jpg'" -->
                     <img :src="'/images/checkout/landscape.jpg'"
-                        alt="Banner Publicitario" 
+                        alt="Banner ad" 
                         class="img-bottom-banner shadow-sm">
                 </div>
             </div>
