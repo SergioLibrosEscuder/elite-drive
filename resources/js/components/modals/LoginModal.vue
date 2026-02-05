@@ -1,5 +1,5 @@
 <!-- Guillermo Soto ============================================================================= -->
- 
+
 <template>
 
     <!-- LOGIN MODAL ================================================================================ -->
@@ -20,7 +20,8 @@
                             <label class="form-label">
                                 <i class="bi bi-envelope-at me-2"></i> Email address
                             </label>
-                            <input v-model="form.email" type="email" class="form-control" placeholder="name@example.com" required>
+                            <input v-model="form.email" type="email" class="form-control" placeholder="name@example.com"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">
@@ -36,7 +37,8 @@
 
                     <div class="text-center mt-4 border-top pt-3">
                         <p class="mb-2">Don't have an account?</p>
-                        <button class="btn btn-outline-light w-100" data-bs-target="#registerModal" data-bs-toggle="modal">Register here</button>
+                        <button class="btn btn-outline-light w-100" data-bs-target="#registerModal"
+                            data-bs-toggle="modal">Register here</button>
                     </div>
                 </div>
             </div>
@@ -46,38 +48,33 @@
 </template>
 
 <script setup>
-    import { ref, reactive } from 'vue';
-    import axios from 'axios';
+import { ref, reactive } from 'vue';
+import { useAuth } from '../../composables/useAuth';
 
-    const loading = ref(false);
+const loading = ref(false);
 
-    // Creamos un objeto reactivo para los datos del formulario
-    const form = reactive({
-        email: '',
-        password: ''
-    });
+// Creamos un objeto reactivo para los datos del formulario
+const form = reactive({
+    email: '',
+    password: ''
+});
 
-    const handleLogin = async () => {
-        loading.value = true;
-        try {
-            // Llamada directa a la ruta de web.php
-            const response = await axios.post('/login', form);
-            
-            // ... resto de tu lógica (guardar localStorage y redirección) ...
-            const user = response.data.user;
-            localStorage.setItem('user_role', user.role);
-            
-            window.location.href = user.role === 'admin' ? '/admin' : '/';
+const { login } = useAuth();
 
-        } catch (error) {
-            // Si Laravel devuelve 419, es que el token CSRF ha fallado
-            if (error.response && error.response.status === 419) {
-                alert('La sesión ha expirado, por favor recarga la página.');
-            } else {
-                alert('Credenciales incorrectas');
-            }
-        } finally {
-            loading.value = false;
+const handleLogin = async () => {
+    loading.value = true;
+    try {
+        await login(form);
+    } catch (error) {
+        // Si Laravel devuelve 419, es que el token CSRF ha fallado
+        if (error.response && error.response.status === 419) {
+            alert('La sesión ha expirado, por favor recarga la página.');
+        } else {
+            alert('Credenciales incorrectas');
         }
-    };
+    } finally {
+        loading.value = false;
+        window.location.href = '/';
+    }
+};
 </script>
