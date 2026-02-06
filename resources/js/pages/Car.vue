@@ -64,9 +64,12 @@ const handleAddToCart = () => {
     const offcanvas = document.getElementById("reservationOffcanvas");
     const offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(offcanvas);
 
-    if (offcanvasInstance) {
-        offcanvasInstance.hide();
-    }
+    offcanvasInstance?.hide();
+
+    setTimeout(() => {
+        const cartModalTrigger = document.getElementById("cart-trigger");
+        cartModalTrigger?.click();
+    }, 300)
 };
 
 onMounted(async () => {
