@@ -107,7 +107,6 @@ const handleSubmit = async () => {
         // 3. Envío
         const result = await emailjs.send(serviceID, templateID, templateParams, publicKey)
 
-        console.log('EmailJS success:', result)
         toast.info(`¡Gracias ${form.nombre}! Tu mensaje ha sido enviado correctamente.`, "Contact Info")
 
         // Limpiar formulario

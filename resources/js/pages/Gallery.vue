@@ -335,8 +335,6 @@ onMounted(() => {
             }
         });
     }
-
-    console.log("Elite Drive: Sistemas cargados (Incluyendo carrusel de Videojuegos y Favoritos con flechas).");
 });
 /* =========================================
    LÓGICA DE RUTAS Y RESERVAS
