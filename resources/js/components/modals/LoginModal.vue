@@ -50,7 +50,9 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { useAuth } from '../../composables/useAuth';
+import { useToast } from '../../composables/useToast';
 
+const toast = useToast();
 const loading = ref(false);
 
 // Creamos un objeto reactivo para los datos del formulario
@@ -65,16 +67,16 @@ const handleLogin = async () => {
     loading.value = true;
     try {
         await login(form);
+        window.location.href = '/';
     } catch (error) {
         // Si Laravel devuelve 419, es que el token CSRF ha fallado
         if (error.response && error.response.status === 419) {
-            alert('La sesión ha expirado, por favor recarga la página.');
+            toast.warning("Session expired, please refresh the page", "Security")
         } else {
-            alert('Credenciales incorrectas');
+            toast.error("Invalid credentials, please try again", "Login Failed")
         }
     } finally {
         loading.value = false;
-        window.location.href = '/';
     }
 };
 </script>

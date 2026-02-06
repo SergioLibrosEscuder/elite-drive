@@ -1,7 +1,10 @@
 import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
+import { useToast } from "../composables/useToast";
 
 export const useCartStore = defineStore("cart", () => {
+    const toast = useToast();
+
     const cartItems = ref(JSON.parse(localStorage.getItem("cartItems")) || []);
 
     const count = computed(() => cartItems.value.length);
@@ -15,7 +18,10 @@ export const useCartStore = defineStore("cart", () => {
 
     function addToCart(vehicle, startDate, endDate) {
         if (vehicle.status !== "available") {
-            alert("This vehicle is not available for rent.");
+            toast.error(
+                "This vehicle is not available for rent.",
+                "Vehicle Info",
+            );
             return;
         }
 
@@ -25,7 +31,10 @@ export const useCartStore = defineStore("cart", () => {
         const totalHours = timeDiff / (1000 * 3600);
 
         if (totalHours <= 0) {
-            alert("End date must be after start date.");
+            toast.warning(
+                "End date must be after start date.",
+                "Dates Validation",
+            );
             return;
         }
 
@@ -40,7 +49,7 @@ export const useCartStore = defineStore("cart", () => {
         };
 
         cartItems.value.push(newItem);
-        alert("Vehicle added to cart.");
+        toast.success("Vehicle added to cart.");
     }
 
     function removeFromCart(productId) {

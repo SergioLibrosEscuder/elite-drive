@@ -2,62 +2,65 @@
 <!-- Guillermo Soto - Style ===================================================================== -->
 
 <script setup>
-    import { ref } from 'vue';
-    import { useRouter } from 'vue-router';
-    import { useCartStore } from '../stores/cartStore';
-    import axios from 'axios';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCartStore } from '../stores/cartStore';
+import axios from 'axios';
+import { useToast } from '../composables/useToast';
 
-    const cartStore = useCartStore();
-    const router = useRouter();
-    const isProcessing = ref(false);
+const toast = useToast();
 
-    // Avoid accessing checkout if cart is empty
-    if (cartStore.count === 0) {
-        router.push('/cars');
+const cartStore = useCartStore();
+const router = useRouter();
+const isProcessing = ref(false);
+
+// Avoid accessing checkout if cart is empty
+if (cartStore.count === 0) {
+    router.push('/cars');
+}
+
+// Date formatting
+const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('es-ES', {
+        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+};
+
+// Payment handling
+const handlePayment = async () => {
+    isProcessing.value = true;
+    const errors = [];
+
+    // Realizar reservas para cada ítem en el carrito
+    for (const item of cartStore.cartItems) {
+        try {
+            await axios.post('/reservations', {
+                vehicle_id: item.vehicle.id,
+                start_date: item.start,
+                end_date: item.end,
+                amount: item.price
+            });
+        } catch (error) {
+            console.error(`Error booking ${item.vehicle.brand}:`, error);
+            errors.push(item.vehicle.model);
+        }
     }
 
-    // Date formatting
-    const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString('es-ES', {
-            year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-        });
-    };
+    isProcessing.value = false;
 
-    // Payment handling
-    const handlePayment = async () => {
-        isProcessing.value = true;
-        const errors = [];
-
-        // Realizar reservas para cada ítem en el carrito
-        for (const item of cartStore.cartItems) {
-            try {
-                await axios.post('/reservations', {
-                    vehicle_id: item.vehicle.id,
-                    start_date: item.start,
-                    end_date: item.end,
-                    amount: item.price
-                });
-            } catch (error) {
-                console.error(`Error booking ${item.vehicle.brand}:`, error);
-                errors.push(item.vehicle.model);
-            }
-        }
-
-        isProcessing.value = false;
-
-        if (errors.length > 0) {
-            alert(`Could not book: ${errors.join(', ')}. Please try again.`);
-        } else {
-            cartStore.clearCart();
-            alert('Reservation confirmed successfully! Thank you.');
-            router.push('/profile');
-        }
-    };
+    if (errors.length > 0) {
+        toast.error(`Could not book: ${errors.join(', ')}. Please try again.`, "Checkout Error");
+    } else {
+        cartStore.clearCart();
+        toast.success('Reservation confirmed successfully! Thank you.', "Checkout");
+        router.push('/profile');
+    }
+};
 </script>
 
 <style scoped>
-  @import "../../css/admin_style.css";
-  @import "../../css/checkout_style.css";
+@import "../../css/admin_style.css";
+@import "../../css/checkout_style.css";
 </style>
 
 <template>
@@ -68,20 +71,21 @@
         <div v-if="cartStore.count > 0" class="row g-5">
 
             <!-- PRODUCT ITEM ==================================================== -->
-            
+
             <div class="col-lg-8">
                 <div class="card panel-content shadow-sm mb-3" v-for="item in cartStore.cartItems" :key="item.id">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img :src="`/images/cars/thumbnails/${item.vehicle.id}-thm.webp`"
-                                class="img-fluid h-100" style="object-fit: cover; min-height: 150px;"
-                                alt="Car" @error="$event.target.src = '/images/placeholder.webp'">
+                            <img :src="`/images/cars/thumbnails/${item.vehicle.id}-thm.webp`" class="img-fluid h-100"
+                                style="object-fit: cover; min-height: 150px;" alt="Car"
+                                @error="$event.target.src = '/images/placeholder.webp'">
                         </div>
 
                         <div class="col-md-8">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h5 class="card-title fw-bold mb-0 color-secondary">{{ item.vehicle.brand }} {{ item.vehicle.model
+                                    <h5 class="card-title fw-bold mb-0 color-secondary">{{ item.vehicle.brand }} {{
+                                        item.vehicle.model
                                         }}</h5>
                                     <span class="fs-5 fw-bold text-white">{{
                                         Number(item.price).toLocaleString('es-ES') }}€</span>
@@ -111,7 +115,7 @@
             </div>
 
             <!-- SUMARY ========================================================== -->
-            
+
             <div class="col-lg-4">
                 <div class="dashboard-title sticky-top" style="top: 100px;">
                     <div class="card-body p-4">
@@ -129,11 +133,10 @@
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <span class="fs-5 fw-bold">Total:</span>
                             <span class="fs-3 fw-bold text-white">{{ Number(cartStore.total).toLocaleString('es-ES')
-                                }}€</span>
+                            }}€</span>
                         </div>
 
-                        <button @click="handlePayment" class="btn bg-primary-cta w-100 py-2"
-                            :disabled="isProcessing">
+                        <button @click="handlePayment" class="btn bg-primary-cta w-100 py-2" :disabled="isProcessing">
                             <span v-if="isProcessing" class="spinner-border spinner-border-sm me-2"></span>
                             {{ isProcessing ? 'Processing Payment...' : 'Confirm & Pay' }}
                         </button>
@@ -153,9 +156,7 @@
         <section class="container-fluid px-0 mt-4 mb-5">
             <div class="row g-0">
                 <div class="col-12 text-center">
-                    <img :src="'/images/checkout/landscape.jpg'"
-                        alt="Banner ad" 
-                        class="img-bottom-banner shadow-sm">
+                    <img :src="'/images/checkout/landscape.jpg'" alt="Banner ad" class="img-bottom-banner shadow-sm">
                 </div>
             </div>
         </section>

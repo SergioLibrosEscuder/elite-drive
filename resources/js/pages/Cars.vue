@@ -32,10 +32,6 @@ function getAll(spec) {
     return Array.from(new Set(cars.value.map((c) => c[spec]).filter(Boolean))).sort();
 };
 
-function addToCart(car) {
-    alert(`Added ${car.brand} ${car.model} to cart`);
-}
-
 const brands = computed(() => getAll("brand"));
 const doors = computed(() => getAll("doors"));
 const fuels = computed(() => getAll("fuel_type"));
@@ -76,8 +72,8 @@ function getThumbnail(car) {
 </script>
 
 <style scoped>
-  @import "../../css/admin_style.css";
-  @import "../../css/cars_style.css";
+@import "../../css/admin_style.css";
+@import "../../css/cars_style.css";
 </style>
 
 
@@ -122,7 +118,7 @@ function getThumbnail(car) {
                         <div class="row g-2 mb-3">
                             <div class="col-6">
                                 <label class="form-label">
-                                     <i class="bi bi-cash me-2"></i> Min price</label>
+                                    <i class="bi bi-cash me-2"></i> Min price</label>
                                 <input v-model.number="filters.minPrice" type="number" class="form-control" min="0"
                                     placeholder="€" />
                             </div>
@@ -180,8 +176,8 @@ function getThumbnail(car) {
                             <button class="btn bg-primary-cta" @click="resetFilters">
                                 <i class="bi bi-arrow-counterclockwise me-2"></i> Reset
                             </button>
-                            <button class="btn bg-primary-cta d-md-none" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#filtersCollapse">
+                            <button class="btn bg-primary-cta d-md-none" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#filtersCollapse">
                                 <i class="bi bi-x-circle me-2"></i> Cancel
                             </button>
                         </div>
