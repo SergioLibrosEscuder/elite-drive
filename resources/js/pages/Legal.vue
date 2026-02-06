@@ -59,10 +59,7 @@
         </div>
     </div>
 
-    <div class="py-4 text-center border-top border-dark" style="background: #000;">
-        <p class="small text-muted mb-0">© 2026 ELITE DRIVE DEALERSHIP - ENGINEERING WITHOUT LIMITS</p>
-    </div>
-
+    
 </template>
 
 <style scoped>
