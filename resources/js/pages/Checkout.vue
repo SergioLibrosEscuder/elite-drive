@@ -1,3 +1,6 @@
+<!-- Sergio Libros - Programming ================================================================ -->
+<!-- Guillermo Soto - Style ===================================================================== -->
+
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -68,6 +71,7 @@ const handlePayment = async () => {
         <div v-if="cartStore.count > 0" class="row g-5">
 
             <!-- PRODUCT ITEM ==================================================== -->
+
             <div class="col-lg-8">
                 <div class="card panel-content shadow-sm mb-3" v-for="item in cartStore.cartItems" :key="item.id">
                     <div class="row g-0">
@@ -111,6 +115,7 @@ const handlePayment = async () => {
             </div>
 
             <!-- SUMARY ========================================================== -->
+
             <div class="col-lg-4">
                 <div class="dashboard-title sticky-top" style="top: 100px;">
                     <div class="card-body p-4">
@@ -146,12 +151,12 @@ const handlePayment = async () => {
             </div>
         </div>
 
-        <!-- IMAGE =========================================================== -->
+        <!-- BOTTOM IMAGE ==================================================== -->
+
         <section class="container-fluid px-0 mt-4 mb-5">
             <div class="row g-0">
                 <div class="col-12 text-center">
-                    <img src="../../img/checkout/landscape.jpg" alt="Banner Publicitario"
-                        class="img-bottom-banner shadow-sm">
+                    <img :src="'/images/checkout/landscape.jpg'" alt="Banner ad" class="img-bottom-banner shadow-sm">
                 </div>
             </div>
         </section>

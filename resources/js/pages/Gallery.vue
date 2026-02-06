@@ -3,6 +3,41 @@ import { onMounted } from 'vue';
 import { useToast } from '../composables/useToast';
 
 const toast = useToast();
+import { ref, computed } from 'vue';
+
+
+
+const searchQuery = ref('');
+const activeIndex = ref(0); // Para navegar por los resultados
+
+// Base de datos de TODO tu contenido de Gallery.vue
+const galleryStore = [
+    { type: 'Movie', title: 'Fast & Furious 9', year: '2021', info: '2h 23m', img: '/images/cars/gallery/fast.jpg', desc: 'Dom Toretto lleva una vida tranquila...', director: 'Justin Lin' },
+    { type: 'Movie', title: 'Ford v Ferrari', year: '2019', info: '2h 32m', img: '/images/cars/gallery/fordvsferrari.jpg', desc: 'El visionario Carroll Shelby y Ken Miles...', director: 'James Mangold' },
+    { type: 'Game', title: 'Forza Horizon 5', year: '2021', info: 'Racing', img: '/images/cars/gallery/forzahorizon5.jpeg', desc: 'Explora los paisajes de México.' },
+    { type: 'Juego', title: 'Need for Speed Unbound', year: '2022', info: 'Street Race', img: '/images/cars/gallery/nfsUnbound.jpg', desc: 'Estilo graffiti y persecuciones policiales en Lakeshore.' },
+    { type: 'Juego', title: 'Assetto Corsa Competizione', year: '2019', info: 'GT3 Sim', img: '/images/cars/gallery/assettocorsa.jpeg', desc: 'La competición oficial de Blancpain GT Series en tu casa.' },
+    { type: 'Juego', title: 'Dirt1', year: '2011', info: 'Carrera', img: '/images/cars/gallery/Dirt1.jpg', desc: 'Dom Toretto protege a su familia de un pasado letal.' },
+    { type: 'Juego', title: 'Gran Turismo', year: '2023', info: 'Biopic / Motor', img: '/images/cars/gallery/granturismo.jpg', desc: 'De jugador a piloto profesional en una historia real increíble.' },
+    { type: 'Juego', title: 'Need for Speed', year: '2014', info: 'Acción / Carrera', img: '/images/cars/gallery/needforspeed.jpeg', desc: 'Una carrera a través del país por la justicia y la velocidad.' },
+    { type: 'Juego', title: 'Dirt5', year: '2020', info: 'Acción / Carrera', img: '/images/cars/gallery/Dirt5.jpg', desc: 'Una carrera a través del país por la justicia y la velocidad.' }
+
+];
+
+
+// Filtrado en tiempo real
+const searchResults = computed(() => {
+    if (!searchQuery.value) return [];
+    return galleryStore.filter(item =>
+        item.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+});
+
+// El objeto que se muestra a la derecha (el primero de la lista de búsqueda)
+const selectedPreview = computed(() => {
+    return searchResults.value.length > 0 ? searchResults.value[activeIndex.value] : null;
+});
+
 
 /* =========================================
    1. DATOS Y ESTADO
@@ -241,18 +276,6 @@ onMounted(() => {
         });
     }
 
-    // 4. Render Inicial de Inventario de Vehículos
-    renderVehicles(carData);
-
-    // 5. Configurar Buscador de Vehículos
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const text = e.target.value.toLowerCase();
-            const filtered = carData.filter(item => item.model.toLowerCase().includes(text));
-            renderVehicles(filtered);
-        });
-    }
 
     // 6. Listener Global para botones de Descarga PDF
     document.addEventListener('click', (e) => {
@@ -460,6 +483,29 @@ function initGameSlider() {
         });
     }
 }
+window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
+    // 1. Rellenar los textos
+    document.getElementById('viewMoreTitle').innerText = title;
+    document.getElementById('viewMoreDesc').innerText = desc;
+    document.getElementById('viewMoreDirector').innerText = director;
+    document.getElementById('viewMoreCast').innerText = cast;
+    document.getElementById('viewMoreYear').innerText = year;
+
+    // 2. Aplicar la imagen al fondo del banner
+    const banner = document.getElementById('viewMoreBanner');
+    if (banner) {
+        // Forzamos el cambio de estilo directamente
+        banner.style.backgroundImage = `url('${bannerUrl}')`;
+    }
+
+    // 3. Mostrar el modal
+    const modalElement = document.getElementById('modal-img-viewmore');
+    if (modalElement) {
+        const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+        modalInstance.show();
+    }
+};
+
 
 
 
@@ -468,6 +514,72 @@ function initGameSlider() {
 
 </script>
 <template>
+
+
+
+    <div class="ms-search-premium-hub">
+        <div class="container">
+            <div class="ms-search-input-box">
+                <div class="ms-search-field">
+                    <i class="fa fa-search ms-search-icon"></i>
+                    <input type="text" v-model="searchQuery" placeholder="EXPLORE THE COLLECTION..."
+                        @input="activeIndex = 0">
+                    <button v-if="searchQuery" @click="searchQuery = ''" class="ms-search-close-btn">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <div class="ms-search-progress-bar"></div>
+                </div>
+
+                <transition name="search-slide">
+                    <div v-if="searchQuery && searchResults.length > 0" class="ms-search-panel-glass">
+                        <div class="ms-panel-layout">
+
+                            <div class="ms-results-sidebar">
+                                <div class="ms-sidebar-header">MATCHES FOUND</div>
+                                <div class="ms-scroll-area">
+                                    <div v-for="(res, index) in searchResults" :key="index" class="ms-nav-item"
+                                        :class="{ 'is-selected': activeIndex === index }"
+                                        @mouseover="activeIndex = index">
+                                        <div class="ms-item-indicator"></div>
+                                        <div class="ms-item-info">
+                                            <span class="ms-item-cat">{{ res.type }}</span>
+                                            <span class="ms-item-name">{{ res.title }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ms-preview-showcase" v-if="selectedPreview">
+                                <div class="ms-showcase-bg"
+                                    :style="{ backgroundImage: 'url(' + selectedPreview.img + ')' }">
+                                    <div class="ms-showcase-vignette"></div>
+                                </div>
+
+                                <div class="ms-showcase-content">
+                                    <div class="ms-badge-group">
+                                        <span class="ms-badge-premium">{{ selectedPreview.type }}</span>
+                                        <span class="ms-badge-outline">{{ selectedPreview.year }}</span>
+                                    </div>
+                                    <h2 class="ms-showcase-title">{{ selectedPreview.title }}</h2>
+                                    <p class="ms-showcase-summary">{{ selectedPreview.desc }}</p>
+
+                                    <div class="ms-showcase-actions">
+                                        <button class="ms-btn-prime" @click="handlePreviewClick(selectedPreview)">
+                                            VIEW DETAILS <i class="fa fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </transition>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <section id="ms-home-wrapper" class="p-0 overflow-hidden">
         <div id="ms-main-slider-container" class="swiper m-0 p-0">
@@ -499,7 +611,9 @@ function initGameSlider() {
                                         class="ms-btn-action ms-btn-orange">
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
-                                    <a href="#" class="ms-btn-link">See more details</a>
+                                    <a href="javascript:void(0)"
+                                        onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...', 'Justin Lin', 'Vin Diesel, John Cena', '2021', '/images/cars/gallery/fast.jpg')"
+                                        class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
                         </div>
@@ -532,18 +646,140 @@ function initGameSlider() {
                                         class="ms-btn-action ms-btn-orange">
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
-                                    <a href="#" class="ms-btn-link">See More Details</a>
+                                    <a href="javascript:void(0)"
+                                        onclick="openViewMore('Ford v Ferrari', 'Carroll Shelby and Ken Miles battle...', 'James Mangold', 'Matt Damon, Christian Bale', '2019', '/images/cars/gallery/fordvsferrari.jpg')"
+                                        class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+
+
+                <div class="swiper-slide ms-slide ms-bg-3">
+                    <div class="ms-vignette"></div>
+                    <div class="container-fluid ms-content-container">
+                        <div class="row align-items-center h-100">
+                            <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
+                                <h1 class="ms-big-title">F1 (Apex)</h1>
+                                <div class="ms-meta-bar">
+                                    <div class="ms-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                    </div>
+                                    <span class="ms-rating-text">New Release</span>
+                                    <span class="ms-badge">PG-13</span>
+                                    <span class="ms-duration">2h 15min</span>
+                                </div>
+                                <p class="ms-description">A retired driver returns to the grid to mentor a young
+                                    prodigy, chasing glory in the high-stakes world of Formula 1.</p>
+                                <div class="ms-info-tags">
+                                    <div class="ms-tag"><span>Genre:</span> Action, Racing</div>
+                                    <div class="ms-tag"><span>Tags:</span> Open-Wheel, Apex</div>
+                                </div>
+                                <div class="ms-button-group">
+                                    <a href="javascript:void(0)" onclick="openLocalTrailer('/video/trailerformula.mp4')"
+                                        class="ms-btn-action ms-btn-orange">
+                                        <i class="fa fa-play me-2"></i>Watch Trailer
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                        onclick="openViewMore('F1 (Apex)', 'A retired driver returns to the grid...', 'Joseph Kosinski', 'Brad Pitt, Damson Idris', '2025', '/images/cars/gallery/f1themovie.jpg')"
+                                        class="ms-btn-link">See more details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide ms-slide ms-bg-4">
+                    <div class="ms-vignette"></div>
+                    <div class="container-fluid ms-content-container">
+                        <div class="row align-items-center h-100">
+                            <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
+                                <h1 class="ms-big-title">Cars</h1>
+                                <div class="ms-meta-bar">
+                                    <div class="ms-stars text-warning"><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                                    <span class="ms-rating-text">7.2 (IMDb)</span>
+                                    <span class="ms-badge">All Ages</span>
+                                    <span class="ms-duration">1h 57min</span>
+                                </div>
+                                <p class="ms-description">Hotshot rookie race car Lightning McQueen gets lost in
+                                    Radiator Springs, where he finds the true meaning of friendship and family.</p>
+                                <div class="ms-info-tags">
+                                    <div class="ms-tag"><span>Genre:</span> Animation, Comedy</div>
+                                    <div class="ms-tag"><span>Tags:</span> Piston Cup, Classics</div>
+                                </div>
+                                <div class="ms-button-group">
+                                    <a href="javascript:void(0)" onclick="openLocalTrailer('/video/carstrailer.mp4')"
+                                        class="ms-btn-action ms-btn-orange">
+                                        <i class="fa fa-play me-2"></i>Watch Trailer
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                        onclick="openViewMore('Cars', 'Hotshot rookie Lightning McQueen gets lost...', 'John Lasseter', 'Owen Wilson, Paul Newman', '2006', '/images/cars/gallery/cars.jpg')"
+                                        class="ms-btn-link">See more details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
             <div class="slick-prev swiper-button-prev"></div>
             <div class="slick-next swiper-button-next"></div>
         </div>
     </section>
+
+
+
+
+
+
+
+
+
+
+
+    <div class="modal fade" id="modal-img-viewmore" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content ms-modal-dark">
+
+                <div class="ms-movie-banner" id="viewMoreBanner">
+                    <div class="ms-banner-overlay"></div>
+
+                </div>
+
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h2 id="viewMoreTitle" class="ms-movie-title"></h2>
+                        <span id="viewMoreYear" class="ms-year-tag"></span>
+                    </div>
+
+                    <div class="ms-movie-metadata mb-4">
+                        <div class="ms-meta-pill">Director: <span id="viewMoreDirector"></span></div>
+                        <div class="ms-meta-pill">Cast: <span id="viewMoreCast"></span></div>
+                    </div>
+
+                    <div class="ms-divider"></div>
+
+                    <h5 class="ms-section-label">Synopsis</h5>
+                    <p id="viewMoreDesc" class="ms-movie-desc"></p>
+                </div>
+
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="ms-btn-secondary w-100" data-bs-dismiss="modal">CERRAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
 
     <div class="modal fade" id="trailerModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -690,9 +926,9 @@ function initGameSlider() {
     <section class="mega-swiper-games-section">
         <div class="mega-swiper-container">
             <div class="section-title-wrapper">
-                <h2 class="mega-swiper-section-title">Nuestros Juegos Favoritos</h2>
-                <p class="mega-swiper-section-subtitle">Descubre los títulos más icónicos y aclamados de la historia.
-                </p>
+                <h2 class="mega-swiper-section-title">Our Favorite Games</h2>
+                <p class="mega-swiper-section-subtitle">Discover the most iconic and acclamated titles in racing
+                    history.</p>
             </div>
 
             <div class="mega-swiper-slider-wrapper swiper-container">
@@ -702,7 +938,7 @@ function initGameSlider() {
                         <img src="../../img/gallery/dir1xbox.png" alt="Dirt 1" class="mega-swiper-game-image">
                         <div class="mega-swiper-game-overlay">
                             <h3 class="mega-swiper-game-title">Dirt </h3>
-                            <p class="mega-swiper-game-genre">Aventura, Acción</p>
+                            <p class="mega-swiper-game-genre">Adventure, Action</p>
                         </div>
                     </div>
 
@@ -711,7 +947,7 @@ function initGameSlider() {
                             class="mega-swiper-game-image">
                         <div class="mega-swiper-game-overlay">
                             <h3 class="mega-swiper-game-title">Gran Turismo </h3>
-                            <p class="mega-swiper-game-genre">Acción, Carrera</p>
+                            <p class="mega-swiper-game-genre">Action, Racing</p>
                         </div>
                     </div>
 
@@ -719,15 +955,15 @@ function initGameSlider() {
                         <img src="../../img/gallery/dirt5xbox.jpg" alt="Dirt 5" class="mega-swiper-game-image">
                         <div class="mega-swiper-game-overlay">
                             <h3 class="mega-swiper-game-title">Dirt </h3>
-                            <p class="mega-swiper-game-genre">Acción, Aventura</p>
+                            <p class="mega-swiper-game-genre">Action, Adventure</p>
                         </div>
                     </div>
 
                     <div class="swiper-slide mega-swiper-game-card">
-                        <img src="../../img/gallery/motogp14.png" alt="MotoGP14" class="mega-swiper-game-image">
+                        <img src="../../img/gallery/motogp14.png" alt="MotoGP 14" class="mega-swiper-game-image">
                         <div class="mega-swiper-game-overlay">
                             <h3 class="mega-swiper-game-title">MotoGP </h3>
-                            <p class="mega-swiper-game-genre">Aventura, Western</p>
+                            <p class="mega-swiper-game-genre">Simulation, Western</p>
                         </div>
                     </div>
 
@@ -736,15 +972,15 @@ function initGameSlider() {
                             class="mega-swiper-game-image">
                         <div class="mega-swiper-game-overlay">
                             <h3 class="mega-swiper-game-title">The Crew</h3>
-                            <p class="mega-swiper-game-genre">Aventura, Acción</p>
+                            <p class="mega-swiper-game-genre">Adventure, Action</p>
                         </div>
                     </div>
 
                     <div class="swiper-slide mega-swiper-game-card">
-                        <img src="../../img/gallery/motogp08.png" alt="Motogp" class="mega-swiper-game-image">
+                        <img src="../../img/gallery/motogp08.png" alt="MotoGP" class="mega-swiper-game-image">
                         <div class="mega-swiper-game-overlay">
                             <h3 class="mega-swiper-game-title">MotoGP</h3>
-                            <p class="mega-swiper-game-genre">Aventura, Acción</p>
+                            <p class="mega-swiper-game-genre">Adventure, Action</p>
                         </div>
                     </div>
 
@@ -753,7 +989,7 @@ function initGameSlider() {
                             class="mega-swiper-game-image">
                         <div class="mega-swiper-game-overlay">
                             <h3 class="mega-swiper-game-title">The Crew Motorfest</h3>
-                            <p class="mega-swiper-game-genre">Aventura, Acción</p>
+                            <p class="mega-swiper-game-genre">Adventure, Action</p>
                         </div>
                     </div>
 

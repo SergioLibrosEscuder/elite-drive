@@ -1,11 +1,18 @@
+<!-- Guillermo Soto ============================================================================= -->
+
 <script setup>
     import { ref, onMounted, onUnmounted } from "vue";
 
     const props = defineProps({
-        images: Array
+        images: {
+            type: Array,
+            required: true,
+            default: () => []
+        }
     });
 
-    const currentIndex = ref(Math.floor(Math.random() * props.images.length)); // Empezar en una foto aleatoria
+    // Random image start
+    const currentIndex = ref(Math.floor(Math.random() * props.images.length));
     let timeoutId = null;
 
     const getRandomInterval = () => Math.random() * (8000 - 4000) + 4000;
@@ -20,7 +27,7 @@
     };
 
     onMounted(() => {
-        // Start carousel after first display
+        // Start carousel whith random delay
         timeoutId = setTimeout(playCarousel, Math.random() * 3000);
         console.log("Cargado")
     });
