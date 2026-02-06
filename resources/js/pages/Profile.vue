@@ -1,7 +1,12 @@
 <script setup>
 
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, nextTick } from 'vue';
 import axios from 'axios';
+import { useToast } from '../composables/useToast';
+import { useRoute } from 'vue-router'
+
+const toast = useToast();
+const route = useRoute();
 
 // USER DATA DISPLAY FUNCTIONS ======================================================================
 
@@ -25,28 +30,35 @@ onMounted(async () => {
         Object.assign(user, response.data);
         const reservationsResponse = await axios.get('/user/reservations');
         reservations.value = reservationsResponse.data;
+
+        nextTick(() => {
+            if (route.hash) {
+                document.querySelector(route.hash)?.scrollIntoView({ behavior: 'smooth' })
+            }
+        })
     } catch (error) {
         console.error("Error loading profile", error);
     }
 });
+
 
 // SAVE PROFILE ============================================
 const saveProfile = async () => {
     try {
         await axios.put('/user/profile', user);
         isEditing.value = false;
-        alert("Profile updated!");
-    } catch (e) { alert("Error updating profile"); }
+        toast.info("Profile updated!", "Profile info");
+    } catch (e) { toast.error("Error updating profile", "Profile Error"); }
 };
 
 // CHANGE PASSWORD =========================================
 const changePassword = async () => {
     try {
         await axios.put('/user/password', passForm);
-        alert("Password updated!");
+        toast.info("Password updated!", "Password Info");
         showPasswordSection.value = false;
         passForm.current_password = ''; passForm.password = ''; passForm.password_confirmation = '';
-    } catch (e) { alert("Error: Check current password or confirmation"); }
+    } catch (e) { toast.error("Error: Check current password or confirmation", "Password Error"); }
 };
 
 const completeReservation = async (reservationId) => {
@@ -54,9 +66,9 @@ const completeReservation = async (reservationId) => {
         await axios.put(`/reservations/${reservationId}/confirm`);
         const reservation = reservations.value.find(r => r.id === reservationId);
         if (reservation) reservation.status = 'confirmed';
-        alert("Reservation confirmed!");
+        toast.success("Reservation confirmed!", "Reservation Info");
     } catch (e) {
-        alert("Error confirming reservation");
+        toast.error("Error confirming reservation", "Reservation Error");
     }
 };
 
@@ -65,9 +77,9 @@ const cancelReservation = async (reservationId) => {
         await axios.put(`/reservations/${reservationId}/cancel`);
         const reservation = reservations.value.find(r => r.id === reservationId);
         if (reservation) reservation.status = 'cancelled';
-        alert("Reservation cancelled!");
+        toast.success("Reservation cancelled!", "Reservation Info");
     } catch (e) {
-        alert("Error cancelling reservation");
+        toast.error("Error cancelling reservation", "Reservation Error");
     }
 };
 
@@ -194,7 +206,7 @@ const cancelReservation = async (reservationId) => {
 
     <!-- RESERVATIONS DISPLAY ======================================================================= -->
 
-    <div class="container">
+    <div class="container" id="reservation-list">
 
         <!-- HEADER ========================================================== -->
 

@@ -1,5 +1,8 @@
 <script setup>
 import { onMounted } from 'vue';
+import { useToast } from '../composables/useToast';
+
+const toast = useToast();
 import { ref, computed } from 'vue';
 
 
@@ -9,30 +12,30 @@ const activeIndex = ref(0); // Para navegar por los resultados
 
 // Base de datos de TODO tu contenido de Gallery.vue
 const galleryStore = [
-  { type: 'Movie', title: 'Fast & Furious 9', year: '2021', info: '2h 23m', img: '/images/cars/gallery/fast.jpg', desc: 'Dom Toretto lleva una vida tranquila...', director: 'Justin Lin' },
-  { type: 'Movie', title: 'Ford v Ferrari', year: '2019', info: '2h 32m', img: '/images/cars/gallery/fordvsferrari.jpg', desc: 'El visionario Carroll Shelby y Ken Miles...', director: 'James Mangold' },
-  { type: 'Game', title: 'Forza Horizon 5', year: '2021', info: 'Racing', img: '/images/cars/gallery/forzahorizon5.jpeg', desc: 'Explora los paisajes de México.' },
+    { type: 'Movie', title: 'Fast & Furious 9', year: '2021', info: '2h 23m', img: '/images/cars/gallery/fast.jpg', desc: 'Dom Toretto lleva una vida tranquila...', director: 'Justin Lin' },
+    { type: 'Movie', title: 'Ford v Ferrari', year: '2019', info: '2h 32m', img: '/images/cars/gallery/fordvsferrari.jpg', desc: 'El visionario Carroll Shelby y Ken Miles...', director: 'James Mangold' },
+    { type: 'Game', title: 'Forza Horizon 5', year: '2021', info: 'Racing', img: '/images/cars/gallery/forzahorizon5.jpeg', desc: 'Explora los paisajes de México.' },
     { type: 'Juego', title: 'Need for Speed Unbound', year: '2022', info: 'Street Race', img: '/images/cars/gallery/nfsUnbound.jpg', desc: 'Estilo graffiti y persecuciones policiales en Lakeshore.' },
-  { type: 'Juego', title: 'Assetto Corsa Competizione', year: '2019', info: 'GT3 Sim', img: '/images/cars/gallery/assettocorsa.jpeg', desc: 'La competición oficial de Blancpain GT Series en tu casa.' },
-  { type: 'Juego', title: 'Dirt1', year: '2011', info: 'Carrera', img: '/images/cars/gallery/Dirt1.jpg', desc: 'Dom Toretto protege a su familia de un pasado letal.' },
-  { type: 'Juego', title: 'Gran Turismo', year: '2023', info: 'Biopic / Motor', img: '/images/cars/gallery/granturismo.jpg', desc: 'De jugador a piloto profesional en una historia real increíble.' },
-  { type: 'Juego', title: 'Need for Speed', year: '2014', info: 'Acción / Carrera', img: '/images/cars/gallery/needforspeed.jpeg', desc: 'Una carrera a través del país por la justicia y la velocidad.' },
-  { type: 'Juego', title: 'Dirt5', year: '2020', info: 'Acción / Carrera', img: '/images/cars/gallery/Dirt5.jpg', desc: 'Una carrera a través del país por la justicia y la velocidad.' }
+    { type: 'Juego', title: 'Assetto Corsa Competizione', year: '2019', info: 'GT3 Sim', img: '/images/cars/gallery/assettocorsa.jpeg', desc: 'La competición oficial de Blancpain GT Series en tu casa.' },
+    { type: 'Juego', title: 'Dirt1', year: '2011', info: 'Carrera', img: '/images/cars/gallery/Dirt1.jpg', desc: 'Dom Toretto protege a su familia de un pasado letal.' },
+    { type: 'Juego', title: 'Gran Turismo', year: '2023', info: 'Biopic / Motor', img: '/images/cars/gallery/granturismo.jpg', desc: 'De jugador a piloto profesional en una historia real increíble.' },
+    { type: 'Juego', title: 'Need for Speed', year: '2014', info: 'Acción / Carrera', img: '/images/cars/gallery/needforspeed.jpeg', desc: 'Una carrera a través del país por la justicia y la velocidad.' },
+    { type: 'Juego', title: 'Dirt5', year: '2020', info: 'Acción / Carrera', img: '/images/cars/gallery/Dirt5.jpg', desc: 'Una carrera a través del país por la justicia y la velocidad.' }
 
 ];
-  
+
 
 // Filtrado en tiempo real
 const searchResults = computed(() => {
-  if (!searchQuery.value) return [];
-  return galleryStore.filter(item => 
-    item.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+    if (!searchQuery.value) return [];
+    return galleryStore.filter(item =>
+        item.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
 });
 
 // El objeto que se muestra a la derecha (el primero de la lista de búsqueda)
 const selectedPreview = computed(() => {
-  return searchResults.value.length > 0 ? searchResults.value[activeIndex.value] : null;
+    return searchResults.value.length > 0 ? searchResults.value[activeIndex.value] : null;
 });
 
 
@@ -116,14 +119,14 @@ function initVerticalSync() {
     const dynamicBg = document.getElementById('dynamic-bg');
     const previewTitle = document.getElementById('preview-title');
     const previewDesc = document.getElementById('preview-desc');
-    
+
     let currentIndex = 0;
     let autoInterval;
 
     const update = (index) => {
         const activeItem = menuItems[index];
         if (!activeItem || !dynamicBg) return;
-        
+
         menuItems.forEach(item => item.classList.remove('active'));
         activeItem.classList.add('active');
 
@@ -146,7 +149,7 @@ function initVerticalSync() {
             dynamicBg.style.backgroundImage = `url('${bg}')`;
             if (previewTitle) previewTitle.innerText = activeItem.getAttribute('data-title');
             if (previewDesc) previewDesc.innerText = activeItem.getAttribute('data-desc');
-            dynamicBg.style.opacity = '0.6'; 
+            dynamicBg.style.opacity = '0.6';
             if (previewTitle) previewTitle.style.opacity = '1';
             if (previewDesc) previewDesc.style.opacity = '1';
         }, 400);
@@ -179,7 +182,7 @@ function renderVehicles(data) {
     const gridContainer = document.getElementById('inventory-grid');
     if (!gridContainer) return;
 
-    gridContainer.innerHTML = ''; 
+    gridContainer.innerHTML = '';
     data.forEach(item => {
         const cardCol = document.createElement('div');
         cardCol.className = 'col-md-6 col-lg-4 mb-4';
@@ -201,16 +204,16 @@ function renderVehicles(data) {
 window.abrirModal = (id) => {
     const v = carData.find(v => v.id === id);
     if (!v || !carModal) return;
-    
+
     currentVehicle = v; // IMPORTANTE: Guardamos el vehículo actual para el PDF
 
     document.getElementById('modalTitle').innerText = v.model;
     document.getElementById('modalImage').src = v.image;
     document.getElementById('modalDesc').innerText = v.desc;
-    
+
     const catBadge = document.getElementById('modalCategory');
-    if(catBadge) catBadge.innerText = v.type === 'coche' ? 'Coche' : 'Moto';
-    
+    if (catBadge) catBadge.innerText = v.type === 'coche' ? 'Coche' : 'Moto';
+
     const specsContainer = document.getElementById('modalSpecs');
     specsContainer.innerHTML = v.specs.map(spec => `
         <div class="col-6 col-md-3">
@@ -220,7 +223,7 @@ window.abrirModal = (id) => {
             </div>
         </div>
     `).join('');
-    
+
     carModal.show();
 };
 
@@ -257,9 +260,9 @@ onMounted(() => {
     // 3. Inicializar Slider de Videojuegos (Legendary Video Games)
     if (document.querySelector('.game-carousel-container')) {
         new Swiper('.game-carousel-container', {
-            slidesPerView: 1,      
-            spaceBetween: 30,      
-            loop: true,            
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
             speed: 800,
             autoplay: {
                 delay: 3000,
@@ -273,7 +276,7 @@ onMounted(() => {
         });
     }
 
-   
+
     // 6. Listener Global para botones de Descarga PDF
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('#btnDescargarPDF');
@@ -292,15 +295,15 @@ onMounted(() => {
     initVerticalSync();
     if (typeof initSwiperSliders === 'function') initSwiperSliders();
     if (typeof initParallax === 'function') initParallax();
-    
+
     // 9. Gestión de Videos de Trailers (Cierre Limpio)
     const trailerModal = document.getElementById('trailerModal');
     if (trailerModal) {
         trailerModal.addEventListener('hidden.bs.modal', () => {
             const video = document.getElementById('ms-video-player');
-            if(video) { 
-                video.pause(); 
-                video.src = ""; 
+            if (video) {
+                video.pause();
+                video.src = "";
             }
         });
     }
@@ -310,10 +313,10 @@ onMounted(() => {
     const megaSwiperGames = document.querySelector('.mega-swiper-slider-wrapper');
     if (megaSwiperGames) {
         new Swiper('.mega-swiper-slider-wrapper', {
-            slidesPerView: 'auto', 
-            spaceBetween: 25,      
-            loop: true,            
-            centeredSlides: false, 
+            slidesPerView: 'auto',
+            spaceBetween: 25,
+            loop: true,
+            centeredSlides: false,
             speed: 800,
             autoplay: {
                 delay: 4500,
@@ -403,8 +406,8 @@ const descargarTicketReserva = (e) => {
     const formModalEl = document.getElementById('reservaFormModal');
     const modalForm = bootstrap.Modal.getInstance(formModalEl);
     if (modalForm) modalForm.hide();
-    
-    alert("¡Reserva confirmada! Tu ticket se ha generado.");
+
+    toast.info("¡Reserva confirmada! Tu ticket se ha generado.", "Reservation Confirmed");
 };
 
 /* =========================================
@@ -441,7 +444,7 @@ function initMainSlider() {
 window.openLocalTrailer = (videoPath) => {
     const modalElement = document.getElementById('trailerModal');
     const videoPlayer = document.getElementById('ms-video-player');
-    
+
     if (modalElement && videoPlayer) {
         videoPlayer.src = videoPath;
         const modal = new bootstrap.Modal(modalElement);
@@ -487,7 +490,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
     document.getElementById('viewMoreDirector').innerText = director;
     document.getElementById('viewMoreCast').innerText = cast;
     document.getElementById('viewMoreYear').innerText = year;
-    
+
     // 2. Aplicar la imagen al fondo del banner
     const banner = document.getElementById('viewMoreBanner');
     if (banner) {
@@ -514,274 +517,286 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
 
 
 
-<div class="ms-search-premium-hub">
-  <div class="container">
-    <div class="ms-search-input-box">
-      <div class="ms-search-field">
-        <i class="fa fa-search ms-search-icon"></i>
-        <input 
-          type="text" 
-          v-model="searchQuery" 
-          placeholder="EXPLORE THE COLLECTION..." 
-          @input="activeIndex = 0"
-        >
-        <button v-if="searchQuery" @click="searchQuery = ''" class="ms-search-close-btn">
-          <i class="fa fa-times"></i>
-        </button>
-        <div class="ms-search-progress-bar"></div>
-      </div>
-
-      <transition name="search-slide">
-        <div v-if="searchQuery && searchResults.length > 0" class="ms-search-panel-glass">
-          <div class="ms-panel-layout">
-            
-            <div class="ms-results-sidebar">
-              <div class="ms-sidebar-header">MATCHES FOUND</div>
-              <div class="ms-scroll-area">
-                <div 
-                  v-for="(res, index) in searchResults" 
-                  :key="index" 
-                  class="ms-nav-item" 
-                  :class="{ 'is-selected': activeIndex === index }"
-                  @mouseover="activeIndex = index"
-                >
-                  <div class="ms-item-indicator"></div>
-                  <div class="ms-item-info">
-                    <span class="ms-item-cat">{{ res.type }}</span>
-                    <span class="ms-item-name">{{ res.title }}</span>
-                  </div>
+    <div class="ms-search-premium-hub">
+        <div class="container">
+            <div class="ms-search-input-box">
+                <div class="ms-search-field">
+                    <i class="fa fa-search ms-search-icon"></i>
+                    <input type="text" v-model="searchQuery" placeholder="EXPLORE THE COLLECTION..."
+                        @input="activeIndex = 0">
+                    <button v-if="searchQuery" @click="searchQuery = ''" class="ms-search-close-btn">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <div class="ms-search-progress-bar"></div>
                 </div>
-              </div>
+
+                <transition name="search-slide">
+                    <div v-if="searchQuery && searchResults.length > 0" class="ms-search-panel-glass">
+                        <div class="ms-panel-layout">
+
+                            <div class="ms-results-sidebar">
+                                <div class="ms-sidebar-header">MATCHES FOUND</div>
+                                <div class="ms-scroll-area">
+                                    <div v-for="(res, index) in searchResults" :key="index" class="ms-nav-item"
+                                        :class="{ 'is-selected': activeIndex === index }"
+                                        @mouseover="activeIndex = index">
+                                        <div class="ms-item-indicator"></div>
+                                        <div class="ms-item-info">
+                                            <span class="ms-item-cat">{{ res.type }}</span>
+                                            <span class="ms-item-name">{{ res.title }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ms-preview-showcase" v-if="selectedPreview">
+                                <div class="ms-showcase-bg"
+                                    :style="{ backgroundImage: 'url(' + selectedPreview.img + ')' }">
+                                    <div class="ms-showcase-vignette"></div>
+                                </div>
+
+                                <div class="ms-showcase-content">
+                                    <div class="ms-badge-group">
+                                        <span class="ms-badge-premium">{{ selectedPreview.type }}</span>
+                                        <span class="ms-badge-outline">{{ selectedPreview.year }}</span>
+                                    </div>
+                                    <h2 class="ms-showcase-title">{{ selectedPreview.title }}</h2>
+                                    <p class="ms-showcase-summary">{{ selectedPreview.desc }}</p>
+
+                                    <div class="ms-showcase-actions">
+                                        <button class="ms-btn-prime" @click="handlePreviewClick(selectedPreview)">
+                                            VIEW DETAILS <i class="fa fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </transition>
             </div>
-
-            <div class="ms-preview-showcase" v-if="selectedPreview">
-              <div class="ms-showcase-bg" :style="{ backgroundImage: 'url(' + selectedPreview.img + ')' }">
-                <div class="ms-showcase-vignette"></div>
-              </div>
-              
-              <div class="ms-showcase-content">
-                <div class="ms-badge-group">
-                  <span class="ms-badge-premium">{{ selectedPreview.type }}</span>
-                  <span class="ms-badge-outline">{{ selectedPreview.year }}</span>
-                </div>
-                <h2 class="ms-showcase-title">{{ selectedPreview.title }}</h2>
-                <p class="ms-showcase-summary">{{ selectedPreview.desc }}</p>
-                
-                <div class="ms-showcase-actions">
-                  <button class="ms-btn-prime" @click="handlePreviewClick(selectedPreview)">
-                    VIEW DETAILS <i class="fa fa-chevron-right"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-          </div>
         </div>
-      </transition>
     </div>
-  </div>
-</div>
 
 
 
 
-<section id="ms-home-wrapper" class="p-0 overflow-hidden">
-    <div id="ms-main-slider-container" class="swiper m-0 p-0">
-        
-        <div class="swiper-wrapper">
-            
-            <div class="swiper-slide ms-slide ms-bg-1">
-                <div class="ms-vignette"></div>
-                <div class="container-fluid ms-content-container">
-                    <div class="row align-items-center h-100">
-                        <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
-                            <h1 class="ms-big-title">Fast & Furious 9</h1>
-                            <div class="ms-meta-bar">
-                                <div class="ms-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half"></i></div>
-                                <span class="ms-rating-text">5.2 (IMDb)</span>
-                                <span class="ms-badge">PG-13</span>
-                                <span class="ms-duration">2h 23min</span>
-                            </div>
-                            <p class="ms-description">Dom Toretto is living a quiet life, but he knows that danger always lurks. This time, the threat will force Dom to face the sins of his past.</p>
-                            <div class="ms-info-tags">
-                                <div class="ms-tag"><span>Genre:</span> Action, Motor</div>
-                                <div class="ms-tag"><span>Tags:</span> Muscle Cars, Speed</div>
-                            </div>
-                            <div class="ms-button-group">
-                                <a href="javascript:void(0)" onclick="openLocalTrailer('/video/fastandfourius.mp4')" class="ms-btn-action ms-btn-orange">
-                                    <i class="fa fa-play me-2"></i>Watch Trailer
-                                </a>
-                         <a href="javascript:void(0)" 
-onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...', 'Justin Lin', 'Vin Diesel, John Cena', '2021', '/images/cars/gallery/fast.jpg')"   class="ms-btn-link">See more details</a>
+    <section id="ms-home-wrapper" class="p-0 overflow-hidden">
+        <div id="ms-main-slider-container" class="swiper m-0 p-0">
+
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide ms-slide ms-bg-1">
+                    <div class="ms-vignette"></div>
+                    <div class="container-fluid ms-content-container">
+                        <div class="row align-items-center h-100">
+                            <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
+                                <h1 class="ms-big-title">Fast & Furious 9</h1>
+                                <div class="ms-meta-bar">
+                                    <div class="ms-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                            class="fa fa-star-half"></i></div>
+                                    <span class="ms-rating-text">5.2 (IMDb)</span>
+                                    <span class="ms-badge">PG-13</span>
+                                    <span class="ms-duration">2h 23min</span>
+                                </div>
+                                <p class="ms-description">Dom Toretto is living a quiet life, but he knows that danger
+                                    always lurks. This time, the threat will force Dom to face the sins of his past.</p>
+                                <div class="ms-info-tags">
+                                    <div class="ms-tag"><span>Genre:</span> Action, Motor</div>
+                                    <div class="ms-tag"><span>Tags:</span> Muscle Cars, Speed</div>
+                                </div>
+                                <div class="ms-button-group">
+                                    <a href="javascript:void(0)" onclick="openLocalTrailer('/video/fastandfourius.mp4')"
+                                        class="ms-btn-action ms-btn-orange">
+                                        <i class="fa fa-play me-2"></i>Watch Trailer
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                        onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...', 'Justin Lin', 'Vin Diesel, John Cena', '2021', '/images/cars/gallery/fast.jpg')"
+                                        class="ms-btn-link">See more details</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="swiper-slide ms-slide ms-bg-2">
-                <div class="ms-vignette"></div>
-                <div class="container-fluid ms-content-container">
-                    <div class="row align-items-center h-100">
-                        <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
-                            <h1 class="ms-big-title">Ford v Ferrari</h1>
-                            <div class="ms-meta-bar">
-                                <div class="ms-stars text-danger"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                                <span class="ms-rating-text">8.1 (IMDb)</span>
-                                <span class="ms-badge">PG-13</span>
-                                <span class="ms-duration">2h 32min</span>
-                            </div>
-                            <p class="ms-description">Carroll Shelby and Ken Miles battle corporate interference to build a revolutionary race car for Ford.</p>
-                            <div class="ms-info-tags">
-                                <div class="ms-tag"><span>Genre:</span> Drama, Biographic</div>
-                                <div class="ms-tag"><span>Tags:</span> Classics, Engineering</div>
-                            </div>
-                            <div class="ms-button-group">
-                                <a href="javascript:void(0)" onclick="openLocalTrailer('/video/trailerfordvsferrari.mp4')" class="ms-btn-action ms-btn-orange">
-                                    <i class="fa fa-play me-2"></i>Watch Trailer
-                                </a>
-                             <a href="javascript:void(0)" 
-   onclick="openViewMore('Ford v Ferrari', 'Carroll Shelby and Ken Miles battle...', 'James Mangold', 'Matt Damon, Christian Bale', '2019', '/images/cars/gallery/fordvsferrari.jpg')" 
-   class="ms-btn-link">See more details</a>
+                <div class="swiper-slide ms-slide ms-bg-2">
+                    <div class="ms-vignette"></div>
+                    <div class="container-fluid ms-content-container">
+                        <div class="row align-items-center h-100">
+                            <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
+                                <h1 class="ms-big-title">Ford v Ferrari</h1>
+                                <div class="ms-meta-bar">
+                                    <div class="ms-stars text-danger"><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                                    <span class="ms-rating-text">8.1 (IMDb)</span>
+                                    <span class="ms-badge">PG-13</span>
+                                    <span class="ms-duration">2h 32min</span>
+                                </div>
+                                <p class="ms-description">Carroll Shelby and Ken Miles battle corporate interference to
+                                    build a revolutionary race car for Ford.</p>
+                                <div class="ms-info-tags">
+                                    <div class="ms-tag"><span>Genre:</span> Drama, Biographic</div>
+                                    <div class="ms-tag"><span>Tags:</span> Classics, Engineering</div>
+                                </div>
+                                <div class="ms-button-group">
+                                    <a href="javascript:void(0)"
+                                        onclick="openLocalTrailer('/video/trailerfordvsferrari.mp4')"
+                                        class="ms-btn-action ms-btn-orange">
+                                        <i class="fa fa-play me-2"></i>Watch Trailer
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                        onclick="openViewMore('Ford v Ferrari', 'Carroll Shelby and Ken Miles battle...', 'James Mangold', 'Matt Damon, Christian Bale', '2019', '/images/cars/gallery/fordvsferrari.jpg')"
+                                        class="ms-btn-link">See more details</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+
+                <div class="swiper-slide ms-slide ms-bg-3">
+                    <div class="ms-vignette"></div>
+                    <div class="container-fluid ms-content-container">
+                        <div class="row align-items-center h-100">
+                            <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
+                                <h1 class="ms-big-title">F1 (Apex)</h1>
+                                <div class="ms-meta-bar">
+                                    <div class="ms-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                    </div>
+                                    <span class="ms-rating-text">New Release</span>
+                                    <span class="ms-badge">PG-13</span>
+                                    <span class="ms-duration">2h 15min</span>
+                                </div>
+                                <p class="ms-description">A retired driver returns to the grid to mentor a young
+                                    prodigy, chasing glory in the high-stakes world of Formula 1.</p>
+                                <div class="ms-info-tags">
+                                    <div class="ms-tag"><span>Genre:</span> Action, Racing</div>
+                                    <div class="ms-tag"><span>Tags:</span> Open-Wheel, Apex</div>
+                                </div>
+                                <div class="ms-button-group">
+                                    <a href="javascript:void(0)" onclick="openLocalTrailer('/video/trailerformula.mp4')"
+                                        class="ms-btn-action ms-btn-orange">
+                                        <i class="fa fa-play me-2"></i>Watch Trailer
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                        onclick="openViewMore('F1 (Apex)', 'A retired driver returns to the grid...', 'Joseph Kosinski', 'Brad Pitt, Damson Idris', '2025', '/images/cars/gallery/f1themovie.jpg')"
+                                        class="ms-btn-link">See more details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide ms-slide ms-bg-4">
+                    <div class="ms-vignette"></div>
+                    <div class="container-fluid ms-content-container">
+                        <div class="row align-items-center h-100">
+                            <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
+                                <h1 class="ms-big-title">Cars</h1>
+                                <div class="ms-meta-bar">
+                                    <div class="ms-stars text-warning"><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                            class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                                    <span class="ms-rating-text">7.2 (IMDb)</span>
+                                    <span class="ms-badge">All Ages</span>
+                                    <span class="ms-duration">1h 57min</span>
+                                </div>
+                                <p class="ms-description">Hotshot rookie race car Lightning McQueen gets lost in
+                                    Radiator Springs, where he finds the true meaning of friendship and family.</p>
+                                <div class="ms-info-tags">
+                                    <div class="ms-tag"><span>Genre:</span> Animation, Comedy</div>
+                                    <div class="ms-tag"><span>Tags:</span> Piston Cup, Classics</div>
+                                </div>
+                                <div class="ms-button-group">
+                                    <a href="javascript:void(0)" onclick="openLocalTrailer('/video/carstrailer.mp4')"
+                                        class="ms-btn-action ms-btn-orange">
+                                        <i class="fa fa-play me-2"></i>Watch Trailer
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                        onclick="openViewMore('Cars', 'Hotshot rookie Lightning McQueen gets lost...', 'John Lasseter', 'Owen Wilson, Paul Newman', '2006', '/images/cars/gallery/cars.jpg')"
+                                        class="ms-btn-link">See more details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
-
-
-
-<div class="swiper-slide ms-slide ms-bg-3">
-    <div class="ms-vignette"></div>
-    <div class="container-fluid ms-content-container">
-        <div class="row align-items-center h-100">
-            <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
-                <h1 class="ms-big-title">F1 (Apex)</h1>
-                <div class="ms-meta-bar">
-                    <div class="ms-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                    <span class="ms-rating-text">New Release</span>
-                    <span class="ms-badge">PG-13</span>
-                    <span class="ms-duration">2h 15min</span>
-                </div>
-                <p class="ms-description">A retired driver returns to the grid to mentor a young prodigy, chasing glory in the high-stakes world of Formula 1.</p>
-                <div class="ms-info-tags">
-                    <div class="ms-tag"><span>Genre:</span> Action, Racing</div>
-                    <div class="ms-tag"><span>Tags:</span> Open-Wheel, Apex</div>
-                </div>
-                <div class="ms-button-group">
-                    <a href="javascript:void(0)" onclick="openLocalTrailer('/video/trailerformula.mp4')" class="ms-btn-action ms-btn-orange">
-                        <i class="fa fa-play me-2"></i>Watch Trailer
-                    </a>
-                   <a href="javascript:void(0)" 
-   onclick="openViewMore('F1 (Apex)', 'A retired driver returns to the grid...', 'Joseph Kosinski', 'Brad Pitt, Damson Idris', '2025', '/images/cars/gallery/f1themovie.jpg')" 
-   class="ms-btn-link">See more details</a>
-                </div>
-            </div>
+            <div class="slick-prev swiper-button-prev"></div>
+            <div class="slick-next swiper-button-next"></div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="swiper-slide ms-slide ms-bg-4">
-    <div class="ms-vignette"></div>
-    <div class="container-fluid ms-content-container">
-        <div class="row align-items-center h-100">
-            <div class="col-xl-5 col-lg-8 col-md-10 ps-md-5">
-                <h1 class="ms-big-title">Cars</h1>
-                <div class="ms-meta-bar">
-                    <div class="ms-stars text-warning"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                    <span class="ms-rating-text">7.2 (IMDb)</span>
-                    <span class="ms-badge">All Ages</span>
-                    <span class="ms-duration">1h 57min</span>
+
+
+
+
+
+
+
+
+
+
+    <div class="modal fade" id="modal-img-viewmore" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content ms-modal-dark">
+
+                <div class="ms-movie-banner" id="viewMoreBanner">
+                    <div class="ms-banner-overlay"></div>
+
                 </div>
-                <p class="ms-description">Hotshot rookie race car Lightning McQueen gets lost in Radiator Springs, where he finds the true meaning of friendship and family.</p>
-                <div class="ms-info-tags">
-                    <div class="ms-tag"><span>Genre:</span> Animation, Comedy</div>
-                    <div class="ms-tag"><span>Tags:</span> Piston Cup, Classics</div>
+
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h2 id="viewMoreTitle" class="ms-movie-title"></h2>
+                        <span id="viewMoreYear" class="ms-year-tag"></span>
+                    </div>
+
+                    <div class="ms-movie-metadata mb-4">
+                        <div class="ms-meta-pill">Director: <span id="viewMoreDirector"></span></div>
+                        <div class="ms-meta-pill">Cast: <span id="viewMoreCast"></span></div>
+                    </div>
+
+                    <div class="ms-divider"></div>
+
+                    <h5 class="ms-section-label">Synopsis</h5>
+                    <p id="viewMoreDesc" class="ms-movie-desc"></p>
                 </div>
-                <div class="ms-button-group">
-                    <a href="javascript:void(0)" onclick="openLocalTrailer('/video/carstrailer.mp4')" class="ms-btn-action ms-btn-orange">
-                        <i class="fa fa-play me-2"></i>Watch Trailer
-                    </a>
-                   <a href="javascript:void(0)" 
-   onclick="openViewMore('Cars', 'Hotshot rookie Lightning McQueen gets lost...', 'John Lasseter', 'Owen Wilson, Paul Newman', '2006', '/images/cars/gallery/cars.jpg')" 
-   class="ms-btn-link">See more details</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-
-        </div> <div class="slick-prev swiper-button-prev"></div>
-        <div class="slick-next swiper-button-next"></div>
-    </div>
-</section>
-
-
-
-
-
-
-
-
-
-
-
-<div class="modal fade" id="modal-img-viewmore" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content ms-modal-dark">
-      
-      <div class="ms-movie-banner" id="viewMoreBanner">
-         <div class="ms-banner-overlay"></div>
-        
-      </div>
-
-      <div class="modal-body p-4">
-        <div class="d-flex justify-content-between align-items-start mb-2">
-            <h2 id="viewMoreTitle" class="ms-movie-title"></h2>
-            <span id="viewMoreYear" class="ms-year-tag"></span>
-        </div>
-        
-        <div class="ms-movie-metadata mb-4">
-            <div class="ms-meta-pill">Director: <span id="viewMoreDirector"></span></div>
-            <div class="ms-meta-pill">Cast: <span id="viewMoreCast"></span></div>
-        </div>
-        
-        <div class="ms-divider"></div>
-        
-        <h5 class="ms-section-label">Synopsis</h5>
-        <p id="viewMoreDesc" class="ms-movie-desc"></p>
-      </div>
-      
-      <div class="modal-footer border-0 p-4 pt-0">
-        <button type="button" class="ms-btn-secondary w-100" data-bs-dismiss="modal">CERRAR</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-<div class="modal fade" id="trailerModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content bg-black border-0" style="overflow: visible;">
-            <button type="button" class="ms-close-trailer-x" data-bs-dismiss="modal" aria-label="Close">
-                <i class="fa fa-times"></i>
-            </button>
-            <div class="modal-body p-0">
-                <div class="ratio ratio-16x9 bg-black">
-                    <video id="ms-video-player" controls playsinline>
-                        <source src="" type="video/mp4">
-                    </video>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="ms-btn-secondary w-100" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+
+
+
+
+
+
+    <div class="modal fade" id="trailerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content bg-black border-0" style="overflow: visible;">
+                <button type="button" class="ms-close-trailer-x" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+                <div class="modal-body p-0">
+                    <div class="ratio ratio-16x9 bg-black">
+                        <video id="ms-video-player" controls playsinline>
+                            <source src="" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <section class="brands-section py-5 bg-black overflow-hidden">
@@ -885,8 +900,8 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
                         </div>
                     </div>
 
+                    </div>
                 </div>
-            </div>
 
             <div class="col-lg-8 col-md-7 d-flex align-items-end pb-5">
                 <div class="active-info text-end w-100">
@@ -901,12 +916,13 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
 
 
 
-<section class="mega-swiper-games-section">
-  <div class="mega-swiper-container">
-    <div class="section-title-wrapper">
-      <h2 class="mega-swiper-section-title">Our Favorite Games</h2>
-      <p class="mega-swiper-section-subtitle">Discover the most iconic and acclaimed titles in racing history.</p>
-    </div>
+    <section class="mega-swiper-games-section">
+        <div class="mega-swiper-container">
+            <div class="section-title-wrapper">
+                <h2 class="mega-swiper-section-title">Our Favorite Games</h2>
+                <p class="mega-swiper-section-subtitle">Discover the most iconic and acclamated titles in racing
+                    history.</p>
+            </div>
 
     <div class="mega-swiper-slider-wrapper swiper-container">
       <div class="swiper-wrapper">
@@ -967,26 +983,26 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
           </div>
         </div>
 
-      </div> 
-      <div class="swiper-button-next mega-swiper-next-btn"></div>
-      <div class="swiper-button-prev mega-swiper-prev-btn"></div>
-    </div>
-  </div>
-</section>
+                </div>
+                <div class="swiper-button-next mega-swiper-next-btn"></div>
+                <div class="swiper-button-prev mega-swiper-prev-btn"></div>
+            </div>
+        </div>
+    </section>
 
 
 
 
 
 
-<section class="py-5 section-dark overflow-hidden">
-    <div class="container text-center mb-5">
-        <h2 class="ms-section-title">Legendary <span class="text-accent">Video Games</span></h2>
-        <div class="ms-title-divider mx-auto"></div>
-    </div>
+    <section class="py-5 section-dark overflow-hidden">
+        <div class="container text-center mb-5">
+            <h2 class="ms-section-title">Legendary <span class="text-accent">Video Games</span></h2>
+            <div class="ms-title-divider mx-auto"></div>
+        </div>
 
-    <div class="game-carousel-container swiper" id="game-swiper">
-        <div class="swiper-wrapper">
+        <div class="game-carousel-container swiper" id="game-swiper">
+            <div class="swiper-wrapper">
 
             <div class="swiper-slide game-card">
                 <div class="card-wrapper">
@@ -1023,24 +1039,25 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
                 </div>
             </div>
 
+            </div>
+            <div class="swiper-button-next" style="color: var(--accent-color)"></div>
+            <div class="swiper-button-prev" style="color: var(--accent-color)"></div>
         </div>
-        <div class="swiper-button-next" style="color: var(--accent-color)"></div>
-        <div class="swiper-button-prev" style="color: var(--accent-color)"></div>
-    </div>
-</section>
+    </section>
 
 
 
 
 
-<section class="parallax-trigger section-cars">
-    <div class="parallax-content">
-        <div class="container text-center">
-            <h2 class="display-4 fw-bold text-uppercase">Engineering <span class="text-accent">Without Limits</span></h2>
-            <p class="lead">Where performance meets automotive art.</p>
+    <section class="parallax-trigger section-cars">
+        <div class="parallax-content">
+            <div class="container text-center">
+                <h2 class="display-4 fw-bold text-uppercase">Engineering <span class="text-accent">Without Limits</span>
+                </h2>
+                <p class="lead">Where performance meets automotive art.</p>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 <section class="motorsport-section py-5">
     <div class="container">
@@ -1133,22 +1150,22 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
 
 
 
-<section class="parallax-trigger section-motos">
-    <div class="parallax-content">
-        <div class="container text-center">
-            <h2 class="display-4 fw-bold text-uppercase">Freedom on <span class="text-accent">Two Wheels</span></h2>
-            <p class="lead">Feel the road, master the curve, live the adrenaline.</p>
+    <section class="parallax-trigger section-motos">
+        <div class="parallax-content">
+            <div class="container text-center">
+                <h2 class="display-4 fw-bold text-uppercase">Freedom on <span class="text-accent">Two Wheels</span></h2>
+                <p class="lead">Feel the road, master the curve, live the adrenaline.</p>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
 
 
-<section class="motorsport-section py-5 rutas-moto-section">
-  <div class="container">
-    <div class="row align-items-center">
+    <section class="motorsport-section py-5 rutas-moto-section">
+        <div class="container">
+            <div class="row align-items-center">
 
       <div class="col-lg-6 mb-4 mb-lg-0">
         <div class="motorsport-img-container">
@@ -1156,25 +1173,27 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
         </div>
       </div>
 
-      <div class="col-lg-6 content-col">
-        <h4 class="text-accent text-uppercase ls-2">Routes</h4>
-        <h2 class="display-5 fw-bold text-white mb-4">Biker <br>Spirit</h2>
+                <div class="col-lg-6 content-col">
+                    <h4 class="text-accent text-uppercase ls-2">Routes</h4>
+                    <h2 class="display-5 fw-bold text-white mb-4">Biker <br>Spirit</h2>
 
-        <p class="text-gray">
-          If you love motorcycles, discover carefully selected routes to enjoy the road: panoramic landscapes, perfect curves and weekend getaways designed for the biker community.
-        </p>
+                    <p class="text-gray">
+                        If you love motorcycles, discover carefully selected routes to enjoy the road: panoramic
+                        landscapes, perfect curves and weekend getaways designed for the biker community.
+                    </p>
 
-        <ul class="list-unstyled text-white mt-4 custom-list">
-          <li><span class="bullet"></span> One-day routes: curves and viewpoints</li>
-          <li><span class="bullet"></span> Weekend getaways</li>
-          <li><span class="bullet"></span> Guided group routes</li>
-        </ul>
+                    <ul class="list-unstyled text-white mt-4 custom-list">
+                        <li><span class="bullet"></span> One-day routes: curves and viewpoints</li>
+                        <li><span class="bullet"></span> Weekend getaways</li>
+                        <li><span class="bullet"></span> Guided group routes</li>
+                    </ul>
 
-<a href="#" class="btn btn-outline-custom mt-3" data-bs-toggle="modal" data-bs-target="#rutasModal">
-View Routes</a>      </div>
-    </div>
-  </div>
-</section>
+                    <a href="#" class="btn btn-outline-custom mt-3" data-bs-toggle="modal" data-bs-target="#rutasModal">
+                        View Routes</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 
@@ -1314,47 +1333,48 @@ View Routes</a>      </div>
 
 
 
-<section class="parallax-trigger section-join-community">
-    <div class="parallax-overlay"></div>
-    <div class="parallax-content">
-        <div class="container text-center">
-            <h2 class="display-4 fw-bold text-uppercase">Join Our <span class="text-accent">Community</span></h2>
-            <p class="lead mb-4">Be part of an exclusive club where passion has no limits.</p>
-            <a href="../../js/pages/Contact.vue" class="btn btn-custom px-5">Register Now</a>
+    <section class="parallax-trigger section-join-community">
+        <div class="parallax-overlay"></div>
+        <div class="parallax-content">
+            <div class="container text-center">
+                <h2 class="display-4 fw-bold text-uppercase">Join Our <span class="text-accent">Community</span></h2>
+                <p class="lead mb-4">Be part of an exclusive club where passion has no limits.</p>
+                <a href="../../js/pages/Contact.vue" class="btn btn-custom px-5">Register Now</a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="motorsport-section py-5">
-</section>
-
+    <section class="motorsport-section py-5">
+    </section>
 
 
 
 
-<section class="motorsport-section py-5">
-  <div class="container">
-    <div class="row align-items-center">
 
-      <div class="col-lg-6 content-col mb-4 mb-lg-0">
-        <h4 class="text-accent text-uppercase ls-2">Community</h4>
-        <h2 class="display-5 fw-bold text-white mb-4">
-          Live the Route,<br>Don’t Just Ride It
-        </h2>
+    <section class="motorsport-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
 
-        <p class="text-gray">
-          Riding a motorcycle means sharing experiences. We organize rides, meetups and events for those who feel the road as part of their identity.
-        </p>
+                <div class="col-lg-6 content-col mb-4 mb-lg-0">
+                    <h4 class="text-accent text-uppercase ls-2">Community</h4>
+                    <h2 class="display-5 fw-bold text-white mb-4">
+                        Live the Route,<br>Don’t Just Ride It
+                    </h2>
 
-        <ul class="list-unstyled text-white mt-4 custom-list">
-          <li><span class="bullet"></span> Monthly group rides</li>
-          <li><span class="bullet"></span> Exclusive client events</li>
-          <li><span class="bullet"></span> Active biker community</li>
-        </ul>
+                    <p class="text-gray">
+                        Riding a motorcycle means sharing experiences. We organize rides, meetups and events for those
+                        who feel the road as part of their identity.
+                    </p>
 
-        
-        
-      </div>
+                    <ul class="list-unstyled text-white mt-4 custom-list">
+                        <li><span class="bullet"></span> Monthly group rides</li>
+                        <li><span class="bullet"></span> Exclusive client events</li>
+                        <li><span class="bullet"></span> Active biker community</li>
+                    </ul>
+
+
+
+                </div>
 
       <div class="col-lg-6">
         <div class="motorsport-img-container">
@@ -1364,37 +1384,37 @@ View Routes</a>      </div>
         </div>
       </div>
 
-    </div>
-  </div>
-</section>
+            </div>
+        </div>
+    </section>
 
 
 
 
 
-<section class="parallax-trigger section-news-banner">
-  <div class="parallax-content">
-    <div class="container text-center">
-      <h2 class="display-4 fw-bold text-uppercase">
-        Motorsport <span class="text-accent">News</span>
-      </h2>
-      <p class="lead">
-        News, events and updates from the world of motorsports
-      </p>
-    </div>
-  </div>
-</section>
+    <section class="parallax-trigger section-news-banner">
+        <div class="parallax-content">
+            <div class="container text-center">
+                <h2 class="display-4 fw-bold text-uppercase">
+                    Motorsport <span class="text-accent">News</span>
+                </h2>
+                <p class="lead">
+                    News, events and updates from the world of motorsports
+                </p>
+            </div>
+        </div>
+    </section>
 
-<section class="py-5 section-dark">
-  <div class="container">
+    <section class="py-5 section-dark">
+        <div class="container">
 
-    <div class="text-center mb-5">
-      <h3 class="text-uppercase fw-bold text-white">
-        Latest <span class="text-accent">News</span>
-      </h3>
-      <div class="divider mx-auto"></div>
-    </div>
-   <div class="row g-4">
+            <div class="text-center mb-5">
+                <h3 class="text-uppercase fw-bold text-white">
+                    Latest <span class="text-accent">News</span>
+                </h3>
+                <div class="divider mx-auto"></div>
+            </div>
+            <div class="row g-4">
 
   <!-- News 1 -->
   <div class="col-md-6 col-lg-4">
@@ -1453,62 +1473,62 @@ View Routes</a>      </div>
     </div>
   </div>
 
-</div>
-</div>
-</section>
+            </div>
+        </div>
+    </section>
 
 
-<div class="modal fade" id="carModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content bg-dark-custom text-white">
-      <div class="modal-header border-0">
-        <h5 class="modal-title text-uppercase fw-bold" id="modalTitle">Vehicle Name</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body p-0">
-        <div class="modal-img-container">
-          <img id="modalImage" src="" alt="Vehicle details" class="w-100">
+    <div class="modal fade" id="carModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark-custom text-white">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-uppercase fw-bold" id="modalTitle">Vehicle Name</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="modal-img-container">
+                        <img id="modalImage" src="" alt="Vehicle details" class="w-100">
+                    </div>
+                    <div class="p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-accent m-0">Specifications</h4>
+                            <span class="badge" id="modalCategory"
+                                style="background-color: var(--accent-color); color: black;">
+                                Category
+                            </span>
+                        </div>
+                        <div class="row g-3" id="modalSpecs"></div>
+                        <p class="mt-4 text-gray" id="modalDesc">Description...</p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-custom w-100">Request Test Drive</button>
+                </div>
+            </div>
         </div>
-        <div class="p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="text-accent m-0">Specifications</h4>
-            <span class="badge" id="modalCategory" style="background-color: var(--accent-color); color: black;">
-              Category
-            </span>
-          </div>
-          <div class="row g-3" id="modalSpecs"></div>
-          <p class="mt-4 text-gray" id="modalDesc">Description...</p>
-        </div>
-      </div>
-      <div class="modal-footer border-0">
-        <button type="button" class="btn btn-custom w-100">Request Test Drive</button>
-      </div>
     </div>
-  </div>
-</div>
 
-<div class="modal fade" id="trailerModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content bg-black border-0" style="overflow: visible;">
-      <div class="modal-header border-0 p-0">
-        <button type="button" id="btn-close-trailer" class="ms-close-x" data-bs-dismiss="modal" aria-label="Close">
-          <i class="fa fa-times"></i>
-        </button>
-      </div>
-      <div class="modal-body p-0">
-        <div class="ratio ratio-16x9">
-          <iframe id="trailerVideo"
-                  src=""
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen>
-          </iframe>
+    <div class="modal fade" id="trailerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content bg-black border-0" style="overflow: visible;">
+                <div class="modal-header border-0 p-0">
+                    <button type="button" id="btn-close-trailer" class="ms-close-x" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="ratio ratio-16x9">
+                        <iframe id="trailerVideo" src="" title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-</div>
 
 </template>
 

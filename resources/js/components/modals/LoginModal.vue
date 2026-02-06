@@ -48,9 +48,13 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useAuth } from '../../composables/useAuth';
+import { useToast } from '../../composables/useToast';
+import { useRouter } from 'vue-router';
 
+const toast = useToast();
+const router = useRouter();
 const loading = ref(false);
 
 // Creamos un objeto reactivo para los datos del formulario
@@ -59,22 +63,42 @@ const form = reactive({
     password: ''
 });
 
-const { login } = useAuth();
+const { login, isAdmin } = useAuth();
+
+onMounted(() => {
+    document.getElementById("loginModal")?.addEventListener('hidden.bs.modal', resetForm)
+})
 
 const handleLogin = async () => {
     loading.value = true;
     try {
         await login(form);
+        closeModal();
+        resetForm();
+        router.push(isAdmin.value ? "/admin" : "/profile");
     } catch (error) {
         // Si Laravel devuelve 419, es que el token CSRF ha fallado
         if (error.response && error.response.status === 419) {
-            alert('La sesión ha expirado, por favor recarga la página.');
+            toast.warning("Session expired, please refresh the page", "Security")
         } else {
-            alert('Credenciales incorrectas');
+            toast.error("Invalid credentials, please try again", "Login Failed")
         }
     } finally {
         loading.value = false;
-        window.location.href = '/';
     }
 };
+
+const closeModal = () => {
+    const closeBtn = document.querySelector("#loginModal .btn-close");
+
+    if (closeBtn) {
+        closeBtn.click();
+    }
+}
+
+const resetForm = () => {
+    form.email = '';
+    form.password = '';
+}
+
 </script>

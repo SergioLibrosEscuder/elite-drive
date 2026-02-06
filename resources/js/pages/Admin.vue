@@ -2,6 +2,9 @@
 
 import { ref, onMounted, reactive, computed } from 'vue';
 import axios from 'axios';
+import { useToast } from '../composables/useToast';
+
+const toast = useToast();
 
 // USER DATA DISPLAY FUNCTIONS ======================================================================
 
@@ -84,18 +87,18 @@ const saveProfile = async () => {
     try {
         await axios.put('/user/profile', user);
         isEditingProfile.value = false;
-        alert("Profile updated!");
-    } catch (e) { alert("Error updating profile"); }
+        toast.info("Profile updated!", "Profile Info");
+    } catch (e) { toast.error("Error updating profile", "Profile Error"); }
 };
 
 // CHANGE PASSWORD =========================================
 const changePassword = async () => {
     try {
         await axios.put('/user/password', passForm);
-        alert("Password updated!");
+        toast.info("Password updated!", "Password Info");
         showPasswordSection.value = false;
         passForm.current_password = ''; passForm.password = ''; passForm.password_confirmation = '';
-    } catch (e) { alert("Error: Check current password or confirmation"); }
+    } catch (e) { toast.error("Error: Check current password or confirmation", "Password Info"); }
 };
 
 // ADMIN DASHBOARD FUNCTIONS ========================================================================
@@ -279,8 +282,8 @@ const saveCustomer = async () => {
         }
         showUserModal.value = false;
         fetchCustomers();
-        alert('Success!');
-    } catch (e) { alert('Error saving customer'); }
+        toast.success('Success!', "Customer Info");
+    } catch (e) { toast.error('Error saving customer', "Customer Error"); }
 };
 
 // SAVE VEHICLE ===========================================
@@ -293,8 +296,8 @@ const saveVehicle = async () => {
         }
         showVehicleModal.value = false;
         fetchVehicles();
-        alert('Success!');
-    } catch (e) { alert('Error saving vehicle'); }
+        toast.success('Success!', "Vehicle Info");
+    } catch (e) { toast.error('Error saving vehicle', "Vehicle Error"); }
 };
 
 // SAVE RESERVATION ========================================
@@ -307,8 +310,8 @@ const saveReservation = async () => {
         }
         showReservationModal.value = false;
         fetchReservations();
-        alert('Success!');
-    } catch (e) { alert('Error saving reservation'); }
+        toast.success('Success!', "Reservation Info");
+    } catch (e) { toast.error('Error saving reservation', "Reservation Error"); }
 };
 
 // DELETE CUSTOMER =========================================
@@ -363,7 +366,7 @@ const handleImagesFileChange = (event, type) => {
 // UPLOAD VEHICLE IMAGES ====================================
 const uploadVehicleImages = async () => {
     if (!thumbnailFile.value && !coverFile.value) {
-        alert('Please select at least one image to upload.');
+        toast.warning('Please select at least one image to upload.', "Vehicle Images Validation");
         return;
     };
 
@@ -380,11 +383,11 @@ const uploadVehicleImages = async () => {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
 
-        alert('Images uploaded successfully!');
+        toast.success('Images uploaded successfully!', "Vehicle Images Info");
         showUploadVehicleImagesModal.value = false;
     } catch (e) {
         console.error('Error uploading images', e);
-        alert('Error uploading images');
+        toast.error('Error uploading images', "Vehicle Images Error");
     }
 }
 

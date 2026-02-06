@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted, ref, computed } from "vue";
-import { useRouter } from "vue-router";
 import { useCartStore } from "../stores/cartStore";
+import { useToast } from "../composables/useToast";
+import { useAuth } from "../composables/useAuth"
 import axios from "axios";
 
 const props = defineProps({
@@ -14,13 +15,13 @@ const props = defineProps({
 const carId = props.id;
 const car = ref(null);
 
-const router = useRouter();
+const toast = useToast();
 const cartStore = useCartStore();
 
 const startDate = ref("");
 const endDate = ref("");
 
-const userRole = ref(null);
+const { isAdmin, isAuthenticated } = useAuth();
 
 const estimatedPrice = computed(() => {
     if (startDate.value && endDate.value && car.value) {
@@ -43,18 +44,18 @@ const minDate = computed(() => {
 });
 
 const handleAddToCart = () => {
-    if (!userRole.value) {
-        alert("You must be logged in as a customer to add items to the cart.");
+    if (!isAuthenticated.value) {
+        toast.info("You must be logged in as a customer to add items to the cart.")
         return;
     }
 
     if (!startDate.value || !endDate.value) {
-        alert("Please select both start and end dates.");
+        toast.warning("Please select both start and end dates.", "Dates Validation");
         return;
     }
 
     if (new Date(endDate.value) <= new Date(startDate.value)) {
-        alert("End date must be after start date.");
+        toast.warning("End date must be after start date.", "Dates Validation");
         return;
     }
 
@@ -63,17 +64,18 @@ const handleAddToCart = () => {
     const offcanvas = document.getElementById("reservationOffcanvas");
     const offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(offcanvas);
 
-    if (offcanvasInstance) {
-        offcanvasInstance.hide();
-    }
+    offcanvasInstance?.hide();
+
+    setTimeout(() => {
+        const cartModalTrigger = document.getElementById("cart-trigger");
+        cartModalTrigger?.click();
+    }, 300)
 };
 
 onMounted(async () => {
     try {
         const carJSON = await axios.get(`/api/cars/${carId}`);
-        const userData = await axios.get('/user/me');
         car.value = carJSON.data;
-        userRole.value = userData.data.role;
     } catch (error) {
         console.error("Error fetching car details:", error);
     }
@@ -108,7 +110,7 @@ onMounted(async () => {
         <!-- CALL TO ACTION -->
         <div class="text-center mb-5">
             <button class="btn bg-primary-cta btn-lg px-5 py-3" data-bs-toggle="offcanvas"
-                data-bs-target="#reservationOffcanvas" v-if="userRole !== 'admin'">
+                data-bs-target="#reservationOffcanvas" v-if="!isAdmin">
                 <i class="bi bi-cart-check me-2"></i> Book Now
             </button>
         </div>
