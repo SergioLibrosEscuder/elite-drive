@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useAuth } from '../../composables/useAuth';
 import { useToast } from '../../composables/useToast';
 import { useRouter } from 'vue-router';
@@ -65,11 +65,16 @@ const form = reactive({
 
 const { login, isAdmin } = useAuth();
 
+onMounted(() => {
+    document.getElementById("loginModal")?.addEventListener('hidden.bs.modal', resetForm)
+})
+
 const handleLogin = async () => {
     loading.value = true;
     try {
         await login(form);
         closeModal();
+        resetForm();
         router.push(isAdmin.value ? "/admin" : "/profile");
     } catch (error) {
         // Si Laravel devuelve 419, es que el token CSRF ha fallado
@@ -89,6 +94,11 @@ const closeModal = () => {
     if (closeBtn) {
         closeBtn.click();
     }
+}
+
+const resetForm = () => {
+    form.email = '';
+    form.password = '';
 }
 
 </script>

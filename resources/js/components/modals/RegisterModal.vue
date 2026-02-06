@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useToast } from '../../composables/useToast';
 import { useRouter } from 'vue-router';
@@ -34,6 +34,10 @@ const age = computed(() => {
 
 const isUnderage = computed(() => age.value !== null && age.value < 18);
 
+onMounted(() => {
+    document.getElementById("registerModal")?.addEventListener('hidden.bs.modal', resetForm)
+})
+
 const handleRegister = async () => {
     if (isUnderage.value) {
         toast.warning("You must be 18+ to register.", "Age Validation");
@@ -59,6 +63,19 @@ const closeModal = () => {
     if (closeBtn) {
         closeBtn.click();
     }
+}
+
+const resetForm = () => {
+    form.dni = '';
+    form.first_name = '';
+    form.last_name = '';
+    form.second_last_name = '';
+    form.birth_date = '';
+    form.address = '';
+    form.phone = '';
+    form.email = '';
+    form.password = '';
+    form.password_confirmation = '';
 }
 </script>
 
