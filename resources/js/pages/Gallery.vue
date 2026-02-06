@@ -792,24 +792,23 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
     
     <div class="slider">
         <div class="slide-track">
-            <div class="slide"><img src="../../img/gallery/porchelogo.png" alt="Porsche"></div>
-            <div class="slide"><img src="../../img/gallery/lamborghinilogo.png" alt="Lamborghini"></div>
-            <div class="slide"><img src="../../img/gallery/bmwlogo.png" alt="BMW"></div>
-            <div class="slide"><img src="../../img/gallery/audilogo.png" alt="Audi"></div>
-            <div class="slide"><img src="../../img/gallery/mercedeslogo.png" alt="Mercedes"></div>
-            <div class="slide"><img src="../../img/gallery/ferrarilogo.png" alt="Ferrari"></div>
-            <div class="slide"><img src="../../img/gallery/Ducatilogo.png" alt="Ducati"></div>
-            <div class="slide"><img src="../../img/gallery/porchelogo.png" alt="Porsche"></div>
-            <div class="slide"><img src="../../img/gallery/lamborghinilogo.png" alt="Lamborghini"></div>
-            <div class="slide"><img src="../../img/gallery/bmwlogo.png" alt="BMW"></div>
-            <div class="slide"><img src="../../img/gallery/audilogo.png" alt="Audi"></div>
-            <div class="slide"><img src="../../img/gallery/mercedeslogo.png" alt="Mercedes"></div>
-            <div class="slide"><img src="../../img/gallery/ferrarilogo.png" alt="Ferrari"></div>
-            <div class="slide"><img src="../../img/gallery/Ducatilogo.png" alt="Ducati"></div>
+            <div class="slide"><img :src="'/images/gallery/porchelogo.png'" alt="Porsche"></div>
+            <div class="slide"><img :src="'/images/gallery/lamborghinilogo.png'" alt="Lamborghini"></div>
+            <div class="slide"><img :src="'/images/gallery/bmwlogo.png'" alt="BMW"></div>
+            <div class="slide"><img :src="'/images/gallery/audilogo.png'" alt="Audi"></div>
+            <div class="slide"><img :src="'/images/gallery/mercedeslogo.png'" alt="Mercedes"></div>
+            <div class="slide"><img :src="'/images/gallery/ferrarilogo.png'" alt="Ferrari"></div>
+            <div class="slide"><img :src="'/images/gallery/Ducatilogo.png'" alt="Ducati"></div>
+            <div class="slide"><img :src="'/images/gallery/porchelogo.png'" alt="Porsche"></div>
+            <div class="slide"><img :src="'/images/gallery/lamborghinilogo.png'" alt="Lamborghini"></div>
+            <div class="slide"><img :src="'/images/gallery/bmwlogo.png'" alt="BMW"></div>
+            <div class="slide"><img :src="'/images/gallery/audilogo.png'" alt="Audi"></div>
+            <div class="slide"><img :src="'/images/gallery/mercedeslogo.png'" alt="Mercedes"></div>
+            <div class="slide"><img :src="'/images/gallery/ferrarilogo.png'" alt="Ferrari"></div>
+            <div class="slide"><img :src="'/images/gallery/Ducatilogo.png'" alt="Ducati"></div>
         </div>
     </div>
 </section>
-
 <section class="vertical-sync-section position-relative">
     <div id="dynamic-bg" class="dynamic-bg-layer"></div>
     <div class="overlay-dark"></div>
@@ -822,11 +821,11 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
                 <div class="vertical-menu" id="verticalMenu">
                     
                     <div class="menu-item active" 
-                         data-bg="https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=1887&auto=format&fit=crop"
+                         data-bg="/images/gallery/borntorace.png"
                          data-title="Born to Race"
                          data-desc="An immersive look into the world of GT racing championships.">
                         <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=100&h=140" alt="Poster" class="poster-thumb">
+                            <img :src="'/images/gallery/borntorace.png'" alt="Poster" class="poster-thumb">
                             <div class="ms-3 text-white">
                                 <h5>Born to Race</h5>
                                 <span class="badge bg-secondary">Docu-Series</span>
@@ -835,11 +834,11 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
                     </div>
 
                     <div class="menu-item" 
-                         data-bg="https://images.unsplash.com/photo-1471479917193-f00955256257?q=80&w=2048&auto=format&fit=crop"
+                         data-bg="/images/gallery/nightracer.png"
                          data-title="Night Rider"
                          data-desc="When the sun goes down, the illegal street races begin.">
                         <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1471479917193-f00955256257?auto=format&fit=crop&w=100&h=140" alt="Poster" class="poster-thumb">
+                            <img :src="'/images/gallery/nightracer.png'" alt="Poster" class="poster-thumb">
                             <div class="ms-3 text-white">
                                 <h5>Night Rider</h5>
                                 <span class="badge bg-secondary">Action</span>
@@ -848,11 +847,11 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
                     </div>
 
                     <div class="menu-item" 
-                         data-bg="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop"
+                         data-bg="/images/gallery/theapex.png"
                          data-title="The Apex"
                          data-desc="A drama about a rookie pilot trying to secure his legacy.">
                         <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=100&h=140" alt="Poster" class="poster-thumb">
+                            <img :src="'/images/gallery/theapex.png'" alt="Poster" class="poster-thumb">
                             <div class="ms-3 text-white">
                                 <h5>The Apex</h5>
                                 <span class="badge bg-secondary">Drama</span>
@@ -861,11 +860,11 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
                     </div>
 
                     <div class="menu-item" 
-                         data-bg="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2070&auto=format&fit=crop"
+                         data-bg="/images/gallery/timelessIcon.png"
                          data-title="Timeless Icon"
                          data-desc="Experience the heritage of the most successful sports car.">
                         <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=100&h=140" alt="Poster" class="poster-thumb">
+                            <img :src="'/images/gallery/timelessIcon.png'" alt="Poster" class="poster-thumb">
                             <div class="ms-3 text-white">
                                 <h5>Timeless Icon</h5>
                                 <span class="badge bg-secondary">Heritage</span>
@@ -874,11 +873,11 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
                     </div>
 
                     <div class="menu-item" 
-                         data-bg="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=2048&auto=format&fit=crop"
+                         data-bg="/images/gallery/germanpower.png"
                          data-title="German Power"
                          data-desc="Precision engineering meets raw V8 performance.">
                         <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=100&h=140" alt="Poster" class="poster-thumb">
+                            <img :src="'/images/gallery/germanpower.png'" alt="Poster" class="poster-thumb">
                             <div class="ms-3 text-white">
                                 <h5>German Power</h5>
                                 <span class="badge bg-secondary">Performance</span>
@@ -902,7 +901,6 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
 
 
 
-
 <section class="mega-swiper-games-section">
   <div class="mega-swiper-container">
     <div class="section-title-wrapper">
@@ -914,7 +912,7 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
       <div class="swiper-wrapper">
         
         <div class="swiper-slide mega-swiper-game-card">
-          <img src="../../img/gallery/dir1xbox.png" alt="Dirt 1" class="mega-swiper-game-image">
+          <img :src="'/images/gallery/dir1xbox.png'" alt="Dirt 1" class="mega-swiper-game-image">
           <div class="mega-swiper-game-overlay">
             <h3 class="mega-swiper-game-title">Dirt</h3>
             <p class="mega-swiper-game-genre">Adventure, Action</p>
@@ -922,7 +920,7 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
         </div>
 
         <div class="swiper-slide mega-swiper-game-card">
-          <img src="../../img/gallery/ps2granturismo.png" alt="Gran Turismo 4" class="mega-swiper-game-image">
+          <img :src="'/images/gallery/ps2granturismo.png'" alt="Gran Turismo 4" class="mega-swiper-game-image">
           <div class="mega-swiper-game-overlay">
             <h3 class="mega-swiper-game-title">Gran Turismo</h3>
             <p class="mega-swiper-game-genre">Action, Racing</p>
@@ -930,7 +928,7 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
         </div>
 
         <div class="swiper-slide mega-swiper-game-card">
-          <img src="../../img/gallery/dirt5xbox.jpg" alt="Dirt 5" class="mega-swiper-game-image">
+          <img :src="'/images/gallery/dirt5xbox.jpg'" alt="Dirt 5" class="mega-swiper-game-image">
           <div class="mega-swiper-game-overlay">
             <h3 class="mega-swiper-game-title">Dirt</h3>
             <p class="mega-swiper-game-genre">Action, Adventure</p>
@@ -938,7 +936,7 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
         </div>
 
         <div class="swiper-slide mega-swiper-game-card">
-          <img src="../../img/gallery/motogp14.png" alt="MotoGP 14" class="mega-swiper-game-image">
+          <img :src="'/images/gallery/motogp14.png'" alt="MotoGP 14" class="mega-swiper-game-image">
           <div class="mega-swiper-game-overlay">
             <h3 class="mega-swiper-game-title">MotoGP</h3>
             <p class="mega-swiper-game-genre">Simulation, Racing</p>
@@ -946,7 +944,7 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
         </div>
 
         <div class="swiper-slide mega-swiper-game-card">
-          <img src="../../img/gallery/thecrew2.jpg" alt="The Crew 2" class="mega-swiper-game-image">
+          <img :src="'/images/gallery/thecrew2.jpg'" alt="The Crew 2" class="mega-swiper-game-image">
           <div class="mega-swiper-game-overlay">
             <h3 class="mega-swiper-game-title">The Crew</h3>
             <p class="mega-swiper-game-genre">Adventure, Action</p>
@@ -954,7 +952,7 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
         </div>
 
         <div class="swiper-slide mega-swiper-game-card">
-          <img src="../../img/gallery/motogp08.png" alt="MotoGP 08" class="mega-swiper-game-image">
+          <img :src="'/images/gallery/motogp08.png'" alt="MotoGP 08" class="mega-swiper-game-image">
           <div class="mega-swiper-game-overlay">
             <h3 class="mega-swiper-game-title">MotoGP</h3>
             <p class="mega-swiper-game-genre">Adventure, Action</p>
@@ -962,7 +960,7 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
         </div>
 
         <div class="swiper-slide mega-swiper-game-card">
-          <img src="../../img/gallery/motorfest.png" alt="The Crew Motorfest" class="mega-swiper-game-image">
+          <img :src="'/images/gallery/motorfest.png'" alt="The Crew Motorfest" class="mega-swiper-game-image">
           <div class="mega-swiper-game-overlay">
             <h3 class="mega-swiper-game-title">The Crew Motorfest</h3>
             <p class="mega-swiper-game-genre">Adventure, Action</p>
@@ -992,35 +990,35 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
 
             <div class="swiper-slide game-card">
                 <div class="card-wrapper">
-                <div class="card-bg" style="background-image: url('/images/cars/gallery/needforspeed.jpg');"></div>
+                <div class="card-bg" style="background-image: url('/images/gallery/needforspeed.jpg');"></div>
               <div class="card-title">Need For Speed</div>
                 </div>
             </div>
 
             <div class="swiper-slide game-card">
                 <div class="card-wrapper">
-                <div class="card-bg" style="background-image: url('/images/cars/gallery/ride5.jpg');"></div>
+                <div class="card-bg" style="background-image: url('/images/gallery/ride5.jpg');"></div>
                 <div class="card-title">Ride 5</div>
                 </div>
             </div>
 
             <div class="swiper-slide game-card">
                 <div class="card-wrapper">
-                <div class="card-bg" style="background-image: url('/images/cars/gallery/forzahorizon.jpg');"></div>
+                <div class="card-bg" style="background-image: url('/images/gallery/forzahorizon.jpg');"></div>
                     <div class="card-title">Forza Horizon</div>
                 </div>
             </div>
 
             <div class="swiper-slide game-card">
                 <div class="card-wrapper">
-                  <div class="card-bg" style="background-image: url('/images/cars/gallery/granturismo.jpg');"></div>
+                  <div class="card-bg" style="background-image: url('/images/gallery/granturismo.jpg');"></div>
                     <div class="card-title">Gran Turismo</div>
                 </div>
             </div>
 
             <div class="swiper-slide game-card">
                 <div class="card-wrapper">
-                  <div class="card-bg" style="background-image: url('/images/cars/gallery/f12024.jpg');"></div>
+                  <div class="card-bg" style="background-image: url('/images/gallery/f12024.jpg');"></div>
                     <div class="card-title">F1 2024</div>
                 </div>
             </div>
@@ -1063,7 +1061,7 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
 </a>            </div>
             <div class="col-lg-6">
                 <div class="motorsport-img-container">
-                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=1000&auto=format&fit=crop" alt="Racing" class="img-fluid rounded shadow-lg">
+                    <img :src="'/images/gallery/competicion.png'" alt="Racing" class="img-fluid rounded shadow-lg">
                 </div>
             </div>
         </div>
@@ -1072,13 +1070,12 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
 
 
 
-
 <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-dark text-white border-secondary">
             <div class="modal-header border-bottom border-secondary">
                 <h5 class="modal-title text-uppercase fw-bold" id="calendarModalLabel">
-                    Calendario <span class="text-accent">Temporada 2024</span>
+                    <span class="text-accent">2024 Season</span> Calendar
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -1087,51 +1084,47 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
                     <table class="table table-dark table-hover align-middle">
                         <thead class="text-accent">
                             <tr>
-                                <th>Fecha</th>
-                                <th>Evento</th>
-                                <th>Circuito</th>
-                                <th>Estado</th>
+                                <th>Date</th>
+                                <th>Event</th>
+                                <th>Circuit</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>15 Mar</td>
+                                <td>Mar 15</td>
                                 <td class="fw-bold">Track Day Opening</td>
                                 <td>Montmeló, ESP</td>
-                                <td><span class="badge bg-success">Abierto</span></td>
+                                <td><span class="badge bg-success">Open</span></td>
                             </tr>
                             <tr>
-                                <td>02 Abr</td>
+                                <td>Apr 02</td>
                                 <td class="fw-bold">GT Regional - Round 1</td>
                                 <td>Jarama, ESP</td>
-                                <td><span class="badge bg-warning text-dark">Últimas plazas</span></td>
+                                <td><span class="badge bg-warning text-dark">Last spots</span></td>
                             </tr>
                             <tr>
-                                <td>20 May</td>
-                                <td class="fw-bold">Academia de Pilotos</td>
+                                <td>May 20</td>
+                                <td class="fw-bold">Driver Academy</td>
                                 <td>Ascari, ESP</td>
-                                <td><span class="badge bg-success">Abierto</span></td>
+                                <td><span class="badge bg-success">Open</span></td>
                             </tr>
                             <tr>
-                                <td>12 Jun</td>
+                                <td>Jun 12</td>
                                 <td class="fw-bold">Summer Night Race</td>
                                 <td>Cheste, ESP</td>
-                                <td><span class="badge bg-secondary">Próximamente</span></td>
+                                <td><span class="badge bg-secondary">Coming Soon</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="modal-footer border-top border-secondary">
-                <button type="button" id="btnDescargarPDF" class="btn btn-custom">Descargar PDF</button>
+                <button type="button" id="btnDescargarPDF" class="btn btn-custom">Download PDF</button>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
 
 
 
@@ -1159,7 +1152,7 @@ onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...
 
       <div class="col-lg-6 mb-4 mb-lg-0">
         <div class="motorsport-img-container">
-          <img src="../../img/gallery/rutamoto.jpeg" alt="Motorcycle road route" class="img-fluid rounded shadow-lg">
+          <img :src="'/images/gallery/rutamoto.jpeg'" alt="Motorcycle road route" class="img-fluid rounded shadow-lg">
         </div>
       </div>
 
@@ -1197,10 +1190,11 @@ View Routes</a>      </div>
             </div>
             <div class="modal-body">
                 <div class="row g-4">
+                    
 
                     <div class="col-md-4">
                         <div class="card bg-black border-secondary h-100">
-                            <img src="../../img/gallery/rutadiablo.jpg" class="card-img-top" alt="Mountain Route">
+                            <img :src="'/images/gallery/rutadiablo.jpg'" class="card-img-top" alt="Mountain Route">
                             <div class="card-body">
                                 <h5 class="card-title text-accent fw-bold">Devil’s Pass</h5>
                                 <p class="small text-gray">
@@ -1223,7 +1217,7 @@ View Routes</a>      </div>
 
                     <div class="col-md-4">
                         <div class="card bg-black border-secondary h-100">
-                            <img src="../../img/gallery/rutacostadelsol.jpg" class="card-img-top" alt="Coastal Route">
+                            <img :src="'/images/gallery/rutacostadelsol.jpg'" class="card-img-top" alt="Coastal Route">
                             <div class="card-body">
                                 <h5 class="card-title text-accent fw-bold">Costa del Sol</h5>
                                 <p class="small text-gray">
@@ -1246,7 +1240,7 @@ View Routes</a>      </div>
 
                     <div class="col-md-4">
                         <div class="card bg-black border-secondary h-100">
-                            <img src="../../img/gallery/rutadelsilencio.jpg" class="card-img-top" alt="Valley Route">
+                            <img :src="'/images/gallery/rutadelsilencio.jpg'" class="card-img-top" alt="Valley Route">
                             <div class="card-body">
                                 <h5 class="card-title text-accent fw-bold">Valley of Silence</h5>
                                 <p class="small text-gray">
@@ -1284,44 +1278,38 @@ View Routes</a>      </div>
 
 
 
-
 <div class="modal fade" id="reservaFormModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark text-white border-accent" style="border: 1px solid var(--accent-color);">
             <div class="modal-header border-0">
-                <h5 class="modal-title text-uppercase fw-bold">Solicitar <span class="text-accent">Reserva</span></h5>
+                <h5 class="modal-title text-uppercase fw-bold">Request <span class="text-accent">Reservation</span></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="formReservaRuta">
                     <div class="mb-3">
-                        <label class="form-label small text-muted">SELECCIONA TU RUTA</label>
+                        <label class="form-label small text-muted">SELECT YOUR ROUTE</label>
                         <select id="rutaSeleccionada" class="form-select bg-black text-white border-secondary" required>
-                            <option value="" disabled selected>Escoge una ruta...</option>
-                            <option value="Devil’s Pass (Paso del Diablo)">Devil’s Pass - Alta Montaña</option>
-                            <option value="Costa del Sol">Costa del Sol - Marítima</option>
-                            <option value="Valley of Silence (Valle del Silencio)">Valley of Silence - Bosque</option>
+                            <option value="" disabled selected>Choose a route...</option>
+                            <option value="Devil’s Pass (Paso del Diablo)">Devil’s Pass - High Mountain</option>
+                            <option value="Costa del Sol">Costa del Sol - Coastal</option>
+                            <option value="Valley of Silence (Valle del Silencio)">Valley of Silence - Forest</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small">TU NOMBRE</label>
-                        <input type="text" id="nombrePiloto" class="form-control bg-black text-white border-secondary" required placeholder="Ej: Marc Márquez">
+                        <label class="form-label small">YOUR NAME</label>
+                        <input type="text" id="nombrePiloto" class="form-control bg-black text-white border-secondary" required placeholder="e.g.: Marc Márquez">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small">CORREO ELECTRÓNICO</label>
-                        <input type="email" id="emailPiloto" class="form-control bg-black text-white border-secondary" required placeholder="tu@email.com">
+                        <label class="form-label small">EMAIL ADDRESS</label>
+                        <input type="email" id="emailPiloto" class="form-control bg-black text-white border-secondary" required placeholder="your@email.com">
                     </div>
-                    <button type="submit" class="btn btn-custom w-100 mt-3">Confirmar y Descargar Ticket</button>
+                    <button type="submit" class="btn btn-custom w-100 mt-3">Confirm and Download Ticket</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-
 
 
 
@@ -1370,7 +1358,7 @@ View Routes</a>      </div>
 
       <div class="col-lg-6">
         <div class="motorsport-img-container">
-          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1000&auto=format&fit=crop"
+          <img :src="'/images/gallery/comunidad.png'"
                alt="Group of bikers riding"
                class="img-fluid rounded shadow-lg">
         </div>
@@ -1411,7 +1399,7 @@ View Routes</a>      </div>
   <!-- News 1 -->
   <div class="col-md-6 col-lg-4">
     <div class="news-card h-100">
-      <img src="../../img/gallery/motoElectrica.jpeg" class="img-fluid" alt="Motorcycle news">
+      <img :src="'/images/gallery/motoElectrica.jpeg'" class="img-fluid" alt="Motorcycle news">
       <div class="news-content">
         <span class="news-date">December 25, 2025</span>
         <h5 class="fw-bold text-white">
@@ -1430,7 +1418,7 @@ View Routes</a>      </div>
   <!-- News 2 -->
   <div class="col-md-6 col-lg-4">
     <div class="news-card h-100">
-      <img src="../../img/gallery/Lexux.jpg" class="img-fluid" alt="Car news">
+      <img :src="'/images/gallery/Lexux.jpg'" class="img-fluid" alt="Car news">
       <div class="news-content">
         <span class="news-date">January 2026</span>
         <h5 class="fw-bold text-white">
@@ -1449,7 +1437,7 @@ View Routes</a>      </div>
   <!-- News 3 -->
   <div class="col-md-6 col-lg-4">
     <div class="news-card h-100">
-      <img src="../../img/gallery/toyota.jpg" class="img-fluid" alt="Car news">
+      <img :src="'/images/gallery/toyota.jpg'" class="img-fluid" alt="Car news">
       <div class="news-content">
         <span class="news-date">October 2025</span>
         <h5 class="fw-bold text-white">
