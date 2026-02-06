@@ -612,7 +612,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...', 'Justin Lin', 'Vin Diesel, John Cena', '2021', '/images/cars/gallery/fast.jpg')"
+                                        onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...', 'Justin Lin', 'Vin Diesel, John Cena', '2021', '/images/gallery/fast.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
@@ -647,7 +647,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('Ford v Ferrari', 'Carroll Shelby and Ken Miles battle...', 'James Mangold', 'Matt Damon, Christian Bale', '2019', '/images/cars/gallery/fordvsferrari.jpg')"
+                                        onclick="openViewMore('Ford v Ferrari', 'Carroll Shelby and Ken Miles battle...', 'James Mangold', 'Matt Damon, Christian Bale', '2019', '/images/gallery/fordvsferrari.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
@@ -683,7 +683,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('F1 (Apex)', 'A retired driver returns to the grid...', 'Joseph Kosinski', 'Brad Pitt, Damson Idris', '2025', '/images/cars/gallery/f1themovie.jpg')"
+                                        onclick="openViewMore('F1 (Apex)', 'A retired driver returns to the grid...', 'Joseph Kosinski', 'Brad Pitt, Damson Idris', '2025', '/images/gallery/f1themovie.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
@@ -717,7 +717,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('Cars', 'Hotshot rookie Lightning McQueen gets lost...', 'John Lasseter', 'Owen Wilson, Paul Newman', '2006', '/images/cars/gallery/cars.jpg')"
+                                        onclick="openViewMore('Cars', 'Hotshot rookie Lightning McQueen gets lost...', 'John Lasseter', 'Owen Wilson, Paul Newman', '2006', '/images/gallery/cars.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
