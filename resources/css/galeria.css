@@ -233,19 +233,18 @@ body {
 }
 
 
-
-/* --- FONDOS ESPECÍFICOS --- */
+/* --- FONDOS ESPECÍFICOS (Rutas corregidas) --- */
 .ms-bg-1 { 
-    background-image: url('../img/gallery/fast.jpg') !important; 
+    background-image: url('/images/gallery/fast.jpg') !important; 
 }
 .ms-bg-2 { 
-    background-image: url('../img/gallery/fordvsferrari.jpg') !important; 
+    background-image: url('images/gallery/fordvsferrari.jpg') !important; 
 }
 .ms-bg-3 { 
-    background-image: url('../img/gallery/f1themovie.jpg') !important; 
+    background-image: url('images/gallery/f1themovie.jpg') !important; 
 }
 .ms-bg-4 { 
-    background-image: url('../img/gallery/cars.jpg') !important; 
+    background-image: url('images/gallery/cars.jpg') !important; 
 }
 
 /* --- CONTENIDO --- */
@@ -473,11 +472,11 @@ body {
 
 /* Tus fondos específicos */
 .section-cars {
-    background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop');
+    background-image: url('/images/gallery/cochefondo.png');
 }
 
 .section-motos {
-    background-image: url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=2070&auto=format&fit=crop');
+    background-image: url('/images/gallery/motofondo.png');
 }
 
 /* Aseguramos que las secciones de contenido tengan z-index alto para tapar el parallax al bajar */
