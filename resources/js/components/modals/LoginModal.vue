@@ -51,8 +51,10 @@
 import { ref, reactive } from 'vue';
 import { useAuth } from '../../composables/useAuth';
 import { useToast } from '../../composables/useToast';
+import { useRouter } from 'vue-router';
 
 const toast = useToast();
+const router = useRouter();
 const loading = ref(false);
 
 // Creamos un objeto reactivo para los datos del formulario
@@ -61,13 +63,14 @@ const form = reactive({
     password: ''
 });
 
-const { login } = useAuth();
+const { login, isAdmin } = useAuth();
 
 const handleLogin = async () => {
     loading.value = true;
     try {
         await login(form);
-        window.location.href = '/';
+        closeModal();
+        router.push(isAdmin.value ? "/admin" : "/profile");
     } catch (error) {
         // Si Laravel devuelve 419, es que el token CSRF ha fallado
         if (error.response && error.response.status === 419) {
@@ -79,4 +82,13 @@ const handleLogin = async () => {
         loading.value = false;
     }
 };
+
+const closeModal = () => {
+    const closeBtn = document.querySelector("#loginModal .btn-close");
+
+    if (closeBtn) {
+        closeBtn.click();
+    }
+}
+
 </script>

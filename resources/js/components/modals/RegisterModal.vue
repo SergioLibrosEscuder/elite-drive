@@ -2,8 +2,10 @@
 import { reactive, computed } from 'vue';
 import axios from 'axios';
 import { useToast } from '../../composables/useToast';
+import { useRouter } from 'vue-router';
 
 const toast = useToast();
+const router = useRouter();
 
 const form = reactive({
     dni: '',
@@ -41,14 +43,21 @@ const handleRegister = async () => {
     try {
         const response = await axios.post('/register', form);
         toast.success("Registration successful! You can now login.", "Registration Success");
-        // Opcional: Cerrar modal y limpiar form
-        location.reload();
+        closeModal();
+        router.push("/")
     } catch (e) {
         if (e.response && e.response.data.errors) {
             toast.error("Error: " + Object.values(e.response.data.errors).flat().join(", "), "Registration Error");
         } else {
             toast.error("An error occurred during registration.", "Registration Error");
         }
+    }
+}
+
+const closeModal = () => {
+    const closeBtn = document.querySelector("#registerModal .btn-close");
+    if (closeBtn) {
+        closeBtn.click();
     }
 }
 </script>
