@@ -1,10 +1,12 @@
 <script setup>
 
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, nextTick } from 'vue';
 import axios from 'axios';
 import { useToast } from '../composables/useToast';
+import { useRoute } from 'vue-router'
 
 const toast = useToast();
+const route = useRoute();
 
 // USER DATA DISPLAY FUNCTIONS ======================================================================
 
@@ -28,10 +30,17 @@ onMounted(async () => {
         Object.assign(user, response.data);
         const reservationsResponse = await axios.get('/user/reservations');
         reservations.value = reservationsResponse.data;
+
+        nextTick(() => {
+            if (route.hash) {
+                document.querySelector(route.hash)?.scrollIntoView({ behavior: 'smooth' })
+            }
+        })
     } catch (error) {
         console.error("Error loading profile", error);
     }
 });
+
 
 // SAVE PROFILE ============================================
 const saveProfile = async () => {
@@ -197,7 +206,7 @@ const cancelReservation = async (reservationId) => {
 
     <!-- RESERVATIONS DISPLAY ======================================================================= -->
 
-    <div class="container">
+    <div class="container" id="reservation-list">
 
         <!-- HEADER ========================================================== -->
 

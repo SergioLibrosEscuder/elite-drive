@@ -1,9 +1,11 @@
 <script setup>
-import { reactive, computed } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useToast } from '../../composables/useToast';
+import { useRouter } from 'vue-router';
 
 const toast = useToast();
+const router = useRouter();
 
 const form = reactive({
     dni: '',
@@ -32,6 +34,10 @@ const age = computed(() => {
 
 const isUnderage = computed(() => age.value !== null && age.value < 18);
 
+onMounted(() => {
+    document.getElementById("registerModal")?.addEventListener('hidden.bs.modal', resetForm)
+})
+
 const handleRegister = async () => {
     if (isUnderage.value) {
         toast.warning("You must be 18+ to register.", "Age Validation");
@@ -41,8 +47,8 @@ const handleRegister = async () => {
     try {
         const response = await axios.post('/register', form);
         toast.success("Registration successful! You can now login.", "Registration Success");
-        // Opcional: Cerrar modal y limpiar form
-        location.reload();
+        closeModal();
+        router.push("/")
     } catch (e) {
         if (e.response && e.response.data.errors) {
             toast.error("Error: " + Object.values(e.response.data.errors).flat().join(", "), "Registration Error");
@@ -50,6 +56,26 @@ const handleRegister = async () => {
             toast.error("An error occurred during registration.", "Registration Error");
         }
     }
+}
+
+const closeModal = () => {
+    const closeBtn = document.querySelector("#registerModal .btn-close");
+    if (closeBtn) {
+        closeBtn.click();
+    }
+}
+
+const resetForm = () => {
+    form.dni = '';
+    form.first_name = '';
+    form.last_name = '';
+    form.second_last_name = '';
+    form.birth_date = '';
+    form.address = '';
+    form.phone = '';
+    form.email = '';
+    form.password = '';
+    form.password_confirmation = '';
 }
 </script>
 

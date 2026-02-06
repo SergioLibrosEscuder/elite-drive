@@ -31,7 +31,7 @@
                         </li>
                         <li class="nav-item ms-2 me-2" v-if="isCustomer">
                             <a class="nav-link position-relative cursor-pointer" data-bs-toggle="modal"
-                                data-bs-target="#cartModal" style="cursor: pointer;">
+                                data-bs-target="#cartModal" id="cart-trigger" style="cursor: pointer;">
                                 <i class="bi bi-cart3 fs-5"></i>
                                 <span v-if="cartStore.count > 0"
                                     class="position-absolute bottom-0 start-100 translate-middle badge rounded-pill bg-danger"

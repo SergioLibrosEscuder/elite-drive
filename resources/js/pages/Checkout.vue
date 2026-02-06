@@ -53,7 +53,7 @@ const handlePayment = async () => {
     } else {
         cartStore.clearCart();
         toast.success('Reservation confirmed successfully! Thank you.', "Checkout");
-        router.push('/profile');
+        router.push({ path: '/profile', hash: '#reservation-list' });
     }
 };
 </script>
@@ -86,7 +86,7 @@ const handlePayment = async () => {
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h5 class="card-title fw-bold mb-0 color-secondary">{{ item.vehicle.brand }} {{
                                         item.vehicle.model
-                                        }}</h5>
+                                    }}</h5>
                                     <span class="fs-5 fw-bold text-white">{{
                                         Number(item.price).toLocaleString('es-ES') }}€</span>
                                 </div>
@@ -133,7 +133,7 @@ const handlePayment = async () => {
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <span class="fs-5 fw-bold">Total:</span>
                             <span class="fs-3 fw-bold text-white">{{ Number(cartStore.total).toLocaleString('es-ES')
-                            }}€</span>
+                                }}€</span>
                         </div>
 
                         <button @click="handlePayment" class="btn bg-primary-cta w-100 py-2" :disabled="isProcessing">
