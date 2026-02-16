@@ -32,6 +32,26 @@ const errors = reactive({
   email: false
 })
 
+
+
+// --- NUEVAS FUNCIONES DE VALIDACIÓN EN TIEMPO REAL ---
+
+// Solo permite letras y espacios (incluye tildes y ñ)
+const filterTextOnly = (event) => {
+    const value = event.target.value;
+    // La expresión regular reemplaza todo lo que NO sea letras o espacios
+    form.nombre = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+}
+
+// Solo permite números
+const filterNumberOnly = (field, event) => {
+    const value = event.target.value;
+    // Reemplaza todo lo que NO sea un dígito (0-9)
+    form[field] = value.replace(/\D/g, '');
+}
+
+
+
 // --- negocio horario ---
 const updateBusinessStatus = () => {
   const espanaTime = new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" })
@@ -190,17 +210,28 @@ const handleSubmit = async () => {
             <form @submit.prevent="handleSubmit">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label for="nombre" class="form-label">Full name *</label>
-                        <input type="text" v-model="form.nombre" class="form-control" :class="{'is-invalid': errors.nombre}" placeholder="Your name" required>
-                    </div>
+    <label for="nombre" class="form-label">Full name *</label>
+    <input type="text" 
+           :value="form.nombre" 
+           @input="filterTextOnly" 
+           class="form-control"
+           :class="{ 'is-invalid': errors.nombre }" 
+           placeholder="Your name" 
+           required>
+</div>
                     <div class="col-md-6">
                         <label for="email" class="form-label">Email *</label>
                         <input type="email" v-model="form.email" class="form-control" :class="{'is-invalid': errors.email}" placeholder="you@email.com" required>
                     </div>
-                    <div class="col-md-6">
-                        <label for="telefono" class="form-label">Phone</label>
-                        <input type="tel" v-model="form.telefono" class="form-control" placeholder="+34 600 000 000">
-                    </div>
+                   <div class="col-md-6">
+    <label for="telefono" class="form-label">Phone</label>
+    <input type="tel" 
+           :value="form.telefono" 
+           @input="filterNumberOnly('telefono', $event)"
+           class="form-control"
+           placeholder="+34 600 000 000"
+           maxlength="15"> 
+</div>
                     <div class="col-md-6">
                         <label for="interes" class="form-label">Interested in</label>
                         <select v-model="form.interes" class="form-select">
@@ -220,9 +251,14 @@ const handleSubmit = async () => {
                                 <div class="col-md-4">
                                     <input type="text" v-model="form.modelo_tasacion" class="form-control" placeholder="Model (e.g., M4)">
                                 </div>
-                                <div class="col-md-4">
-                                    <input type="number" v-model="form.ano_tasacion" class="form-control" placeholder="Year">
-                                </div>
+                              <div class="col-md-4">
+    <input type="text" 
+           :value="form.ano_tasacion" 
+           @input="filterNumberOnly('ano_tasacion', $event)"
+           class="form-control"
+           placeholder="Year"
+           maxlength="4">
+</div>
                             </div>
                         </div>
                     </div>
