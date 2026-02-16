@@ -32,8 +32,28 @@ const form = reactive({
 
 const errors = reactive({
     nombre: false,
-    email: false
+    email: false,
+    // Nuevos errores para la sección de venta
+    marca: false,
+    modelo: false,
+    ano: false
 })
+
+// --- NUEVAS FUNCIONES DE VALIDACIÓN EN TIEMPO REAL ---
+
+// Solo permite letras y espacios (incluye tildes y ñ)
+const filterTextOnly = (event) => {
+    const value = event.target.value;
+    // La expresión regular reemplaza todo lo que NO sea letras o espacios
+    form.nombre = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+}
+
+// Solo permite números
+const filterNumberOnly = (field, event) => {
+    const value = event.target.value;
+    // Reemplaza todo lo que NO sea un dígito (0-9)
+    form[field] = value.replace(/\D/g, '');
+}
 
 // --- negocio horario ---
 const updateBusinessStatus = () => {
@@ -63,53 +83,76 @@ onMounted(() => {
 onUnmounted(() => {
     if (intervalId) clearInterval(intervalId)
 })
+    // Formulario de Envio//
 
-// --- FUNCION DE ENVIO ---
+
 const handleSubmit = async () => {
-    // 1. Validación
+    // 1. Resetear errores
     errors.nombre = false
     errors.email = false
+    errors.marca = false
+    errors.modelo = false
+    errors.ano = false
+    
+    let hasError = false
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    if (!form.nombre.trim()) errors.nombre = true
-    if (!emailRegex.test(form.email)) errors.email = true
+    // Validación Básica
+    if (!form.nombre.trim()) {
+        errors.nombre = true
+        hasError = true
+    }
+    if (!emailRegex.test(form.email)) {
+        errors.email = true
+        hasError = true
+    }
 
-    if (errors.nombre || errors.email) {
-        toast.warning("Por favor, rellena los campos obligatorios correctamente.", "Contact Warning")
+    // Validación Específica: Si quiere VENDER, los datos del coche son OBLIGATORIOS
+    if (form.interes === 'venta') {
+        if (!form.marca_tasacion.trim()) {
+            errors.marca = true
+            hasError = true
+        }
+        if (!form.modelo_tasacion.trim()) {
+            errors.modelo = true
+            hasError = true
+        }
+        // Validamos que el año tenga contenido y sean 4 dígitos
+        if (!form.ano_tasacion || form.ano_tasacion.length < 4) {
+            errors.ano = true
+            hasError = true
+        }
+    }
+
+    // Si hay algún error, paramos y avisamos
+    if (hasError) {
+        toast.warning("Por favor, revisa los campos marcados en rojo.", "Datos incompletos")
         return
     }
 
     isSubmitting.value = true
 
-    // 2. Mapeo de parámetros corregido para tu plantilla
+    // 2. Mapeo de parámetros (Igual que antes)
     const templateParams = {
-        // Datos personales
-        from_name: form.nombre,    // {{from_name}}
-        reply_to: form.email,      // {{reply_to}}
-        telefono: form.telefono || 'No proporcionado', // {{telefono}}
-        interes: form.interes,     // {{interes}}
-        fecha_envio: new Date().toLocaleString('es-ES'), // {{fecha_envio}}
-        asunto: form.asunto,       // {{asunto}}
-        message: form.mensaje,     // {{message}} -> IMPORTANTE: Tu plantilla usa "message", no "mensaje"
-
-        // --- DATOS DEL VEHÍCULO CORREGIDOS ---
-        // Enviamos los nombres de variables EXACTOS que tienes en el template HTML
+        from_name: form.nombre,
+        reply_to: form.email,
+        telefono: form.telefono || 'No proporcionado',
+        interes: form.interes,
+        fecha_envio: new Date().toLocaleString('es-ES'),
+        asunto: form.asunto,
+        message: form.mensaje,
         marca_tasacion: form.interes === 'venta' ? form.marca_tasacion : 'N/A',
         modelo_tasacion: form.interes === 'venta' ? form.modelo_tasacion : 'N/A',
         ano_tasacion: form.interes === 'venta' ? form.ano_tasacion : 'N/A',
-
-        // Variables de apoyo para configuración de EmailJS
         nombre: form.nombre,
         email: form.email
     }
 
     try {
-        // 3. Envío
-        const result = await emailjs.send(serviceID, templateID, templateParams, publicKey)
-
+        await emailjs.send(serviceID, templateID, templateParams, publicKey)
         toast.info(`¡Gracias ${form.nombre}! Tu mensaje ha sido enviado correctamente.`, "Contact Info")
 
-        // Limpiar formulario
+        // Limpiar formulario completo
         Object.assign(form, {
             nombre: '', email: '', telefono: '', interes: 'info',
             marca_tasacion: '', modelo_tasacion: '', ano_tasacion: '',
@@ -123,6 +166,7 @@ const handleSubmit = async () => {
         isSubmitting.value = false
     }
 }
+
 </script>
 
 
@@ -184,6 +228,8 @@ const handleSubmit = async () => {
             </div>
         </div>
     </section>
+
+
     <section class="container py-5 my-4">
         <div class="row g-5">
             <div class="col-lg-6">
@@ -191,21 +237,30 @@ const handleSubmit = async () => {
 
                 <form @submit.prevent="handleSubmit">
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="nombre" class="form-label">Full name *</label>
-                            <input type="text" v-model="form.nombre" class="form-control"
-                                :class="{ 'is-invalid': errors.nombre }" placeholder="Your name" required>
-                        </div>
+                      <div class="col-md-6">
+    <label for="nombre" class="form-label">Full name *</label>
+    <input type="text" 
+           :value="form.nombre" 
+           @input="filterTextOnly" 
+           class="form-control"
+           :class="{ 'is-invalid': errors.nombre }" 
+           placeholder="Your name" 
+           required>
+</div>
                         <div class="col-md-6">
                             <label for="email" class="form-label">Email *</label>
                             <input type="email" v-model="form.email" class="form-control"
                                 :class="{ 'is-invalid': errors.email }" placeholder="you@email.com" required>
                         </div>
-                        <div class="col-md-6">
-                            <label for="telefono" class="form-label">Phone</label>
-                            <input type="tel" v-model="form.telefono" class="form-control"
-                                placeholder="+34 600 000 000">
-                        </div>
+                      <div class="col-md-6">
+    <label for="telefono" class="form-label">Phone</label>
+    <input type="tel" 
+           :value="form.telefono" 
+           @input="filterNumberOnly('telefono', $event)"
+           class="form-control"
+           placeholder="+34 600 000 000"
+           maxlength="15"> 
+</div>
                         <div class="col-md-6">
                             <label for="interes" class="form-label">Interested in</label>
                             <select v-model="form.interes" class="form-select">
@@ -215,26 +270,46 @@ const handleSubmit = async () => {
                             </select>
                         </div>
 
-                        <div v-if="form.interes === 'venta'" class="col-12">
-                            <div class="p-3 rounded border border-warning-subtle bg-dark-subtle mt-2">
-                                <h6 class="text-highlight mb-3"><i class="bi bi-car-front-fill me-2"></i>Details for
-                                    Valuation</h6>
-                                <div class="row g-2">
-                                    <div class="col-md-4">
-                                        <input type="text" v-model="form.marca_tasacion" class="form-control"
-                                            placeholder="Make (e.g., BMW)">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" v-model="form.modelo_tasacion" class="form-control"
-                                            placeholder="Model (e.g., M4)">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="number" v-model="form.ano_tasacion" class="form-control"
-                                            placeholder="Year">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      
+<div v-if="form.interes === 'venta'" class="col-12">
+    <div class="p-3 rounded border border-warning-subtle bg-dark-subtle mt-2">
+        <h6 class="text-highlight mb-3"><i class="bi bi-car-front-fill me-2"></i>Details for Valuation</h6>
+        <div class="row g-2">
+            <div class="col-md-4">
+                <input type="text" 
+                       v-model="form.marca_tasacion" 
+                       class="form-control"
+                       :class="{ 'is-invalid': errors.marca }"
+                       placeholder="Make (e.g., BMW)">
+            </div>
+            
+            <div class="col-md-4">
+                <input type="text" 
+                       v-model="form.modelo_tasacion" 
+                       class="form-control"
+                       :class="{ 'is-invalid': errors.modelo }"
+                       placeholder="Model (e.g., M4)">
+            </div>
+            
+            <div class="col-md-4">
+                <input type="text" 
+                       :value="form.ano_tasacion" 
+                       @input="filterNumberOnly('ano_tasacion', $event)"
+                       class="form-control"
+                       :class="{ 'is-invalid': errors.ano }"
+                       placeholder="Year"
+                       maxlength="4">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 
                         <div class="col-12">
                             <label for="asunto" class="form-label">Subject *</label>
