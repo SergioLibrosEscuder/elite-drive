@@ -12,15 +12,15 @@ const activeIndex = ref(0); // Para navegar por los resultados
 
 // Base de datos de TODO tu contenido de Gallery.vue
 const galleryStore = [
-    { type: 'Movie', title: 'Fast & Furious 9', year: '2021', info: '2h 23m', img: '/images/cars/gallery/fast.jpg', desc: 'Dom Toretto lleva una vida tranquila...', director: 'Justin Lin' },
-    { type: 'Movie', title: 'Ford v Ferrari', year: '2019', info: '2h 32m', img: '/images/cars/gallery/fordvsferrari.jpg', desc: 'El visionario Carroll Shelby y Ken Miles...', director: 'James Mangold' },
-    { type: 'Game', title: 'Forza Horizon 5', year: '2021', info: 'Racing', img: '/images/cars/gallery/forzahorizon5.jpeg', desc: 'Explora los paisajes de México.' },
-    { type: 'Juego', title: 'Need for Speed Unbound', year: '2022', info: 'Street Race', img: '/images/cars/gallery/nfsUnbound.jpg', desc: 'Estilo graffiti y persecuciones policiales en Lakeshore.' },
-    { type: 'Juego', title: 'Assetto Corsa Competizione', year: '2019', info: 'GT3 Sim', img: '/images/cars/gallery/assettocorsa.jpeg', desc: 'La competición oficial de Blancpain GT Series en tu casa.' },
-    { type: 'Juego', title: 'Dirt1', year: '2011', info: 'Carrera', img: '/images/cars/gallery/Dirt1.jpg', desc: 'Dom Toretto protege a su familia de un pasado letal.' },
-    { type: 'Juego', title: 'Gran Turismo', year: '2023', info: 'Biopic / Motor', img: '/images/cars/gallery/granturismo.jpg', desc: 'De jugador a piloto profesional en una historia real increíble.' },
-    { type: 'Juego', title: 'Need for Speed', year: '2014', info: 'Acción / Carrera', img: '/images/cars/gallery/needforspeed.jpeg', desc: 'Una carrera a través del país por la justicia y la velocidad.' },
-    { type: 'Juego', title: 'Dirt5', year: '2020', info: 'Acción / Carrera', img: '/images/cars/gallery/Dirt5.jpg', desc: 'Una carrera a través del país por la justicia y la velocidad.' }
+    { type: 'Movie', title: 'Fast & Furious 9', year: '2021', info: '2h 23m', img: '/images/gallery/fast.jpg', desc: 'Dom Toretto lleva una vida tranquila...', director: 'Justin Lin' },
+    { type: 'Movie', title: 'Ford v Ferrari', year: '2019', info: '2h 32m', img: '/images/gallery/fordvsferrari.jpg', desc: 'El visionario Carroll Shelby y Ken Miles...', director: 'James Mangold' },
+    { type: 'Game', title: 'Forza Horizon 5', year: '2021', info: 'Racing', img: '/images/gallery/forzahorizon5.jpeg', desc: 'Explora los paisajes de México.' },
+    { type: 'Juego', title: 'Need for Speed Unbound', year: '2022', info: 'Street Race', img: '/images/gallery/nfsUnbound.jpg', desc: 'Estilo graffiti y persecuciones policiales en Lakeshore.' },
+    { type: 'Juego', title: 'Assetto Corsa Competizione', year: '2019', info: 'GT3 Sim', img: '/images/gallery/assettocorsa.jpeg', desc: 'La competición oficial de Blancpain GT Series en tu casa.' },
+    { type: 'Juego', title: 'Dirt1', year: '2011', info: 'Carrera', img: '/images/gallery/Dirt1.jpg', desc: 'Dom Toretto protege a su familia de un pasado letal.' },
+    { type: 'Juego', title: 'Gran Turismo', year: '2023', info: 'Biopic / Motor', img: '/images/gallery/granturismo.jpg', desc: 'De jugador a piloto profesional en una historia real increíble.' },
+    { type: 'Juego', title: 'Need for Speed', year: '2014', info: 'Acción / Carrera', img: '/images/gallery/needforspeed.jpeg', desc: 'Una carrera a través del país por la justicia y la velocidad.' },
+    { type: 'Juego', title: 'Dirt5', year: '2020', info: 'Acción / Carrera', img: '/images/gallery/Dirt5.jpg', desc: 'Una carrera a través del país por la justicia y la velocidad.' }
 
 ];
 
@@ -610,7 +610,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...', 'Justin Lin', 'Vin Diesel, John Cena', '2021', '/images/cars/gallery/fast.jpg')"
+                                        onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...', 'Justin Lin', 'Vin Diesel, John Cena', '2021', '/images/gallery/fast.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
@@ -645,7 +645,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('Ford v Ferrari', 'Carroll Shelby and Ken Miles battle...', 'James Mangold', 'Matt Damon, Christian Bale', '2019', '/images/cars/gallery/fordvsferrari.jpg')"
+                                        onclick="openViewMore('Ford v Ferrari', 'Carroll Shelby and Ken Miles battle...', 'James Mangold', 'Matt Damon, Christian Bale', '2019', '/images/gallery/fordvsferrari.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
@@ -681,7 +681,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('F1 (Apex)', 'A retired driver returns to the grid...', 'Joseph Kosinski', 'Brad Pitt, Damson Idris', '2025', '/images/cars/gallery/f1themovie.jpg')"
+                                        onclick="openViewMore('F1 (Apex)', 'A retired driver returns to the grid...', 'Joseph Kosinski', 'Brad Pitt, Damson Idris', '2025', '/images/gallery/f1themovie.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
@@ -715,7 +715,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('Cars', 'Hotshot rookie Lightning McQueen gets lost...', 'John Lasseter', 'Owen Wilson, Paul Newman', '2006', '/images/cars/gallery/cars.jpg')"
+                                        onclick="openViewMore('Cars', 'Hotshot rookie Lightning McQueen gets lost...', 'John Lasseter', 'Owen Wilson, Paul Newman', '2006', '/images/gallery/cars.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
