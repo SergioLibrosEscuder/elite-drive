@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Password as PasswordFacade;
+use Illuminate\Validation\Rules\Password as PasswordRules;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -110,7 +111,7 @@ class AuthController extends Controller
         $request->validate([
             // Current password is correct?
             'current_password' => 'required|current_password',
-            'password' => ['required', 'confirmed', Password::defaults()],
+            'password' => ['required', 'confirmed', PasswordRules::defaults()],
         ]);
 
         // The user is got by the session
@@ -121,5 +122,43 @@ class AuthController extends Controller
         ]);
 
         return response()->json(['message' => 'Password changed successfully']);
+    }
+
+    // Method to start user password recover
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $status = PasswordFacade::sendResetLink($request->only('email'));
+
+        if ($status === PasswordFacade::RESET_LINK_SENT) {
+            return response()->json(['message' => 'Reset link sent to your email.']);
+        }
+
+        return response()->json(['message' => 'Unable to send reset link.'], 400);
+    }
+    
+    // Method to reset user password
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        // Reset
+        $status = PasswordFacade::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->save();
+            }
+        );
+
+        return $status === PasswordFacade::PASSWORD_RESET
+            ? response()->json(['message' => 'Password has been reset.'])
+            : response()->json(['message' => 'Invalid token or email.'], 400);
     }
 }

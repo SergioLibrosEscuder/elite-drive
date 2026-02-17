@@ -11,6 +11,11 @@ use App\Http\Controllers\ReservationController;
 // API/Actions Routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail']);
+Route::get('/reset-password/{token}', function () {
+    return view('app');
+})->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 // Only accesible if authenticated user
 Route::middleware('auth')->group(function () {

@@ -42,6 +42,13 @@
                         <button class="btn btn-outline-light w-100" data-bs-target="#registerModal"
                             data-bs-toggle="modal">Register here</button>
                     </div>
+
+                    <!-- Redirect to recover password modal -->
+                    <div class="text-center mt-4 border-top pt-3">
+                        <p class="mb-2">Forgot your password?</p>
+                        <button class="btn btn-outline-light w-100" data-bs-target="#recoverPasswordModal"
+                            data-bs-toggle="modal">Click here</button>
+                    </div>
                 </div>
             </div>
         </div>
