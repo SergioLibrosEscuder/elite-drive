@@ -12,9 +12,11 @@ import ToastContainer from '../components/toasts/ToastContainer.vue';
 
 <template>
     <HeaderCustom />
+    <!-- Where the view os loaded -->
     <router-view />
     <FooterCustom />
 
+    <!-- Bootstrap elements used -->
     <LoginModal />
     <RegisterModal />
     <CartModal />

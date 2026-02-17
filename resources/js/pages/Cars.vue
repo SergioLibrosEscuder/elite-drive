@@ -1,10 +1,14 @@
+<!-- Sergio Libros -->
+
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 
+// Reference array of cars
 const cars = ref([]);
 const loading = ref(true);
 
+// Initial filters status
 const filters = ref({
     query: "",
     brand: "",
@@ -19,6 +23,7 @@ const filters = ref({
 
 onMounted(async () => {
     try {
+        // Get cars
         const res = await axios.get("/api/cars");
         cars.value = res.data;
     } catch (error) {
@@ -28,15 +33,18 @@ onMounted(async () => {
     }
 });
 
+// Get all different items for select filter
 function getAll(spec) {
     return Array.from(new Set(cars.value.map((c) => c[spec]).filter(Boolean))).sort();
 };
 
+// Get all different data
 const brands = computed(() => getAll("brand"));
 const doors = computed(() => getAll("doors"));
 const fuels = computed(() => getAll("fuel_type"));
 const statuses = computed(() => getAll("status"));
 
+// Get cars that correspond with filtered data
 const filteredCars = computed(() => {
     return cars.value.filter((c) => {
         if (filters.value.query && !(c.brand + " " + c.model).toLowerCase().includes(filters.value.query.toLowerCase())) return false;
@@ -52,6 +60,7 @@ const filteredCars = computed(() => {
     });
 });
 
+// Resetted filter status
 const resetFilters = () => {
     filters.value = {
         query: "",
@@ -66,16 +75,11 @@ const resetFilters = () => {
     };
 };
 
+// Function to get a car thumbnail
 function getThumbnail(car) {
     return `/images/cars/thumbnails/${car.id}-thm.webp`;
 };
 </script>
-
-<style scoped>
-@import "../../css/admin_style.css";
-@import "../../css/cars_style.css";
-</style>
-
 
 <template>
     <div class="container py-5">
@@ -90,6 +94,7 @@ function getThumbnail(car) {
         <div class="row">
             <!-- SIDEBAR FILTERS -->
             <aside class="col-12 col-md-3 mb-4">
+                <!-- If small screen, collapsed -->
                 <div class="collapse d-md-block" id="filtersCollapse">
                     <div class="panel-header p-3 border-bottom-0">
                         <h5 class="panel-title">
@@ -215,6 +220,7 @@ function getThumbnail(car) {
                         </div>
                     </div>
 
+                    <!-- Message if no possible vehicles -->
                     <div v-if="!filteredCars.length" class="col-12">
                         <p class="text-center mb-0">No vehicles found matching the filters.</p>
                     </div>
@@ -225,6 +231,9 @@ function getThumbnail(car) {
 </template>
 
 <style scoped>
+@import "../../css/admin_style.css";
+@import "../../css/cars_style.css";
+
 .vehicle-card {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
     overflow: hidden;

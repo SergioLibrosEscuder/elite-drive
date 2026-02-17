@@ -21,17 +21,20 @@ class Reservation extends Model
         'status',
     ];
 
+    // Set special types of fields
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
         'amount' => 'decimal:2',
     ];
 
+    // Get associated user of the reservation
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Get associated vehicle of the reservation
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);

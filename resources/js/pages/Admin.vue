@@ -1,9 +1,13 @@
+<!-- Guillermo Soto -> Structure + Customers Tab -->
+<!-- Sergio Libros -> Vehicles Tab and Reservations Tab -->
+
 <script setup>
 
 import { ref, onMounted, reactive, computed } from 'vue';
 import axios from 'axios';
 import { useToast } from '../composables/useToast';
 
+// Object toast to create custom toasts
 const toast = useToast();
 
 // USER DATA DISPLAY FUNCTIONS ======================================================================
@@ -11,26 +15,32 @@ const toast = useToast();
 const isEditingProfile = ref(false);
 const showPasswordSection = ref(false);
 
+// Reactive object related with form
 const user = reactive({
     first_name: '', last_name: '', email: '', phone: '', address: ''
 });
 
+// Reactive object related with form
 const passForm = reactive({
     current_password: '', password: '', password_confirmation: ''
 });
 
+// Reactive object related with form
 const vehicle = reactive({
     license_plate: '', model: '', manufacturing_year: '', hourly_price: '', status: ''
 });
 
+// Reactive object related with form
 const reservation = reactive({
     vehicle_id: '', start_date: '', end_date: '', amount: '', status: ''
 });
 
+// Reference to search fields
 const searchCustomer = ref('');
 const searchVehicle = ref('');
 const searchReservation = ref('');
 
+// Customers that coincidate with search params
 const filteredCustomers = computed(() => {
     if (!searchCustomer.value) return customers.value;
     const query = searchCustomer.value.toLowerCase();
@@ -42,6 +52,7 @@ const filteredCustomers = computed(() => {
     );
 });
 
+// Vehicles that coincidate with search params
 const filteredVehicles = computed(() => {
     if (!searchVehicle.value) return vehicles.value;
     const query = searchVehicle.value.toLowerCase();
@@ -53,6 +64,7 @@ const filteredVehicles = computed(() => {
     );
 });
 
+// Reservations that coincidate with search params
 const filteredReservations = computed(() => {
     if (!searchReservation.value) return reservations.value;
     const query = searchReservation.value.toLowerCase();
@@ -66,10 +78,12 @@ const filteredReservations = computed(() => {
 // LOAD DATA ===============================================
 onMounted(async () => {
     try {
+        // Get users, vehicles and reservations
         const responseUsers = await axios.get('/user/me');
         const responseCars = await axios.get('/api/cars');
         const responseReservations = await axios.get('/reservations');
 
+        // Load each data in the corresponding object
         Object.assign(user, responseUsers.data);
         Object.assign(vehicle, responseCars.data);
         Object.assign(reservation, responseReservations.data);
@@ -77,41 +91,48 @@ onMounted(async () => {
         console.error("Error loading profile", error);
     }
 
+    // Fetch all data needed
     fetchCustomers();
     fetchVehicles();
     fetchReservations();
 });
 
-// SAVE PROFILE ============================================
+// SAVE PROFILE FUNCTION ============================================
 const saveProfile = async () => {
     try {
+        // Send new profile info
         await axios.put('/user/profile', user);
         isEditingProfile.value = false;
         toast.info("Profile updated!", "Profile Info");
     } catch (e) { toast.error("Error updating profile", "Profile Error"); }
 };
 
-// CHANGE PASSWORD =========================================
+// CHANGE PASSWORD FUNCTION =========================================
 const changePassword = async () => {
     try {
+        // Send new password info
         await axios.put('/user/password', passForm);
         toast.info("Password updated!", "Password Info");
         showPasswordSection.value = false;
+        // Reset form fields
         passForm.current_password = ''; passForm.password = ''; passForm.password_confirmation = '';
     } catch (e) { toast.error("Error: Check current password or confirmation", "Password Info"); }
 };
 
 // ADMIN DASHBOARD FUNCTIONS ========================================================================
 
+// Reference objects
 const activeTab = ref('users');
 const customers = ref([]);
 const vehicles = ref([]);
 const reservations = ref([]);
 
+// Editing booleans
 const isEditingCustomer = ref(false);
 const isEditingVehicle = ref(false);
 const isEditingReservation = ref(false);
 
+// Modal booleans
 const showUserModal = ref(false);
 const showVehicleModal = ref(false);
 const showUploadVehicleImagesModal = ref(false);
@@ -119,9 +140,11 @@ const showReservationModal = ref(false);
 
 const selectVehicleForImageUpload = ref(null);
 
+// Images reference
 const thumbnailFile = ref(null);
 const coverFile = ref(null);
 
+// User form reactive object
 const userForm = reactive({
     id: null,
     dni: '',
@@ -135,6 +158,7 @@ const userForm = reactive({
     address: ''
 });
 
+// Vehicle form reactive object
 const vehicleForm = reactive({
     id: null,
     license_plate: '',
@@ -153,6 +177,7 @@ const vehicleForm = reactive({
     status: ''
 });
 
+// Reservation form reactive object
 const reservationForm = reactive({
     id: null,
     user_id: null,
@@ -164,16 +189,19 @@ const reservationForm = reactive({
 });
 
 // REQUEST =================================================
+// Get all customers
 const fetchCustomers = async () => {
     const res = await axios.get('/admin/customers');
     customers.value = res.data;
 };
 
+// Get all vehicles
 const fetchVehicles = async () => {
     const res = await axios.get('/api/cars');
     vehicles.value = res.data;
 };
 
+// Get all reservations
 const fetchReservations = async () => {
     const res = await axios.get('/reservations');
     reservations.value = res.data;
@@ -250,7 +278,8 @@ const openUploadVehicleImagesModal = (vehicle) => {
 const openEditUserModal = (customer) => {
     isEditingCustomer.value = true;
     Object.assign(userForm, customer);
-    userForm.password = ''; // No editamos password aquí por simplicidad
+    // No edit for password
+    userForm.password = '';
     showUserModal.value = true;
 };
 
@@ -275,6 +304,7 @@ const openEditReservationModal = (reservation) => {
 // SAVE CUSTOMER ===========================================
 const saveCustomer = async () => {
     try {
+        // Change HTTP method depending on editing or not
         if (isEditingCustomer.value) {
             await axios.put(`/admin/customers/${userForm.id}`, userForm);
         } else {
@@ -289,6 +319,7 @@ const saveCustomer = async () => {
 // SAVE VEHICLE ===========================================
 const saveVehicle = async () => {
     try {
+        // Change HTTP method depending on editing or not
         if (isEditingVehicle.value) {
             await axios.put(`/cars/${vehicleForm.id}`, vehicleForm);
         } else {
@@ -303,6 +334,7 @@ const saveVehicle = async () => {
 // SAVE RESERVATION ========================================
 const saveReservation = async () => {
     try {
+        // Change HTTP method depending on editing or not
         if (isEditingReservation.value) {
             await axios.put(`/reservations/${reservationForm.id}`, reservationForm);
         } else {
@@ -343,6 +375,8 @@ const age = computed(() => {
     if (!userForm.birth_date) return null;
     const birth = new Date(userForm.birth_date);
     const today = new Date();
+
+    // Calculate age based on birthdate
     let ageCalc = today.getFullYear() - birth.getFullYear();
     const monthDiff = today.getMonth() - birth.getMonth();
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
@@ -356,6 +390,8 @@ const isUnderage = computed(() => age.value !== null && age.value < 18);
 // DETECT VEHICLE IMAGE FILES ==============================
 const handleImagesFileChange = (event, type) => {
     const file = event.target.files[0];
+
+    // Change corresponding image
     if (type === 'thumbnail') {
         thumbnailFile.value = file;
     } else if (type === 'cover') {
@@ -365,6 +401,7 @@ const handleImagesFileChange = (event, type) => {
 
 // UPLOAD VEHICLE IMAGES ====================================
 const uploadVehicleImages = async () => {
+    // Upload at least one image
     if (!thumbnailFile.value && !coverFile.value) {
         toast.warning('Please select at least one image to upload.', "Vehicle Images Validation");
         return;
@@ -372,13 +409,16 @@ const uploadVehicleImages = async () => {
 
     try {
         const formData = new FormData();
+        // Add thumbnail image if uploaded
         if (thumbnailFile.value) {
             formData.append('thumbnail', thumbnailFile.value);
         }
+        // Add cover image if uploaded
         if (coverFile.value) {
             formData.append('cover', coverFile.value);
         }
 
+        // Upload new images to storage
         await axios.post(`/cars/${selectVehicleForImageUpload.value.id}/images`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
@@ -393,11 +433,13 @@ const uploadVehicleImages = async () => {
 
 // ESTIMATE RENTAL AMOUNT ===================================
 const estimatedPrice = computed(() => {
+    // If no vehicle nor dates, price is 0
     if (!reservationForm.vehicle_id || !reservationForm.start_date || !reservationForm.end_date) {
         return 0;
     }
 
     const selectedCar = vehicles.value.find(v => v.id === reservationForm.vehicle_id);
+    // If no selected car, price us 0
     if (!selectedCar) return 0;
 
     const start = new Date(reservationForm.start_date);
@@ -405,8 +447,10 @@ const estimatedPrice = computed(() => {
 
     const diffMs = end - start;
     let diffHours = diffMs / (1000 * 60 * 60);
+    // No minutes, only hours
     diffHours = Math.ceil(diffHours);
 
+    // No negative price
     if (diffHours <= 0) return 0;
 
     return (diffHours * Number(selectedCar.hourly_price)).toFixed(2);
@@ -414,6 +458,7 @@ const estimatedPrice = computed(() => {
 
 // FILTER AVAILABLE VEHICLES FOR RESERVATION =================
 const availableVehicles = computed(() => {
+    // Only vehicles with status available or no vehicle change
     return vehicles.value.filter(v => {
         return v.status === 'available' || (isEditingReservation.value && v.id === reservationForm.vehicle_id);
     });
@@ -430,6 +475,7 @@ const formatDateTimeForInput = (dateString) => {
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
 
+    // Date format valid for input type date
     return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
@@ -622,6 +668,7 @@ const formatDateTimeForInput = (dateString) => {
                                 <td>{{ new Date(r.end_date).toLocaleDateString() }}</td>
                                 <td>{{ r.status }}</td>
                                 <td>
+                                    <!-- Action buttons -->
                                     <button @click="openEditReservationModal(r)" class="btn btn-sm bg-primary-cta me-2">
                                         <i class="bi bi-pen"></i>
                                     </button>
@@ -673,6 +720,7 @@ const formatDateTimeForInput = (dateString) => {
                                 <td>{{ v.manufacturing_year }}</td>
                                 <td>{{ v.status }}</td>
                                 <td>
+                                    <!-- Action Buttons -->
                                     <button @click="openUploadVehicleImagesModal(v)"
                                         class="btn btn-sm bg-primary-cta me-1">
                                         <i class="bi bi-camera"></i>
@@ -728,6 +776,7 @@ const formatDateTimeForInput = (dateString) => {
                                 <td>{{ c.phone }}</td>
                                 <td>{{ c.address }}</td>
                                 <td>
+                                    <!-- Action Buttons -->
                                     <button @click="openEditUserModal(c)" class="btn btn-sm bg-primary-cta me-2">
                                         <i class="bi bi-pen"></i>
                                     </button>
@@ -744,7 +793,6 @@ const formatDateTimeForInput = (dateString) => {
     </div>
 
     <!-- INSERT CUSTOMER MODAL ====================================================================== -->
-
     <div v-if="showUserModal">
         <div class="modal-backdrop fade show"></div>
         <div class="modal d-block" tabindex="-1">
@@ -960,8 +1008,7 @@ const formatDateTimeForInput = (dateString) => {
         </div>
     </div>
 
-    <!-- UPLOAD VEHICLE IMAGES ====================================================================== -->
-
+    <!-- UPLOAD VEHICLE IMAGES MODAL ====================================================================== -->
     <div v-if="showUploadVehicleImagesModal">
         <div class="modal-backdrop fade show"></div>
         <div class="modal d-block" tabindex="-1">

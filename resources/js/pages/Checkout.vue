@@ -8,9 +8,13 @@ import { useCartStore } from '../stores/cartStore';
 import axios from 'axios';
 import { useToast } from '../composables/useToast';
 
+// Toast object
 const toast = useToast();
 
+// Pinia store
 const cartStore = useCartStore();
+
+// Router to redirect
 const router = useRouter();
 const isProcessing = ref(false);
 
@@ -29,9 +33,10 @@ const formatDate = (dateString) => {
 // Payment handling
 const handlePayment = async () => {
     isProcessing.value = true;
+    // Errors array
     const errors = [];
 
-    // Realizar reservas para cada ítem en el carrito
+    // Make a reservation for every item in cart
     for (const item of cartStore.cartItems) {
         try {
             await axios.post('/reservations', {
@@ -42,6 +47,7 @@ const handlePayment = async () => {
             });
         } catch (error) {
             console.error(`Error booking ${item.vehicle.brand}:`, error);
+            // If error, push it into array
             errors.push(item.vehicle.model);
         }
     }
@@ -53,6 +59,7 @@ const handlePayment = async () => {
     } else {
         cartStore.clearCart();
         toast.success('Reservation confirmed successfully! Thank you.', "Checkout");
+        // Redirect to reservation list profile section
         router.push({ path: '/profile', hash: '#reservation-list' });
     }
 };

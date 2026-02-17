@@ -12,11 +12,12 @@ use App\Http\Controllers\ReservationController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
+// Only accesible if authenticated user
 Route::middleware('auth')->group(function () {
     Route::put('/user/profile', [AuthController::class, 'updateProfile']);
     Route::put('/user/password', [AuthController::class, 'updatePassword']);
     Route::get('/user/reservations', [ReservationController::class, 'userReservations']);
-    // Ruta para obtener los datos del usuario logueado al cargar la página
+    // Get current user data route
     Route::get('/user/me', function () {
         return Auth::user();
     });
