@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    // Listar solo clientes
+    // Return only customers
     public function index()
     {
         return User::where('role', 'customer')->get();
     }
 
-    // Crear nuevo cliente
+    // Create a new customer
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -29,22 +29,25 @@ class AdminController extends Controller
             'address' => 'required|string|max:255',
         ]);
 
+        // Hash password to encrypt it
         $data['password'] = Hash::make($data['password']);
-        $data['role'] = 'customer'; // Forzado por defecto
+        // Force role to be customer
+        $data['role'] = 'customer';
 
         $user = User::create($data);
         return response()->json($user, 201);
     }
 
-    // Actualizar cliente
+    // Update customer data
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        
+
+        // Validate data recieved
         $data = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
+            'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'nullable',
             'address' => 'nullable'
         ]);
@@ -53,7 +56,7 @@ class AdminController extends Controller
         return response()->json($user);
     }
 
-    // Eliminar cliente
+    // Delete customer
     public function destroy($id)
     {
         $user = User::findOrFail($id);

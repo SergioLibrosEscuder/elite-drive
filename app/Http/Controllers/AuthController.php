@@ -10,15 +10,19 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    // Login method 
     public function login(Request $request)
     {
+        // Validate data recieved
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
+        // Try to login with recieved data
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // Seguridad para web.php
+            // Regenerate session to enhance security
+            $request->session()->regenerate();
             $user = Auth::user();
 
             return response()->json([
@@ -29,30 +33,36 @@ class AuthController extends Controller
                 ]
             ]);
         }
-
+        // If login failed
         return response()->json(['message' => 'Credenciales incorrectas'], 401);
     }
 
+    // Logout method
     public function logout(Request $request)
     {
         Auth::logout();
-
+        // Invalidate actual session
         $request->session()->invalidate();
+        //Regenerate CSRF token
         $request->session()->regenerateToken();
 
         return response()->json(['message' => 'Logged out correctly']);
     }
 
+    // Register method
     public function register(Request $request)
     {
+        // Validate recieved data
         $data = $request->validate([
             'dni' => 'required|string|unique:users',
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
             'second_last_name' => 'nullable|string|max:100',
-            'birth_date' => 'required|date|before:-18 years', // Validación extra en Laravel
+            // Age validation
+            'birth_date' => 'required|date|before:-18 years',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed', // 'confirmed' busca password_confirmation
+            // Password validation with confirmed parameter
+            'password' => 'required|min:8|confirmed',
             'phone' => 'required|string',
             'address' => 'required|string',
         ]);
@@ -66,16 +76,20 @@ class AuthController extends Controller
             'password' => Hash::make($data['password']),
             'phone' => $data['phone'],
             'address' => $data['address'],
-            'role' => 'customer', // Siempre customer
+            // Make sure the role is always customer
+            'role' => 'customer',
         ]);
 
         return response()->json(['message' => 'User registered successfully'], 201);
     }
 
+    // Method to update user info
     public function updateProfile(Request $request)
     {
-        $user = Auth::user(); // Obtenemos al usuario autenticado por la sesión
+        // The user is got by the session
+        $user = Auth::user();
 
+        // Validation of recieved data
         $data = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name'  => 'required|string|max:255',
@@ -89,14 +103,19 @@ class AuthController extends Controller
         return response()->json(['message' => 'Profile updated successfully', 'user' => $user]);
     }
 
+    // Method to update user password
     public function updatePassword(Request $request)
     {
+        // Validate password data
         $request->validate([
-            'current_password' => 'required|current_password', // Valida que la actual sea correcta
+            // Current password is correct?
+            'current_password' => 'required|current_password',
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
+        // The user is got by the session
         $user = Auth::user();
+
         $user->update([
             'password' => Hash::make($request->password)
         ]);

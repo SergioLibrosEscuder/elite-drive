@@ -12,6 +12,7 @@ import Profile from "../pages/Profile.vue";
 import Car from "../pages/Car.vue";
 import Checkout from "../pages/Checkout.vue";
 
+// All view routes
 const routes = [
     { path: "/", component: Index },
     { path: "/admin", component: Admin },
@@ -24,9 +25,11 @@ const routes = [
     { path: "/checkout", component: Checkout },
 ];
 
+// Router set
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    // How scroll behavies
     scrollBehavior(to, from, savePosition) {
         return { top: 0, behavior: "smooth" };
     },
@@ -34,6 +37,7 @@ const router = createRouter({
 
 export default router;
 
+// Toast object
 const toast = useToast();
 
 // Navigation guards
@@ -69,7 +73,7 @@ router.beforeEach(async (to, from, next) => {
         }
     }
 
-    // Other routes
+    // Other routes, proceed
     else {
         next();
     }

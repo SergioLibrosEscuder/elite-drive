@@ -1,9 +1,12 @@
+<!-- Guillermo Soto -->
+
 <script setup>
 import { reactive, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useToast } from '../../composables/useToast';
 import { useRouter } from 'vue-router';
 
+// Created used objects
 const toast = useToast();
 const router = useRouter();
 
@@ -17,14 +20,15 @@ const form = reactive({
     phone: '',
     email: '',
     password: '',
-    password_confirmation: '' // Importante para la validación de Laravel
+    password_confirmation: ''
 });
 
-// Validación de Edad (Igual que en Admin)
+// Age validation
 const age = computed(() => {
     if (!form.birth_date) return null;
     const birth = new Date(form.birth_date);
     const today = new Date();
+    // Calculate age based on birthdate
     let ageCalc = today.getFullYear() - birth.getFullYear();
     if (today.getMonth() < birth.getMonth() || (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())) {
         ageCalc--;
@@ -35,21 +39,29 @@ const age = computed(() => {
 const isUnderage = computed(() => age.value !== null && age.value < 18);
 
 onMounted(() => {
+    // Reset register form if modal is closed
     document.getElementById("registerModal")?.addEventListener('hidden.bs.modal', resetForm)
 })
 
+// Registration method handling
 const handleRegister = async () => {
+    // Make sure user isn't under legal age of conduction
     if (isUnderage.value) {
         toast.warning("You must be 18+ to register.", "Age Validation");
         return;
     }
 
     try {
+        // Create user based on registration info
         const response = await axios.post('/register', form);
         toast.success("Registration successful! You can now login.", "Registration Success");
+        // Close modal on registration
         closeModal();
+        // Redirect to home page
         router.push("/")
+
     } catch (e) {
+        // Handle errors
         if (e.response && e.response.data.errors) {
             toast.error("Error: " + Object.values(e.response.data.errors).flat().join(", "), "Registration Error");
         } else {
@@ -57,7 +69,7 @@ const handleRegister = async () => {
         }
     }
 }
-
+// Close modal function
 const closeModal = () => {
     const closeBtn = document.querySelector("#registerModal .btn-close");
     if (closeBtn) {
@@ -65,6 +77,7 @@ const closeModal = () => {
     }
 }
 
+// Reset modal function
 const resetForm = () => {
     form.dni = '';
     form.first_name = '';
@@ -125,6 +138,7 @@ const resetForm = () => {
                             </label>
                             <input type="date" v-model="form.birth_date" class="form-control"
                                 :class="{ 'is-invalid': isUnderage }" required>
+                            <!-- Message if user isn't at least 18yo -->
                             <div v-if="isUnderage" class="invalid-feedback">You must be at least 18 years old.</div>
                         </div>
                         <div class="col-md-12">

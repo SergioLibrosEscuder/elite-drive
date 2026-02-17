@@ -3,6 +3,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 
+// Images passed by propertie
 const props = defineProps({
     images: {
         type: Array,
@@ -17,6 +18,7 @@ let timeoutId = null;
 
 const getRandomInterval = () => Math.random() * (8000 - 4000) + 4000;
 
+// Carousel play logic
 const playCarousel = () => {
     // Clear interval
     if (timeoutId) clearTimeout(timeoutId);
@@ -41,6 +43,7 @@ onUnmounted(() => clearTimeout(timeoutId));
 <template>
     <div class="road-carousel-container shadow-lg">
         <div class="road-carousel-inner">
+            <!-- Images in the carousel -->
             <img v-for="(image, index) in images" :key="index" :src="image" :class="{
                 'active-road-image': currentIndex === index,
                 'prepare-above': (currentIndex + 1) % images.length === index,

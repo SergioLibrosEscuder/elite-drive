@@ -24,11 +24,13 @@ class User extends Authenticatable
         'role',
     ];
 
+    // Ensure password and token are hidden fields
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    // Hash password
     protected function casts(): array
     {
         return [
