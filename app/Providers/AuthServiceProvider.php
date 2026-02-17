@@ -7,6 +7,8 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\URL;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,20 @@ class AuthServiceProvider extends ServiceProvider
         // Custom URL that is sent in the email
         ResetPassword::createUrlUsing(function ($user, string $token) {
             return 'http://localhost:8000/reset-password/'.$token.'?email='.$user->email;
+        });
+
+        VerifyEmail::createUrlUsing(function ($notifiable) {
+            // Create signed route
+            $signedUrl = URL::temporarySignedRoute(
+                'verification.verify',
+                now()->addMinutes(60),
+                [
+                    'id' => $notifiable->getKey(),
+                    'hash' => sha1($notifiable->getEmailForVerification()),
+                ]
+            );
+
+            return str_replace('http://localhost', 'http://localhost:8000', $signedUrl);
         });
     }
 }

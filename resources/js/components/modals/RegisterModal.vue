@@ -54,7 +54,7 @@ const handleRegister = async () => {
     try {
         // Create user based on registration info
         const response = await axios.post('/register', form);
-        toast.success("Registration successful! You can now login.", "Registration Success");
+        toast.success("Account created! Please check your email to verify it.", "Verification Sent");
         // Close modal on registration
         closeModal();
         // Redirect to home page
