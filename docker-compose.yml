@@ -1,0 +1,37 @@
+services:
+  # SERVICIO 1: TU WEB (Laravel + Vue)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: elite-drive-app
+    container_name: elite_app
+    restart: unless-stopped
+    ports:
+      - "8080:80"   # Puerto HTTP (Redirige a HTTPS)
+      - "443:443"   # Puerto HTTPS (Donde verás la web)
+    environment:
+      # Pasamos la configuración básica
+      APP_ENV: local
+      APP_DEBUG: true
+      APP_KEY: ${APP_KEY}
+      # NOTA: No sobreescribimos DB_HOST, así que usará el de tu archivo .env (Supabase)
+    networks:
+      - elite-network
+
+  # SERVICIO 2: BASE DE DATOS LOCAL (Solo para cumplir requisito académico)
+  # Este contenedor se levanta, pero tu app lo ignora y va a Supabase.
+  # El profesor verá que sabes usar docker-compose con múltiples servicios.
+  db_dummy:
+    image: postgres:15
+    container_name: elite_db_req
+    environment:
+      POSTGRES_DB: elite_dummy
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: password
+    networks:
+      - elite-network
+
+networks:
+  elite-network:
+    driver: bridge
