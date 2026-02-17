@@ -190,42 +190,42 @@ const handleSubmit = async () => {
                 <div class="col-6 col-md-2 brand-column">
                     <h4 class="brand-item fw-bold m-0">BMW</h4>
                     <div class="logo-wrapper">
-                        <img src="../../img/contact/bmwlogo.png" alt="BMW" class="hover-logo">
+                        <img :src="'/images/contact/bmwlogo.png'" alt="BMW" class="hover-logo">
                     </div>
                 </div>
 
                 <div class="col-6 col-md-2 brand-column">
                     <h4 class="brand-item fw-bold m-0">AUDI</h4>
                     <div class="logo-wrapper">
-                        <img src="../../img/contact/audilogo.png" alt="Audi" class="hover-logo">
+                        <img :src="'/images/contact/audilogo.png'" alt="Audi" class="hover-logo">
                     </div>
                 </div>
 
                 <div class="col-6 col-md-2 brand-column">
                     <h4 class="brand-item fw-bold m-0">MERCEDES</h4>
                     <div class="logo-wrapper">
-                        <img src="../../img/contact/mercedeslogo.png" alt="Mercedes" class="hover-logo">
+                        <img :src="'/images/contact/mercedeslogo.png'" alt="Mercedes" class="hover-logo">
                     </div>
                 </div>
 
                 <div class="col-6 col-md-2 brand-column">
                     <h4 class="brand-item fw-bold m-0">PORSCHE</h4>
                     <div class="logo-wrapper">
-                        <img src="../../img/contact/porchelogo.png" alt="Porsche" class="hover-logo">
+                        <img :src="'/images/contact/porchelogo.png'" alt="Porsche" class="hover-logo">
                     </div>
                 </div>
 
                 <div class="col-6 col-md-2 brand-column">
                     <h4 class="brand-item fw-bold m-0">DUCATI</h4>
                     <div class="logo-wrapper">
-                        <img src="../../img/contact/ducatilogo.png" alt="Ducati" class="hover-logo">
+                        <img :src="'/images/contact/ducatilogo.png'" alt="Ducati" class="hover-logo">
                     </div>
                 </div>
 
                 <div class="col-6 col-md-2 brand-column">
                     <h4 class="brand-item fw-bold m-0">FERRARI</h4>
                     <div class="logo-wrapper">
-                        <img src="../../img/contact/ferrarilogo.png" alt="Ferrari" class="hover-logo">
+                        <img :src="'/images/contact/ferrarilogo.png'" alt="Ferrari" class="hover-logo">
                     </div>
                 </div>
             </div>
@@ -313,7 +313,7 @@ const handleSubmit = async () => {
             <div class="col-lg-6">
                 <h2 class="mb-4 section-title">Find Us</h2>
                 <div class="map-container mb-4 rounded overflow-hidden shadow-sm">
-                    <img src="../../img/contact/concensio.jpg" alt="Our Dealership"
+                    <img :src="'/images/contact/concensio.jpg'" alt="Our Dealership"
                         class="img-fluid w-100 h-100 object-fit-cover">
                 </div>
                 <div class="showroom-box p-4 rounded text-white">
@@ -433,7 +433,7 @@ const handleSubmit = async () => {
                 <div class="col-md-4 col-lg-3">
                     <div class="team-card text-center p-4 rounded shadow-lg">
                         <div class="member-img-wrapper mb-3 mx-auto">
-                            <img src="../../img/contact/javier.png" alt="Javier López" class="img-fluid">
+                            <img :src="'/images/contact/javier.png'" alt="Javier López" class="img-fluid">
                         </div>
                         <h5 class="fw-bold text-white mb-1">Javier López</h5>
                         <p class="text-highlight small text-uppercase fw-bold mb-3">Sales Advisor</p>
@@ -448,7 +448,7 @@ const handleSubmit = async () => {
                 <div class="col-md-4 col-lg-3">
                     <div class="team-card text-center p-4 rounded shadow-lg border-orange-thin">
                         <div class="member-img-wrapper mb-3 mx-auto border-orange">
-                            <img src="../../img/contact/elena.png" alt="Elena García" class="img-fluid">
+                            <img :src="'/images/contact/elena.png'" alt="Elena García" class="img-fluid">
                         </div>
                         <h5 class="fw-bold text-white mb-1">Elena García</h5>
                         <p class="text-highlight small text-uppercase fw-bold mb-3">Valuation & Purchases</p>
@@ -463,7 +463,7 @@ const handleSubmit = async () => {
                 <div class="col-md-4 col-lg-3">
                     <div class="team-card text-center p-4 rounded shadow-lg">
                         <div class="member-img-wrapper mb-3 mx-auto">
-                            <img src="../../img/contact/marcos.png" alt="Marcos Sanz" class="img-fluid">
+                            <img :src="'/images/contact/marcos.png'" alt="Marcos Sanz" class="img-fluid">
                         </div>
                         <h5 class="fw-bold text-white mb-1">Marcos Sanz</h5>
                         <p class="text-highlight small text-uppercase fw-bold mb-3">VIP Assistance</p>
