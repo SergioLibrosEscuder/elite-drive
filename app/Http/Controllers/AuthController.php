@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password as PasswordFacade;
 use Illuminate\Validation\Rules\Password as PasswordRules;
+use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -72,6 +73,7 @@ class AuthController extends Controller
             'dni' => $data['dni'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'second_last_name' => $data['second_last_name'],
             'birth_date' => $data['birth_date'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -81,19 +83,41 @@ class AuthController extends Controller
             'role' => 'customer',
         ]);
 
+        // Send confirmation mail
+        event(new Registered($user));
+
         return response()->json(['message' => 'User registered successfully'], 201);
+    }
+
+    // Method to verify user
+    public function verify(Request $request) {
+        
+        $user = User::findOrFail($request->route('id'));
+
+        // Hash security verification
+        if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+            return response()->json(['message' => 'Invalid verification link'], 403);
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+            event(new \Illuminate\Auth\Events\Verified($user));
+        }
+
+        return redirect('http://localhost:8000/?verified=1');
     }
 
     // Method to update user info
     public function updateProfile(Request $request)
     {
-        // The user is got by the session
+        // El usuario se obtiene por la sesión
         $user = Auth::user();
 
-        // Validation of recieved data
+        // Validación de datos recibidos
         $data = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name'  => 'required|string|max:255',
+            'second_last_name' => 'nullable|string|max:255',
             'email'      => 'required|email|unique:users,email,' . $user->id,
             'phone'      => 'nullable|string',
             'address'    => 'nullable|string',

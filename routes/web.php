@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
@@ -11,11 +12,16 @@ use App\Http\Controllers\ReservationController;
 // API/Actions Routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+// Restore password route
 Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail']);
 Route::get('/reset-password/{token}', function () {
     return view('app');
 })->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+// Verification route
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verify'])
+    ->middleware(['signed'])
+    ->name('verification.verify');
 
 // Only accesible if authenticated user
 Route::middleware('auth')->group(function () {
