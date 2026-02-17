@@ -11,6 +11,7 @@ import Legal from "../pages/Legal.vue";
 import Profile from "../pages/Profile.vue";
 import Car from "../pages/Car.vue";
 import Checkout from "../pages/Checkout.vue";
+import ResetPassword from "../pages/ResetPassword.vue";
 
 // All view routes
 const routes = [
@@ -23,6 +24,7 @@ const routes = [
     { path: "/profile", component: Profile },
     { path: "/cars/:id", component: Car, props: true },
     { path: "/checkout", component: Checkout },
+    { path: "/reset-password/:token", name: "ResetPassword", component: ResetPassword },
 ];
 
 // Router set
