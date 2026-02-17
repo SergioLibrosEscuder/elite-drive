@@ -1,3 +1,5 @@
+<!-- Iván Requena -->
+
 <script setup>
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import emailjs from '@emailjs/browser'
@@ -5,19 +7,19 @@ import { useToast } from '../composables/useToast';
 
 const toast = useToast();
 
-// --- CONFIGURACIÓN ---
+// --- CONFIGURATION ---
 const serviceID = 'service_4o31555'   //
 const templateID = 'template_3q3yqht'  //
 const publicKey = 'qTiJLWQWodscWpuF-'  //
 
-// --- UI / estado ---
+// --- UI / State ---
 const isSubmitting = ref(false)
 const isChatOpen = ref(false)
 const toggleWhatsApp = () => { isChatOpen.value = !isChatOpen.value }
 const isOpen = ref(false)
 let intervalId = null
 
-// --- formulario ---
+// --- FORM ---
 const form = reactive({
     nombre: '',
     email: '',
@@ -33,29 +35,28 @@ const form = reactive({
 const errors = reactive({
     nombre: false,
     email: false,
-    // Nuevos errores para la sección de venta
     marca: false,
     modelo: false,
     ano: false
 })
 
-// --- NUEVAS FUNCIONES DE VALIDACIÓN EN TIEMPO REAL ---
+// --- IRL VALIDATIONS ---
 
-// Solo permite letras y espacios (incluye tildes y ñ)
+// Only text validation
 const filterTextOnly = (event) => {
     const value = event.target.value;
-    // La expresión regular reemplaza todo lo que NO sea letras o espacios
+    // Replace anything that not correspond
     form.nombre = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
 }
 
-// Solo permite números
+// Only allow numbers
 const filterNumberOnly = (field, event) => {
     const value = event.target.value;
-    // Reemplaza todo lo que NO sea un dígito (0-9)
+    // Replace anything that is not a number
     form[field] = value.replace(/\D/g, '');
 }
 
-// --- negocio horario ---
+// --- Company Schedule ---
 const updateBusinessStatus = () => {
     const espanaTime = new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" })
     const now = new Date(espanaTime)
@@ -83,21 +84,21 @@ onMounted(() => {
 onUnmounted(() => {
     if (intervalId) clearInterval(intervalId)
 })
-    // Formulario de Envio//
+// Send form//
 
 
 const handleSubmit = async () => {
-    // 1. Resetear errores
+    // 1. Reset errors
     errors.nombre = false
     errors.email = false
     errors.marca = false
     errors.modelo = false
     errors.ano = false
-    
+
     let hasError = false
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    // Validación Básica
+    // Basic validation
     if (!form.nombre.trim()) {
         errors.nombre = true
         hasError = true
@@ -107,7 +108,7 @@ const handleSubmit = async () => {
         hasError = true
     }
 
-    // Validación Específica: Si quiere VENDER, los datos del coche son OBLIGATORIOS
+    // Mandatory vehicle data
     if (form.interes === 'venta') {
         if (!form.marca_tasacion.trim()) {
             errors.marca = true
@@ -117,14 +118,14 @@ const handleSubmit = async () => {
             errors.modelo = true
             hasError = true
         }
-        // Validamos que el año tenga contenido y sean 4 dígitos
+        // Year format
         if (!form.ano_tasacion || form.ano_tasacion.length < 4) {
             errors.ano = true
             hasError = true
         }
     }
 
-    // Si hay algún error, paramos y avisamos
+    // Error handling
     if (hasError) {
         toast.warning("Por favor, revisa los campos marcados en rojo.", "Datos incompletos")
         return
@@ -132,7 +133,7 @@ const handleSubmit = async () => {
 
     isSubmitting.value = true
 
-    // 2. Mapeo de parámetros (Igual que antes)
+    // 2. Parameters mapping
     const templateParams = {
         from_name: form.nombre,
         reply_to: form.email,
@@ -149,10 +150,11 @@ const handleSubmit = async () => {
     }
 
     try {
+        // Try to send email
         await emailjs.send(serviceID, templateID, templateParams, publicKey)
         toast.info(`¡Gracias ${form.nombre}! Tu mensaje ha sido enviado correctamente.`, "Contact Info")
 
-        // Limpiar formulario completo
+        // Clear form
         Object.assign(form, {
             nombre: '', email: '', telefono: '', interes: 'info',
             marca_tasacion: '', modelo_tasacion: '', ano_tasacion: '',
@@ -160,6 +162,7 @@ const handleSubmit = async () => {
         })
 
     } catch (err) {
+        // Handle error
         console.error('ERROR AL ENVIAR (EmailJS):', err)
         toast.error('Hubo un error al enviar el mensaje. Revisa tu conexión.', "Contact Error")
     } finally {
@@ -237,30 +240,21 @@ const handleSubmit = async () => {
 
                 <form @submit.prevent="handleSubmit">
                     <div class="row g-3">
-                      <div class="col-md-6">
-    <label for="nombre" class="form-label">Full name *</label>
-    <input type="text" 
-           :value="form.nombre" 
-           @input="filterTextOnly" 
-           class="form-control"
-           :class="{ 'is-invalid': errors.nombre }" 
-           placeholder="Your name" 
-           required>
-</div>
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Full name *</label>
+                            <input type="text" :value="form.nombre" @input="filterTextOnly" class="form-control"
+                                :class="{ 'is-invalid': errors.nombre }" placeholder="Your name" required>
+                        </div>
                         <div class="col-md-6">
                             <label for="email" class="form-label">Email *</label>
                             <input type="email" v-model="form.email" class="form-control"
                                 :class="{ 'is-invalid': errors.email }" placeholder="you@email.com" required>
                         </div>
-                      <div class="col-md-6">
-    <label for="telefono" class="form-label">Phone</label>
-    <input type="tel" 
-           :value="form.telefono" 
-           @input="filterNumberOnly('telefono', $event)"
-           class="form-control"
-           placeholder="+34 600 000 000"
-           maxlength="15"> 
-</div>
+                        <div class="col-md-6">
+                            <label for="telefono" class="form-label">Phone</label>
+                            <input type="tel" :value="form.telefono" @input="filterNumberOnly('telefono', $event)"
+                                class="form-control" placeholder="+34 600 000 000" maxlength="15">
+                        </div>
                         <div class="col-md-6">
                             <label for="interes" class="form-label">Interested in</label>
                             <select v-model="form.interes" class="form-select">
@@ -270,46 +264,30 @@ const handleSubmit = async () => {
                             </select>
                         </div>
 
-                      
-<div v-if="form.interes === 'venta'" class="col-12">
-    <div class="p-3 rounded border border-warning-subtle bg-dark-subtle mt-2">
-        <h6 class="text-highlight mb-3"><i class="bi bi-car-front-fill me-2"></i>Details for Valuation</h6>
-        <div class="row g-2">
-            <div class="col-md-4">
-                <input type="text" 
-                       v-model="form.marca_tasacion" 
-                       class="form-control"
-                       :class="{ 'is-invalid': errors.marca }"
-                       placeholder="Make (e.g., BMW)">
-            </div>
-            
-            <div class="col-md-4">
-                <input type="text" 
-                       v-model="form.modelo_tasacion" 
-                       class="form-control"
-                       :class="{ 'is-invalid': errors.modelo }"
-                       placeholder="Model (e.g., M4)">
-            </div>
-            
-            <div class="col-md-4">
-                <input type="text" 
-                       :value="form.ano_tasacion" 
-                       @input="filterNumberOnly('ano_tasacion', $event)"
-                       class="form-control"
-                       :class="{ 'is-invalid': errors.ano }"
-                       placeholder="Year"
-                       maxlength="4">
-            </div>
-        </div>
-    </div>
-</div>
 
+                        <div v-if="form.interes === 'venta'" class="col-12">
+                            <div class="p-3 rounded border border-warning-subtle bg-dark-subtle mt-2">
+                                <h6 class="text-highlight mb-3"><i class="bi bi-car-front-fill me-2"></i>Details for
+                                    Valuation</h6>
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <input type="text" v-model="form.marca_tasacion" class="form-control"
+                                            :class="{ 'is-invalid': errors.marca }" placeholder="Make (e.g., BMW)">
+                                    </div>
 
+                                    <div class="col-md-4">
+                                        <input type="text" v-model="form.modelo_tasacion" class="form-control"
+                                            :class="{ 'is-invalid': errors.modelo }" placeholder="Model (e.g., M4)">
+                                    </div>
 
-
-
-
-
+                                    <div class="col-md-4">
+                                        <input type="text" :value="form.ano_tasacion"
+                                            @input="filterNumberOnly('ano_tasacion', $event)" class="form-control"
+                                            :class="{ 'is-invalid': errors.ano }" placeholder="Year" maxlength="4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-12">
                             <label for="asunto" class="form-label">Subject *</label>
@@ -642,6 +620,5 @@ const handleSubmit = async () => {
 
 
 <style scoped>
-/* 'scoped' hace que los estilos solo afecten a este componente */
 @import "../../css/contacto.css";
 </style>

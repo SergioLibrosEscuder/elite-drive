@@ -1,3 +1,6 @@
+<!-- Guillermo Soto -> User Data -->
+<!-- Sergio Libros -> Reservation List -->
+
 <script setup>
 
 import { ref, onMounted, reactive, nextTick } from 'vue';
@@ -5,6 +8,7 @@ import axios from 'axios';
 import { useToast } from '../composables/useToast';
 import { useRoute } from 'vue-router'
 
+// Toasts and route objects
 const toast = useToast();
 const route = useRoute();
 
@@ -13,25 +17,31 @@ const route = useRoute();
 const isEditing = ref(false);
 const showPasswordSection = ref(false);
 
+// User reactive object
 const user = reactive({
     first_name: '', last_name: '', email: '', phone: '', address: ''
 });
 
+// Password reactive object
 const passForm = reactive({
     current_password: '', password: '', password_confirmation: ''
 });
 
+// Reservation array
 const reservations = ref([]);
 
 // LOAD DATA ===============================================
 onMounted(async () => {
     try {
+        // Get current user
         const response = await axios.get('/user/me');
         Object.assign(user, response.data);
+        // Get user reservations
         const reservationsResponse = await axios.get('/user/reservations');
         reservations.value = reservationsResponse.data;
 
         nextTick(() => {
+            // If accesed by hash, scroll to section
             if (route.hash) {
                 document.querySelector(route.hash)?.scrollIntoView({ behavior: 'smooth' })
             }
@@ -57,10 +67,12 @@ const changePassword = async () => {
         await axios.put('/user/password', passForm);
         toast.info("Password updated!", "Password Info");
         showPasswordSection.value = false;
+        // Reset password fields
         passForm.current_password = ''; passForm.password = ''; passForm.password_confirmation = '';
     } catch (e) { toast.error("Error: Check current password or confirmation", "Password Error"); }
 };
 
+// Function to confirm a reservation
 const completeReservation = async (reservationId) => {
     try {
         await axios.put(`/reservations/${reservationId}/confirm`);
@@ -72,6 +84,7 @@ const completeReservation = async (reservationId) => {
     }
 };
 
+// Function to cancel a reservation
 const cancelReservation = async (reservationId) => {
     try {
         await axios.put(`/reservations/${reservationId}/cancel`);

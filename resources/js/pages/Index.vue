@@ -1,29 +1,30 @@
 <!-- Guillermo Soto ============================================================================= -->
 
 <script setup>
-    import RoadCarousel from "../components/RoadCarousel.vue";
+import RoadCarousel from "../components/RoadCarousel.vue";
 
-    const roadImages1 = [
-        '/images/index/road/road1_1.jpg', '/images/index/road/road1_2.jpg',
-        '/images/index/road/road1_3.jpg', '/images/index/road/road1_4.jpg'
-    ];
-    const roadImages2 = [
-        '/images/index/road/road2_1.jpg', '/images/index/road/road2_2.jpg',
-        '/images/index/road/road2_3.jpg', '/images/index/road/road2_4.jpg'
-    ];
-    const roadImages3 = [
-        '/images/index/road/road3_1.jpg', '/images/index/road/road3_2.jpg',
-        '/images/index/road/road3_3.jpg', '/images/index/road/road3_4.jpg'
-    ];
-    const roadImages4 = [
-        '/images/index/road/road4_1.jpg', '/images/index/road/road4_2.jpg',
-        '/images/index/road/road4_3.jpg', '/images/index/road/road4_4.jpg'
-    ];
+// Images used in road carousel
+const roadImages1 = [
+    '/images/index/road/road1_1.jpg', '/images/index/road/road1_2.jpg',
+    '/images/index/road/road1_3.jpg', '/images/index/road/road1_4.jpg'
+];
+const roadImages2 = [
+    '/images/index/road/road2_1.jpg', '/images/index/road/road2_2.jpg',
+    '/images/index/road/road2_3.jpg', '/images/index/road/road2_4.jpg'
+];
+const roadImages3 = [
+    '/images/index/road/road3_1.jpg', '/images/index/road/road3_2.jpg',
+    '/images/index/road/road3_3.jpg', '/images/index/road/road3_4.jpg'
+];
+const roadImages4 = [
+    '/images/index/road/road4_1.jpg', '/images/index/road/road4_2.jpg',
+    '/images/index/road/road4_3.jpg', '/images/index/road/road4_4.jpg'
+];
 </script>
 
 <style scoped>
-    @import "../../css/index_style.css";
-    @import "../../css/admin_style.css";
+@import "../../css/index_style.css";
+@import "../../css/admin_style.css";
 </style>
 
 <template>
@@ -48,11 +49,11 @@
                 <hr class="my-2">
                 <p class="fs-5 p-3 text-center text-white">
                     Can you imagine driving around your city in a luxury car like a Lamborghini or a Ferrari?
-                <br><br>
+                    <br><br>
                     At Elite Drive, we have the best options to make your dream a reality.
                     Enjoy driving the best luxury cars on the market with Elite Drive.
                     If you're looking to rent a high-end car, don't hesitate to contact us for a free consultation.
-                <br><br>
+                    <br><br>
                     We offer the most exclusive brands.
                 </p>
             </div>
@@ -72,14 +73,16 @@
                         <img :src="'/images/index/carousel/carousel_1.jpg'" class="d-block w-100" alt="Route 1">
                         <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50">
                             <h5>Lamborghini Aventador LP750-4 SV</h5>
-                            <p>Its design is aggressive and incorporates racing aerodynamics, including an adjustable rear wing.</p>
+                            <p>Its design is aggressive and incorporates racing aerodynamics, including an adjustable
+                                rear wing.</p>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <img :src="'/images/index/carousel/carousel_2.jpg'" class="d-block w-100" alt="Route 2">
                         <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50">
                             <h5>Lamborghini Aventador LP700-4 SV</h5>
-                            <p>Its design is aggressive and incorporates racing aerodynamics, including an adjustable rear wing.</p>
+                            <p>Its design is aggressive and incorporates racing aerodynamics, including an adjustable
+                                rear wing.</p>
                         </div>
                     </div>
                     <div class="carousel-item">
@@ -93,21 +96,25 @@
                         <img :src="'/images/index/carousel/carousel_4.jpg'" class="d-block w-100" alt="Route 2">
                         <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50">
                             <h5>Chevrolet Corvette C8 Stingray</h5>
-                            <p>Member of the high society of performance. The performance you want and the functionality you need.</p>
+                            <p>Member of the high society of performance. The performance you want and the functionality
+                                you need.</p>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <img :src="'/images/index/carousel/carousel_5.jpg'" class="d-block w-100" alt="Route 2">
                         <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50">
                             <h5>Lamborghini Aventador SVJ</h5>
-                            <p>Its design is aggressive and incorporates racing aerodynamics, including an adjustable rear wing.</p>
+                            <p>Its design is aggressive and incorporates racing aerodynamics, including an adjustable
+                                rear wing.</p>
                         </div>
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#routeCarousel" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#routeCarousel"
+                    data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#routeCarousel" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#routeCarousel"
+                    data-bs-slide="next">
                     <span class="carousel-control-next-icon"></span>
                 </button>
             </div>
@@ -115,21 +122,19 @@
     </section>
 
     <!-- HOW IT WORKS ========================================================= -->
-    
+
     <section class="py-5">
         <div class="container">
-            
+
             <h2 class="text-center fw-bold mb-5">How it Works</h2>
 
             <div class="mb-5 custom-panel">
-                <img :src="'/images/index/how_it_works.jpg'" 
-                     alt="Orange car" 
-                     class="img-fluid shadow-lg w-100 object-fit-cover" 
-                     style="max-height: 300px;">
+                <img :src="'/images/index/how_it_works.jpg'" alt="Orange car"
+                    class="img-fluid shadow-lg w-100 object-fit-cover" style="max-height: 300px;">
             </div>
 
             <div class="row g-4 justify-content-center">
-                
+
                 <div class="col-md-4">
                     <div class="custom-panel p-4 shadow-sm text-center">
                         <i class="bi bi-car-front fs-1 mb-3e"></i>
@@ -138,7 +143,7 @@
                             Choose Your Dream Car
                         </h3>
                         <p class="mb-0">
-                            Browse our exclusive fleet of luxury vehicles. From powerful sports cars to elegant sedans, 
+                            Browse our exclusive fleet of luxury vehicles. From powerful sports cars to elegant sedans,
                             find the perfect match for your experience.
                         </p>
                     </div>
@@ -148,10 +153,11 @@
                     <div class="custom-panel p-4 shadow-sm text-center">
                         <i class="bi bi-calendar-check fs-1 mb-3 text-orange"></i>
                         <h3 class="fw-bold text-white mb-3">
-                            <span class="color-secondary">Second</span> 
-                            Select Dates & Location</h3>
+                            <span class="color-secondary">Second</span>
+                            Select Dates & Location
+                        </h3>
                         <p class="mb-0">
-                            Pick your desired pick-up and drop-off dates and locations. We offer flexible options 
+                            Pick your desired pick-up and drop-off dates and locations. We offer flexible options
                             to fit your schedule seamlessly.
                         </p>
                     </div>
@@ -162,9 +168,10 @@
                         <i class="bi bi-credit-card fs-1 mb-3 text-orange"></i>
                         <h3 class="fw-bold text-white mb-3">
                             <span class="color-secondary">Finally</span>
-                            Complete Your Secure Payment</h3>
+                            Complete Your Secure Payment
+                        </h3>
                         <p class="mb-0">
-                            Finalize your booking with our easy and secure payment process. 
+                            Finalize your booking with our easy and secure payment process.
                             Get ready to drive your luxury vehicle!
                         </p>
                     </div>
@@ -172,18 +179,19 @@
             </div>
         </div>
     </section>
-    
+
     <!-- SERVICES ============================================================= -->
-    
+
     <section class="py-5">
         <div class="container">
-            
+
             <h2 class="text-center fw-bold mb-5">Additional services</h2>
 
             <div class="row g-4 align-items-stretch">
                 <div class="col-md-4">
                     <div class="service-image-container h-100">
-                        <img :src="'/images/index/services.jpg'" alt="Luxury Service" class="img-fluid  shadow object-fit-cover h-100">
+                        <img :src="'/images/index/services.jpg'" alt="Luxury Service"
+                            class="img-fluid  shadow object-fit-cover h-100">
                     </div>
                 </div>
 
@@ -193,7 +201,8 @@
                             <i class="bi bi-person-badge fs-2 me-3 text-orange"></i>
                             <div>
                                 <h4 class="fw-bold text-white">Chauffeur Service</h4>
-                                <p class="mb-0">Professional drivers at your disposal for a premium, stress-free travel experience.</p>
+                                <p class="mb-0">Professional drivers at your disposal for a premium, stress-free travel
+                                    experience.</p>
                             </div>
                         </div>
                     </div>
@@ -202,7 +211,8 @@
                             <i class="bi bi-geo-alt fs-2 me-3 text-orange"></i>
                             <div>
                                 <h4 class="fw-bold text-white">Custom Delivery</h4>
-                                <p class="mb-0">We deliver your vehicle to any specific point you choose, from airports to private villas.</p>
+                                <p class="mb-0">We deliver your vehicle to any specific point you choose, from airports
+                                    to private villas.</p>
                             </div>
                         </div>
                     </div>
@@ -211,7 +221,8 @@
                             <i class="bi bi-map fs-2 me-3 text-orange"></i>
                             <div>
                                 <h4 class="fw-bold text-white">Driving Routes</h4>
-                                <p class="mb-0">Curated scenic routes designed to let you experience the full power of our luxury fleet.</p>
+                                <p class="mb-0">Curated scenic routes designed to let you experience the full power of
+                                    our luxury fleet.</p>
                             </div>
                         </div>
                     </div>
@@ -220,7 +231,8 @@
                             <i class="bi bi-speedometer2 fs-2 me-3 text-orange"></i>
                             <div>
                                 <h4 class="fw-bold text-white">Track Days & Coaching</h4>
-                                <p class="mb-0">Unleash the full potential of our supercars on professional racing circuits with expert technical support.</p>
+                                <p class="mb-0">Unleash the full potential of our supercars on professional racing
+                                    circuits with expert technical support.</p>
                             </div>
                         </div>
                     </div>
@@ -244,5 +256,5 @@
             </div>
         </div>
     </section>
-    
+
 </template>

@@ -1,3 +1,5 @@
+<!-- Sergio Libros -->
+
 <script setup>
 import { onMounted, ref, computed } from "vue";
 import { useCartStore } from "../stores/cartStore";
@@ -5,6 +7,7 @@ import { useToast } from "../composables/useToast";
 import { useAuth } from "../composables/useAuth"
 import axios from "axios";
 
+// Car id passed by propertie
 const props = defineProps({
     id: {
         type: String,
@@ -13,16 +16,21 @@ const props = defineProps({
 });
 
 const carId = props.id;
+// Car object reference
 const car = ref(null);
 
+// Pinia store and toast object definition
 const toast = useToast();
 const cartStore = useCartStore();
 
+// Dates references
 const startDate = ref("");
 const endDate = ref("");
 
+// User validation method from useAuth composable
 const { isAdmin, isAuthenticated } = useAuth();
 
+// Calculate estimatedPrice for preview
 const estimatedPrice = computed(() => {
     if (startDate.value && endDate.value && car.value) {
         const start = new Date(startDate.value);
@@ -30,43 +38,55 @@ const estimatedPrice = computed(() => {
         const diffTime = Math.abs(end - start);
         const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
 
+        // No negative hours
         if (diffHours <= 0) return 0;
 
         return diffHours * car.value.hourly_price;
     }
+    // If any data missing, price is 0
     return 0;
 });
 
+// Minimum date is now, in form date format
 const minDate = computed(() => {
     const now = new Date();
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
     return now.toISOString().slice(0, 16);
 });
 
+// Add to cart function
 const handleAddToCart = () => {
+    // If no user, cannot add to cart
     if (!isAuthenticated.value) {
         toast.info("You must be logged in as a customer to add items to the cart.")
         return;
     }
 
+    // If one date is missing, cannot add to cart
     if (!startDate.value || !endDate.value) {
         toast.warning("Please select both start and end dates.", "Dates Validation");
         return;
     }
 
+    // If end date is before start date, cannot add to cart
     if (new Date(endDate.value) <= new Date(startDate.value)) {
         toast.warning("End date must be after start date.", "Dates Validation");
         return;
     }
 
+    // If everything ok, add to cart
     cartStore.addToCart(car.value, startDate.value, endDate.value);
 
+    // Get offcanvas reference
     const offcanvas = document.getElementById("reservationOffcanvas");
+    // Get offcanvas bootstrap instance
     const offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(offcanvas);
 
+    // Hide offcanvas
     offcanvasInstance?.hide();
 
     setTimeout(() => {
+        // Show cart modal
         const cartModalTrigger = document.getElementById("cart-trigger");
         cartModalTrigger?.click();
     }, 300)
@@ -74,6 +94,7 @@ const handleAddToCart = () => {
 
 onMounted(async () => {
     try {
+        // Get car details
         const carJSON = await axios.get(`/api/cars/${carId}`);
         car.value = carJSON.data;
     } catch (error) {
@@ -107,7 +128,7 @@ onMounted(async () => {
             </div>
         </div>
 
-        <!-- CALL TO ACTION -->
+        <!-- CALL TO ACTION ONLY IF USER IS NOT ADMIN-->
         <div class="text-center mb-5">
             <button class="btn bg-primary-cta btn-lg px-5 py-3" data-bs-toggle="offcanvas"
                 data-bs-target="#reservationOffcanvas" v-if="!isAdmin">
@@ -204,6 +225,7 @@ onMounted(async () => {
                     <input type="datetime-local" class="form-control" v-model="endDate" :min="startDate || minDate">
                 </div>
 
+                <!-- Price preview -->
                 <div v-if="estimatedPrice > 0" class="inner-panel-primary text-center p-3">
                     <small class="d-block text-uppercase mb-1">Total Estimated</small>
                     <span class="display-6 text-white fw-bold">{{ estimatedPrice.toLocaleString('es-ES') }}€</span>

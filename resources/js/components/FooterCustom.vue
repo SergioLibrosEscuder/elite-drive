@@ -1,3 +1,5 @@
+<!-- Guillermo Soto -->
+
 <template>
     <!-- FOOTER ===================================================================================== -->
 
@@ -25,7 +27,10 @@
                 <div class="col-md-4 mb-4 text-md-end">
                     <h5 class="fw-bold">Legal</h5>
                     <ul class="list-unstyled">
-                        <li><RouterLink class="nav-link" to="/legal">Terms & Conditions</RouterLink></li>
+                        <!-- RouterLink to Legal Advice page -->
+                        <li>
+                            <RouterLink class="nav-link" to="/legal">Terms & Conditions</RouterLink>
+                        </li>
                     </ul>
                 </div>
             </div>

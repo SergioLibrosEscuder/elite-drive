@@ -1,3 +1,5 @@
+<!-- Iván requena -->
+
 <script setup>
 import { onMounted } from 'vue';
 import { useToast } from '../composables/useToast';
@@ -8,24 +10,24 @@ import { ref, computed } from 'vue';
 
 
 const searchQuery = ref('');
-const activeIndex = ref(0); // Para navegar por los resultados
+const activeIndex = ref(0);
 
-// Base de datos de TODO tu contenido de Gallery.vue
+// Content Data
 const galleryStore = [
-    { type: 'Movie', title: 'Fast & Furious 9', year: '2021', info: '2h 23m', img: '/images/cars/gallery/fast.jpg', desc: 'Dom Toretto lleva una vida tranquila...', director: 'Justin Lin' },
-    { type: 'Movie', title: 'Ford v Ferrari', year: '2019', info: '2h 32m', img: '/images/cars/gallery/fordvsferrari.jpg', desc: 'El visionario Carroll Shelby y Ken Miles...', director: 'James Mangold' },
-    { type: 'Game', title: 'Forza Horizon 5', year: '2021', info: 'Racing', img: '/images/cars/gallery/forzahorizon5.jpeg', desc: 'Explora los paisajes de México.' },
-    { type: 'Juego', title: 'Need for Speed Unbound', year: '2022', info: 'Street Race', img: '/images/cars/gallery/nfsUnbound.jpg', desc: 'Estilo graffiti y persecuciones policiales en Lakeshore.' },
-    { type: 'Juego', title: 'Assetto Corsa Competizione', year: '2019', info: 'GT3 Sim', img: '/images/cars/gallery/assettocorsa.jpeg', desc: 'La competición oficial de Blancpain GT Series en tu casa.' },
-    { type: 'Juego', title: 'Dirt1', year: '2011', info: 'Carrera', img: '/images/cars/gallery/Dirt1.jpg', desc: 'Dom Toretto protege a su familia de un pasado letal.' },
-    { type: 'Juego', title: 'Gran Turismo', year: '2023', info: 'Biopic / Motor', img: '/images/cars/gallery/granturismo.jpg', desc: 'De jugador a piloto profesional en una historia real increíble.' },
-    { type: 'Juego', title: 'Need for Speed', year: '2014', info: 'Acción / Carrera', img: '/images/cars/gallery/needforspeed.jpeg', desc: 'Una carrera a través del país por la justicia y la velocidad.' },
-    { type: 'Juego', title: 'Dirt5', year: '2020', info: 'Acción / Carrera', img: '/images/cars/gallery/Dirt5.jpg', desc: 'Una carrera a través del país por la justicia y la velocidad.' }
+    { type: 'Movie', title: 'Fast & Furious 9', year: '2021', info: '2h 23m', img: '/images/gallery/fast.jpg', desc: 'Dom Toretto lleva una vida tranquila...', director: 'Justin Lin' },
+    { type: 'Movie', title: 'Ford v Ferrari', year: '2019', info: '2h 32m', img: '/images/gallery/fordvsferrari.jpg', desc: 'El visionario Carroll Shelby y Ken Miles...', director: 'James Mangold' },
+    { type: 'Game', title: 'Forza Horizon 5', year: '2021', info: 'Racing', img: '/images/gallery/forzahorizon5.jpeg', desc: 'Explora los paisajes de México.' },
+    { type: 'Juego', title: 'Need for Speed Unbound', year: '2022', info: 'Street Race', img: '/images/gallery/nfsUnbound.jpg', desc: 'Estilo graffiti y persecuciones policiales en Lakeshore.' },
+    { type: 'Juego', title: 'Assetto Corsa Competizione', year: '2019', info: 'GT3 Sim', img: '/images/gallery/assettocorsa.jpeg', desc: 'La competición oficial de Blancpain GT Series en tu casa.' },
+    { type: 'Juego', title: 'Dirt1', year: '2011', info: 'Carrera', img: '/images/gallery/Dirt1.jpg', desc: 'Dom Toretto protege a su familia de un pasado letal.' },
+    { type: 'Juego', title: 'Gran Turismo', year: '2023', info: 'Biopic / Motor', img: '/images/gallery/granturismo.jpg', desc: 'De jugador a piloto profesional en una historia real increíble.' },
+    { type: 'Juego', title: 'Need for Speed', year: '2014', info: 'Acción / Carrera', img: '/images/gallery/needforspeed.jpeg', desc: 'Una carrera a través del país por la justicia y la velocidad.' },
+    { type: 'Juego', title: 'Dirt5', year: '2020', info: 'Acción / Carrera', img: '/images/gallery/Dirt5.jpg', desc: 'Una carrera a través del país por la justicia y la velocidad.' }
 
 ];
 
 
-// Filtrado en tiempo real
+// IRL Filtering
 const searchResults = computed(() => {
     if (!searchQuery.value) return [];
     return galleryStore.filter(item =>
@@ -33,14 +35,14 @@ const searchResults = computed(() => {
     );
 });
 
-// El objeto que se muestra a la derecha (el primero de la lista de búsqueda)
+// First element in list
 const selectedPreview = computed(() => {
     return searchResults.value.length > 0 ? searchResults.value[activeIndex.value] : null;
 });
 
 
 /* =========================================
-   1. DATOS Y ESTADO
+   1. DATA AND STATE
    ========================================= */
 const carData = [
     { id: 1, type: "coche", model: "Mercedes-AMG GT", price: "185.000 €", image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1000&auto=format&fit=crop", desc: "Un pura sangre alemán...", specs: [{ label: "0-100 km/h", value: "3.2 s" }, { label: "Potencia", value: "585 CV" }, { label: "Motor", value: "V8 Biturbo" }, { label: "Velocidad Máx", value: "318 km/h" }] },
@@ -51,30 +53,29 @@ const carData = [
 ];
 
 let carModal;
-let currentVehicle = null; // Guardamos el vehículo seleccionado para el PDF
+let currentVehicle = null;
 
 /* =========================================
-   2. LÓGICA DE DESCARGA PDF
+   2. PDF DOWNLOAD LOGIC
    ========================================= */
 const descargarPDF = () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    const accentColor = [255, 77, 0]; // Naranja Motorsport
+    const accentColor = [255, 77, 0];
 
-    // 1. DETERMINAR QUÉ ESTAMOS DESCARGANDO
-    // Miramos si el modal de calendario está abierto
+    // Check is calendar is open
     const calendarModalEl = document.getElementById('calendarModal');
     const isCalendarVisible = calendarModalEl && calendarModalEl.classList.contains('show');
 
     if (isCalendarVisible) {
-        // --- LÓGICA PARA CALENDARIO ---
+        // Calendar logic
         doc.setFontSize(22);
         doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
         doc.text("Elite Drive | Calendario 2024", 105, 20, { align: "center" });
 
-        // Extraer datos de la tabla de HTML directamente
+        // Extract data from table
         doc.autoTable({
-            html: '#calendarModal table', // Selecciona la tabla dentro del modal
+            html: '#calendarModal table',
             startY: 35,
             theme: 'grid',
             headStyles: { fillColor: accentColor },
@@ -84,7 +85,7 @@ const descargarPDF = () => {
         doc.save("Calendario_EliteDrive_2024.pdf");
 
     } else if (currentVehicle) {
-        // --- LÓGICA PARA COCHE (Tu código anterior) ---
+        // Car logic
         doc.setFontSize(22);
         doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
         doc.text("Elite Drive | Motorsport", 105, 20, { align: "center" });
@@ -112,7 +113,7 @@ const descargarPDF = () => {
 };
 
 /* =========================================
-   3. LÓGICA VERTICAL SYNC
+   3. VERTICAL SYNC LOGIC
    ========================================= */
 function initVerticalSync() {
     const menuItems = document.querySelectorAll('.menu-item');
@@ -176,7 +177,7 @@ function initVerticalSync() {
 }
 
 /* =========================================
-   4. RENDERIZADO Y MODAL
+   4. RENDER AND MODAL
    ========================================= */
 function renderVehicles(data) {
     const gridContainer = document.getElementById('inventory-grid');
@@ -205,7 +206,7 @@ window.abrirModal = (id) => {
     const v = carData.find(v => v.id === id);
     if (!v || !carModal) return;
 
-    currentVehicle = v; // IMPORTANTE: Guardamos el vehículo actual para el PDF
+    currentVehicle = v;
 
     document.getElementById('modalTitle').innerText = v.model;
     document.getElementById('modalImage').src = v.image;
@@ -228,16 +229,16 @@ window.abrirModal = (id) => {
 };
 
 /* =========================================
-   5. CICLO DE VIDA ONMOUNTED
+   5. ONMOUNTED LIFETIME
    ========================================= */
 onMounted(() => {
-    // 1. Inicializar Modal de Vehículos (Coches/Motos)
+    // 1. Start vehicle modal
     const modalElement = document.getElementById('carModal');
     if (modalElement) {
         carModal = new bootstrap.Modal(modalElement);
     }
 
-    // 2. Inicializar el Slider Principal (Fast & Furious / Ford v Ferrari)
+    // 2. Start main slider
     if (document.getElementById('ms-main-slider-container')) {
         new Swiper('#ms-main-slider-container', {
             loop: true,
@@ -257,7 +258,7 @@ onMounted(() => {
         });
     }
 
-    // 3. Inicializar Slider de Videojuegos (Legendary Video Games)
+    // 3. Start videogames slider
     if (document.querySelector('.game-carousel-container')) {
         new Swiper('.game-carousel-container', {
             slidesPerView: 1,
@@ -277,7 +278,7 @@ onMounted(() => {
     }
 
 
-    // 6. Listener Global para botones de Descarga PDF
+    // 6. Download PDF Button listener
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('#btnDescargarPDF');
         if (btn) {
@@ -285,13 +286,13 @@ onMounted(() => {
         }
     });
 
-    // 7. Listener para el envío del formulario de reserva
+    // 7. Reservation form listener
     const formReserva = document.getElementById('formReservaRuta');
     if (formReserva) {
         formReserva.addEventListener('submit', descargarTicketReserva);
     }
 
-    // 8. Inicializar Sistemas Visuales Adicionales
+    // 8. Aditional Visual Systems start
     initVerticalSync();
     if (typeof initSwiperSliders === 'function') initSwiperSliders();
     if (typeof initParallax === 'function') initParallax();
@@ -308,8 +309,7 @@ onMounted(() => {
         });
     }
 
-    // 10. NUEVO: Slider "Nuestros Juegos Favoritos" (mega-swiper)
-    // Se han añadido las flechas de navegación específicas
+    // 10. Mega Swiper Slider
     const megaSwiperGames = document.querySelector('.mega-swiper-slider-wrapper');
     if (megaSwiperGames) {
         new Swiper('.mega-swiper-slider-wrapper', {
@@ -322,7 +322,7 @@ onMounted(() => {
                 delay: 4500,
                 disableOnInteraction: false,
             },
-            // FUNCIÓN DE LAS FLECHAS AÑADIDA AQUÍ:
+            // Arrow Buttons navigation
             navigation: {
                 nextEl: '.mega-swiper-next-btn',
                 prevEl: '.mega-swiper-prev-btn',
@@ -337,51 +337,51 @@ onMounted(() => {
     }
 });
 /* =========================================
-   LÓGICA DE RUTAS Y RESERVAS
+   Routes and reservations logic
    ========================================= */
 
-// 1. Función para saltar del modal de rutas al de formulario
+// 1. Jump between modals logic
 window.abrirFormularioReserva = () => {
-    // Cerramos el modal de rutas (usando el ID que me pasaste antes)
+    // Close routes modal
     const rutasModalEl = document.getElementById('rutasModal');
     if (rutasModalEl) {
         const modalRutas = bootstrap.Modal.getInstance(rutasModalEl);
         if (modalRutas) modalRutas.hide();
     }
 
-    // Abrimos el modal del formulario (usando el ID de tu último mensaje)
+    // Open form modal
     setTimeout(() => {
         const formModalEl = document.getElementById('reservaFormModal');
         if (formModalEl) {
             const modalForm = new bootstrap.Modal(formModalEl);
             modalForm.show();
         }
-    }, 400); // Pequeño delay para que Bootstrap no se bloquee con las sombras
+    }, 400);
 };
 
-// 2. Función para generar el PDF de la reserva
+// 2. Generate reservation PDF
 const descargarTicketReserva = (e) => {
-    e.preventDefault(); // Evita que la página se recargue
+    e.preventDefault();
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Capturamos los datos de TU formulario
+    // Get data from form
     const ruta = document.getElementById('rutaSeleccionada').value;
     const nombre = document.getElementById('nombrePiloto').value;
     const email = document.getElementById('emailPiloto').value;
 
-    // --- Diseño del PDF ---
-    const accentColor = [255, 77, 0]; // Naranja #ff4d00
+    // PDF Styles
+    const accentColor = [255, 77, 0];
 
-    // Cabecera estética
+    // HEADER
     doc.setFillColor(20, 20, 20);
     doc.rect(0, 0, 210, 40, 'F');
     doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
     doc.setFontSize(22);
     doc.text("ELITE DRIVE | MOTORSPORT", 105, 25, { align: "center" });
 
-    // Cuerpo
+    // BODY
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(16);
     doc.text("CONFIRMACIÓN DE RESERVA", 20, 60);
@@ -392,15 +392,15 @@ const descargarTicketReserva = (e) => {
     doc.text(`Email: ${email}`, 20, 100);
     doc.text(`Fecha de solicitud: ${new Date().toLocaleDateString()}`, 20, 110);
 
-    // Tabla o cuadro de aviso
+    // TABLE
     doc.setDrawColor(accentColor[0], accentColor[1], accentColor[2]);
     doc.rect(15, 130, 180, 30);
     doc.text("Presenta este ticket digital el día de la ruta.", 105, 147, { align: "center" });
 
-    // Descarga
+    // DOWNLOAD
     doc.save(`Ticket_Reserva_${nombre.replace(/\s+/g, '_')}.pdf`);
 
-    // Cerrar el modal al terminar
+    // CLOSE MODAL
     const formModalEl = document.getElementById('reservaFormModal');
     const modalForm = bootstrap.Modal.getInstance(formModalEl);
     if (modalForm) modalForm.hide();
@@ -409,17 +409,10 @@ const descargarTicketReserva = (e) => {
 };
 
 /* =========================================
-   EN EL ONMOUNTED
-   ========================================= */
-
-
-
-
-/* =========================================
-   LÓGICA DEL SLIDER PRINCIPAL (SWIPER)
+   MAIN SLIDE LOGIC
    ========================================= */
 function initMainSlider() {
-    // Inicializamos Swiper
+    // Start slider
     const swiper = new Swiper('#ms-main-slider-container', {
         loop: true,
         speed: 1000,
@@ -427,7 +420,7 @@ function initMainSlider() {
             delay: 6000,
             disableOnInteraction: false,
         },
-        effect: 'fade', // Efecto suave de desvanecimiento
+        effect: 'fade',
         fadeEffect: {
             crossFade: true
         },
@@ -438,7 +431,7 @@ function initMainSlider() {
     });
 }
 
-// Función para abrir el trailer (Asegúrate de tener un modal con ID trailerModal)
+// Open trailer function
 window.openLocalTrailer = (videoPath) => {
     const modalElement = document.getElementById('trailerModal');
     const videoPlayer = document.getElementById('ms-video-player');
@@ -455,15 +448,15 @@ window.openLocalTrailer = (videoPath) => {
 
 
 /* =========================================
-   LÓGICA DEL SLIDER DE VIDEOJUEGOS
+   VIDEOGAMES SLIDER LOGIC
    ========================================= */
 function initGameSlider() {
     if (document.getElementById('game-swiper')) {
         new Swiper('#game-swiper', {
-            slidesPerView: 1,      // Por defecto 1 en móvil
-            spaceBetween: 20,      // Espacio entre cartas
-            loop: true,            // Infinito
-            centeredSlides: true,  // La del centro se ve principal
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+            centeredSlides: true,
             autoplay: {
                 delay: 2500,
                 disableOnInteraction: false,
@@ -472,7 +465,6 @@ function initGameSlider() {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
-            // Responsive: cuántos juegos se ven según el tamaño de pantalla
             breakpoints: {
                 640: { slidesPerView: 2 },
                 1024: { slidesPerView: 3 },
@@ -482,39 +474,28 @@ function initGameSlider() {
     }
 }
 window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
-    // 1. Rellenar los textos
+    // 1. Fill texts
     document.getElementById('viewMoreTitle').innerText = title;
     document.getElementById('viewMoreDesc').innerText = desc;
     document.getElementById('viewMoreDirector').innerText = director;
     document.getElementById('viewMoreCast').innerText = cast;
     document.getElementById('viewMoreYear').innerText = year;
 
-    // 2. Aplicar la imagen al fondo del banner
+    // 2. Apply image to banner bg
     const banner = document.getElementById('viewMoreBanner');
     if (banner) {
-        // Forzamos el cambio de estilo directamente
         banner.style.backgroundImage = `url('${bannerUrl}')`;
     }
 
-    // 3. Mostrar el modal
+    // 3. Show modal
     const modalElement = document.getElementById('modal-img-viewmore');
     if (modalElement) {
         const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
         modalInstance.show();
     }
 };
-
-
-
-
-
-
-
 </script>
 <template>
-
-
-
     <div class="ms-search-premium-hub">
         <div class="container">
             <div class="ms-search-input-box">
@@ -576,9 +557,6 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
         </div>
     </div>
 
-
-
-
     <section id="ms-home-wrapper" class="p-0 overflow-hidden">
         <div id="ms-main-slider-container" class="swiper m-0 p-0">
 
@@ -610,7 +588,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...', 'Justin Lin', 'Vin Diesel, John Cena', '2021', '/images/cars/gallery/fast.jpg')"
+                                        onclick="openViewMore('Fast & Furious 9', 'Dom Toretto is living a quiet life...', 'Justin Lin', 'Vin Diesel, John Cena', '2021', '/images/gallery/fast.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
@@ -645,15 +623,13 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('Ford v Ferrari', 'Carroll Shelby and Ken Miles battle...', 'James Mangold', 'Matt Damon, Christian Bale', '2019', '/images/cars/gallery/fordvsferrari.jpg')"
+                                        onclick="openViewMore('Ford v Ferrari', 'Carroll Shelby and Ken Miles battle...', 'James Mangold', 'Matt Damon, Christian Bale', '2019', '/images/gallery/fordvsferrari.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
 
                 <div class="swiper-slide ms-slide ms-bg-3">
                     <div class="ms-vignette"></div>
@@ -681,7 +657,7 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('F1 (Apex)', 'A retired driver returns to the grid...', 'Joseph Kosinski', 'Brad Pitt, Damson Idris', '2025', '/images/cars/gallery/f1themovie.jpg')"
+                                        onclick="openViewMore('F1 (Apex)', 'A retired driver returns to the grid...', 'Joseph Kosinski', 'Brad Pitt, Damson Idris', '2025', '/images/gallery/f1themovie.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
@@ -715,30 +691,18 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                                         <i class="fa fa-play me-2"></i>Watch Trailer
                                     </a>
                                     <a href="javascript:void(0)"
-                                        onclick="openViewMore('Cars', 'Hotshot rookie Lightning McQueen gets lost...', 'John Lasseter', 'Owen Wilson, Paul Newman', '2006', '/images/cars/gallery/cars.jpg')"
+                                        onclick="openViewMore('Cars', 'Hotshot rookie Lightning McQueen gets lost...', 'John Lasseter', 'Owen Wilson, Paul Newman', '2006', '/images/gallery/cars.jpg')"
                                         class="ms-btn-link">See more details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <div class="slick-prev swiper-button-prev"></div>
             <div class="slick-next swiper-button-next"></div>
         </div>
     </section>
-
-
-
-
-
-
-
-
-
-
 
     <div class="modal fade" id="modal-img-viewmore" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -773,12 +737,6 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
         </div>
     </div>
 
-
-
-
-
-
-
     <div class="modal fade" id="trailerModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content bg-black border-0" style="overflow: visible;">
@@ -796,123 +754,112 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
         </div>
     </div>
 
-
-<section class="brands-section py-5 bg-black overflow-hidden">
-    <div class="container text-center mb-5">
-        <h3 class="text-uppercase fw-bold text-white">Our <span class="text-accent">Brands</span></h3>
-        <div class="divider mx-auto"></div>
-    </div>
-    
-    <div class="slider">
-        <div class="slide-track">
-            <div class="slide"><img :src="'/images/gallery/porchelogo.png'" alt="Porsche"></div>
-            <div class="slide"><img :src="'/images/gallery/lamborghinilogo.png'" alt="Lamborghini"></div>
-            <div class="slide"><img :src="'/images/gallery/bmwlogo.png'" alt="BMW"></div>
-            <div class="slide"><img :src="'/images/gallery/audilogo.png'" alt="Audi"></div>
-            <div class="slide"><img :src="'/images/gallery/mercedeslogo.png'" alt="Mercedes"></div>
-            <div class="slide"><img :src="'/images/gallery/ferrarilogo.png'" alt="Ferrari"></div>
-            <div class="slide"><img :src="'/images/gallery/Ducatilogo.png'" alt="Ducati"></div>
-            <div class="slide"><img :src="'/images/gallery/porchelogo.png'" alt="Porsche"></div>
-            <div class="slide"><img :src="'/images/gallery/lamborghinilogo.png'" alt="Lamborghini"></div>
-            <div class="slide"><img :src="'/images/gallery/bmwlogo.png'" alt="BMW"></div>
-            <div class="slide"><img :src="'/images/gallery/audilogo.png'" alt="Audi"></div>
-            <div class="slide"><img :src="'/images/gallery/mercedeslogo.png'" alt="Mercedes"></div>
-            <div class="slide"><img :src="'/images/gallery/ferrarilogo.png'" alt="Ferrari"></div>
-            <div class="slide"><img :src="'/images/gallery/Ducatilogo.png'" alt="Ducati"></div>
+    <section class="brands-section py-5 bg-black overflow-hidden">
+        <div class="container text-center mb-5">
+            <h3 class="text-uppercase fw-bold text-white">Our <span class="text-accent">Brands</span></h3>
+            <div class="divider mx-auto"></div>
         </div>
-    </div>
-</section>
-<section class="vertical-sync-section position-relative">
-    <div id="dynamic-bg" class="dynamic-bg-layer"></div>
-    <div class="overlay-dark"></div>
-    
-    <div class="container py-5 position-relative z-2">
-        <h3 class="section-title mb-5 text-white">TRENDING <span class="text-primary-color">STORIES</span></h3>
-        
-        <div class="row">
-            <div class="col-lg-4 col-md-5">
-                <div class="vertical-menu" id="verticalMenu">
-                    
-                    <div class="menu-item active" 
-                         data-bg="/images/gallery/borntorace.png"
-                         data-title="Born to Race"
-                         data-desc="An immersive look into the world of GT racing championships.">
-                        <div class="d-flex align-items-center">
-                            <img :src="'/images/gallery/borntorace.png'" alt="Poster" class="poster-thumb">
-                            <div class="ms-3 text-white">
-                                <h5>Born to Race</h5>
-                                <span class="badge bg-secondary">Docu-Series</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="menu-item" 
-                         data-bg="/images/gallery/nightracer.png"
-                         data-title="Night Rider"
-                         data-desc="When the sun goes down, the illegal street races begin.">
-                        <div class="d-flex align-items-center">
-                            <img :src="'/images/gallery/nightracer.png'" alt="Poster" class="poster-thumb">
-                            <div class="ms-3 text-white">
-                                <h5>Night Rider</h5>
-                                <span class="badge bg-secondary">Action</span>
-                            </div>
-                        </div>
-                    </div>
+        <div class="slider">
+            <div class="slide-track">
+                <div class="slide"><img :src="'/images/gallery/porchelogo.png'" alt="Porsche"></div>
+                <div class="slide"><img :src="'/images/gallery/lamborghinilogo.png'" alt="Lamborghini"></div>
+                <div class="slide"><img :src="'/images/gallery/bmwlogo.png'" alt="BMW"></div>
+                <div class="slide"><img :src="'/images/gallery/audilogo.png'" alt="Audi"></div>
+                <div class="slide"><img :src="'/images/gallery/mercedeslogo.png'" alt="Mercedes"></div>
+                <div class="slide"><img :src="'/images/gallery/ferrarilogo.png'" alt="Ferrari"></div>
+                <div class="slide"><img :src="'/images/gallery/Ducatilogo.png'" alt="Ducati"></div>
+                <div class="slide"><img :src="'/images/gallery/porchelogo.png'" alt="Porsche"></div>
+                <div class="slide"><img :src="'/images/gallery/lamborghinilogo.png'" alt="Lamborghini"></div>
+                <div class="slide"><img :src="'/images/gallery/bmwlogo.png'" alt="BMW"></div>
+                <div class="slide"><img :src="'/images/gallery/audilogo.png'" alt="Audi"></div>
+                <div class="slide"><img :src="'/images/gallery/mercedeslogo.png'" alt="Mercedes"></div>
+                <div class="slide"><img :src="'/images/gallery/ferrarilogo.png'" alt="Ferrari"></div>
+                <div class="slide"><img :src="'/images/gallery/Ducatilogo.png'" alt="Ducati"></div>
+            </div>
+        </div>
+    </section>
 
-                    <div class="menu-item" 
-                         data-bg="/images/gallery/theapex.png"
-                         data-title="The Apex"
-                         data-desc="A drama about a rookie pilot trying to secure his legacy.">
-                        <div class="d-flex align-items-center">
-                            <img :src="'/images/gallery/theapex.png'" alt="Poster" class="poster-thumb">
-                            <div class="ms-3 text-white">
-                                <h5>The Apex</h5>
-                                <span class="badge bg-secondary">Drama</span>
-                            </div>
-                        </div>
-                    </div>
+    <section class="vertical-sync-section position-relative">
+        <div id="dynamic-bg" class="dynamic-bg-layer"></div>
+        <div class="overlay-dark"></div>
 
-                    <div class="menu-item" 
-                         data-bg="/images/gallery/timelessIcon.png"
-                         data-title="Timeless Icon"
-                         data-desc="Experience the heritage of the most successful sports car.">
-                        <div class="d-flex align-items-center">
-                            <img :src="'/images/gallery/timelessIcon.png'" alt="Poster" class="poster-thumb">
-                            <div class="ms-3 text-white">
-                                <h5>Timeless Icon</h5>
-                                <span class="badge bg-secondary">Heritage</span>
-                            </div>
-                        </div>
-                    </div>
+        <div class="container py-5 position-relative z-2">
+            <h3 class="section-title mb-5 text-white">TRENDING <span class="text-primary-color">STORIES</span></h3>
 
-                    <div class="menu-item" 
-                         data-bg="/images/gallery/germanpower.png"
-                         data-title="German Power"
-                         data-desc="Precision engineering meets raw V8 performance.">
-                        <div class="d-flex align-items-center">
-                            <img :src="'/images/gallery/germanpower.png'" alt="Poster" class="poster-thumb">
-                            <div class="ms-3 text-white">
-                                <h5>German Power</h5>
-                                <span class="badge bg-secondary">Performance</span>
+            <div class="row">
+                <div class="col-lg-4 col-md-5">
+                    <div class="vertical-menu" id="verticalMenu">
+
+                        <div class="menu-item active" data-bg="/images/gallery/borntorace.png" data-title="Born to Race"
+                            data-desc="An immersive look into the world of GT racing championships.">
+                            <div class="d-flex align-items-center">
+                                <img :src="'/images/gallery/borntorace.png'" alt="Poster" class="poster-thumb">
+                                <div class="ms-3 text-white">
+                                    <h5>Born to Race</h5>
+                                    <span class="badge bg-secondary">Docu-Series</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="menu-item" data-bg="/images/gallery/nightracer.png" data-title="Night Rider"
+                            data-desc="When the sun goes down, the illegal street races begin.">
+                            <div class="d-flex align-items-center">
+                                <img :src="'/images/gallery/nightracer.png'" alt="Poster" class="poster-thumb">
+                                <div class="ms-3 text-white">
+                                    <h5>Night Rider</h5>
+                                    <span class="badge bg-secondary">Action</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-item" data-bg="/images/gallery/theapex.png" data-title="The Apex"
+                            data-desc="A drama about a rookie pilot trying to secure his legacy.">
+                            <div class="d-flex align-items-center">
+                                <img :src="'/images/gallery/theapex.png'" alt="Poster" class="poster-thumb">
+                                <div class="ms-3 text-white">
+                                    <h5>The Apex</h5>
+                                    <span class="badge bg-secondary">Drama</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-item" data-bg="/images/gallery/timelessIcon.png" data-title="Timeless Icon"
+                            data-desc="Experience the heritage of the most successful sports car.">
+                            <div class="d-flex align-items-center">
+                                <img :src="'/images/gallery/timelessIcon.png'" alt="Poster" class="poster-thumb">
+                                <div class="ms-3 text-white">
+                                    <h5>Timeless Icon</h5>
+                                    <span class="badge bg-secondary">Heritage</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-item" data-bg="/images/gallery/germanpower.png" data-title="German Power"
+                            data-desc="Precision engineering meets raw V8 performance.">
+                            <div class="d-flex align-items-center">
+                                <img :src="'/images/gallery/germanpower.png'" alt="Poster" class="poster-thumb">
+                                <div class="ms-3 text-white">
+                                    <h5>German Power</h5>
+                                    <span class="badge bg-secondary">Performance</span>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
 
-            <div class="col-lg-8 col-md-7 d-flex align-items-end pb-5">
-                <div class="active-info text-end w-100">
-                    <h2 id="preview-title" class="display-4 fw-bold text-white">Born to Race</h2>
-                    <p id="preview-desc" class="lead text-light">An immersive look into the world of GT racing championships.</p>
-                    <button class="btn btn-primary-custom btn-lg mt-3">Watch Now</button>
+                <div class="col-lg-8 col-md-7 d-flex align-items-end pb-5">
+                    <div class="active-info text-end w-100">
+                        <h2 id="preview-title" class="display-4 fw-bold text-white">Born to Race</h2>
+                        <p id="preview-desc" class="lead text-light">An immersive look into the world of GT racing
+                            championships.</p>
+                        <button class="btn btn-primary-custom btn-lg mt-3">Watch Now</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-
+    </section>
 
     <section class="mega-swiper-games-section">
         <div class="mega-swiper-container">
@@ -922,64 +869,66 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                     history.</p>
             </div>
 
-    <div class="mega-swiper-slider-wrapper swiper-container">
-      <div class="swiper-wrapper">
-        
-        <div class="swiper-slide mega-swiper-game-card">
-          <img :src="'/images/gallery/dir1xbox.png'" alt="Dirt 1" class="mega-swiper-game-image">
-          <div class="mega-swiper-game-overlay">
-            <h3 class="mega-swiper-game-title">Dirt</h3>
-            <p class="mega-swiper-game-genre">Adventure, Action</p>
-          </div>
-        </div>
+            <div class="mega-swiper-slider-wrapper swiper-container">
+                <div class="swiper-wrapper">
 
-        <div class="swiper-slide mega-swiper-game-card">
-          <img :src="'/images/gallery/ps2granturismo.png'" alt="Gran Turismo 4" class="mega-swiper-game-image">
-          <div class="mega-swiper-game-overlay">
-            <h3 class="mega-swiper-game-title">Gran Turismo</h3>
-            <p class="mega-swiper-game-genre">Action, Racing</p>
-          </div>
-        </div>
+                    <div class="swiper-slide mega-swiper-game-card">
+                        <img :src="'/images/gallery/dir1xbox.png'" alt="Dirt 1" class="mega-swiper-game-image">
+                        <div class="mega-swiper-game-overlay">
+                            <h3 class="mega-swiper-game-title">Dirt</h3>
+                            <p class="mega-swiper-game-genre">Adventure, Action</p>
+                        </div>
+                    </div>
 
-        <div class="swiper-slide mega-swiper-game-card">
-          <img :src="'/images/gallery/dirt5xbox.jpg'" alt="Dirt 5" class="mega-swiper-game-image">
-          <div class="mega-swiper-game-overlay">
-            <h3 class="mega-swiper-game-title">Dirt</h3>
-            <p class="mega-swiper-game-genre">Action, Adventure</p>
-          </div>
-        </div>
+                    <div class="swiper-slide mega-swiper-game-card">
+                        <img :src="'/images/gallery/ps2granturismo.png'" alt="Gran Turismo 4"
+                            class="mega-swiper-game-image">
+                        <div class="mega-swiper-game-overlay">
+                            <h3 class="mega-swiper-game-title">Gran Turismo</h3>
+                            <p class="mega-swiper-game-genre">Action, Racing</p>
+                        </div>
+                    </div>
 
-        <div class="swiper-slide mega-swiper-game-card">
-          <img :src="'/images/gallery/motogp14.png'" alt="MotoGP 14" class="mega-swiper-game-image">
-          <div class="mega-swiper-game-overlay">
-            <h3 class="mega-swiper-game-title">MotoGP</h3>
-            <p class="mega-swiper-game-genre">Simulation, Racing</p>
-          </div>
-        </div>
+                    <div class="swiper-slide mega-swiper-game-card">
+                        <img :src="'/images/gallery/dirt5xbox.jpg'" alt="Dirt 5" class="mega-swiper-game-image">
+                        <div class="mega-swiper-game-overlay">
+                            <h3 class="mega-swiper-game-title">Dirt</h3>
+                            <p class="mega-swiper-game-genre">Action, Adventure</p>
+                        </div>
+                    </div>
 
-        <div class="swiper-slide mega-swiper-game-card">
-          <img :src="'/images/gallery/thecrew2.jpg'" alt="The Crew 2" class="mega-swiper-game-image">
-          <div class="mega-swiper-game-overlay">
-            <h3 class="mega-swiper-game-title">The Crew</h3>
-            <p class="mega-swiper-game-genre">Adventure, Action</p>
-          </div>
-        </div>
+                    <div class="swiper-slide mega-swiper-game-card">
+                        <img :src="'/images/gallery/motogp14.png'" alt="MotoGP 14" class="mega-swiper-game-image">
+                        <div class="mega-swiper-game-overlay">
+                            <h3 class="mega-swiper-game-title">MotoGP</h3>
+                            <p class="mega-swiper-game-genre">Simulation, Racing</p>
+                        </div>
+                    </div>
 
-        <div class="swiper-slide mega-swiper-game-card">
-          <img :src="'/images/gallery/motogp08.png'" alt="MotoGP 08" class="mega-swiper-game-image">
-          <div class="mega-swiper-game-overlay">
-            <h3 class="mega-swiper-game-title">MotoGP</h3>
-            <p class="mega-swiper-game-genre">Adventure, Action</p>
-          </div>
-        </div>
+                    <div class="swiper-slide mega-swiper-game-card">
+                        <img :src="'/images/gallery/thecrew2.jpg'" alt="The Crew 2" class="mega-swiper-game-image">
+                        <div class="mega-swiper-game-overlay">
+                            <h3 class="mega-swiper-game-title">The Crew</h3>
+                            <p class="mega-swiper-game-genre">Adventure, Action</p>
+                        </div>
+                    </div>
 
-        <div class="swiper-slide mega-swiper-game-card">
-          <img :src="'/images/gallery/motorfest.png'" alt="The Crew Motorfest" class="mega-swiper-game-image">
-          <div class="mega-swiper-game-overlay">
-            <h3 class="mega-swiper-game-title">The Crew Motorfest</h3>
-            <p class="mega-swiper-game-genre">Adventure, Action</p>
-          </div>
-        </div>
+                    <div class="swiper-slide mega-swiper-game-card">
+                        <img :src="'/images/gallery/motogp08.png'" alt="MotoGP 08" class="mega-swiper-game-image">
+                        <div class="mega-swiper-game-overlay">
+                            <h3 class="mega-swiper-game-title">MotoGP</h3>
+                            <p class="mega-swiper-game-genre">Adventure, Action</p>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide mega-swiper-game-card">
+                        <img :src="'/images/gallery/motorfest.png'" alt="The Crew Motorfest"
+                            class="mega-swiper-game-image">
+                        <div class="mega-swiper-game-overlay">
+                            <h3 class="mega-swiper-game-title">The Crew Motorfest</h3>
+                            <p class="mega-swiper-game-genre">Adventure, Action</p>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="swiper-button-next mega-swiper-next-btn"></div>
@@ -987,11 +936,6 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
             </div>
         </div>
     </section>
-
-
-
-
-
 
     <section class="py-5 section-dark overflow-hidden">
         <div class="container text-center mb-5">
@@ -1002,50 +946,46 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
         <div class="game-carousel-container swiper" id="game-swiper">
             <div class="swiper-wrapper">
 
-            <div class="swiper-slide game-card">
-                <div class="card-wrapper">
-                <div class="card-bg" style="background-image: url('/images/gallery/needforspeed.jpg');"></div>
-              <div class="card-title">Need For Speed</div>
+                <div class="swiper-slide game-card">
+                    <div class="card-wrapper">
+                        <div class="card-bg" style="background-image: url('/images/gallery/needforspeed.jpg');"></div>
+                        <div class="card-title">Need For Speed</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="swiper-slide game-card">
-                <div class="card-wrapper">
-                <div class="card-bg" style="background-image: url('/images/gallery/ride5.jpg');"></div>
-                <div class="card-title">Ride 5</div>
+                <div class="swiper-slide game-card">
+                    <div class="card-wrapper">
+                        <div class="card-bg" style="background-image: url('/images/gallery/ride5.jpg');"></div>
+                        <div class="card-title">Ride 5</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="swiper-slide game-card">
-                <div class="card-wrapper">
-                <div class="card-bg" style="background-image: url('/images/gallery/forzahorizon.jpg');"></div>
-                    <div class="card-title">Forza Horizon</div>
+                <div class="swiper-slide game-card">
+                    <div class="card-wrapper">
+                        <div class="card-bg" style="background-image: url('/images/gallery/forzahorizon.jpg');"></div>
+                        <div class="card-title">Forza Horizon</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="swiper-slide game-card">
-                <div class="card-wrapper">
-                  <div class="card-bg" style="background-image: url('/images/gallery/granturismo.jpg');"></div>
-                    <div class="card-title">Gran Turismo</div>
+                <div class="swiper-slide game-card">
+                    <div class="card-wrapper">
+                        <div class="card-bg" style="background-image: url('/images/gallery/granturismo.jpg');"></div>
+                        <div class="card-title">Gran Turismo</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="swiper-slide game-card">
-                <div class="card-wrapper">
-                  <div class="card-bg" style="background-image: url('/images/gallery/f12024.jpg');"></div>
-                    <div class="card-title">F1 2024</div>
+                <div class="swiper-slide game-card">
+                    <div class="card-wrapper">
+                        <div class="card-bg" style="background-image: url('/images/gallery/f12024.jpg');"></div>
+                        <div class="card-title">F1 2024</div>
+                    </div>
                 </div>
-            </div>
 
             </div>
             <div class="swiper-button-next" style="color: var(--accent-color)"></div>
             <div class="swiper-button-prev" style="color: var(--accent-color)"></div>
         </div>
     </section>
-
-
-
-
 
     <section class="parallax-trigger section-cars">
         <div class="parallax-content">
@@ -1057,96 +997,91 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
         </div>
     </section>
 
-<section class="motorsport-section py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0 content-col">
-                <h4 class="text-accent text-uppercase ls-2">Competition</h4>
-                <h2 class="display-5 fw-bold text-white mb-4">Racing <br>Spirit</h2>
-                <p class="text-gray">
-                    Step into the world of high-level competition. We organize exclusive circuit events, track days and driving experiences.
-                </p>
-                <ul class="list-unstyled text-white mt-4 custom-list">
-                    <li><span class="bullet"></span> Monthly Track Days</li>
-                    <li><span class="bullet"></span> Regional GT Championship</li>
-                    <li><span class="bullet"></span> Driver Academy</li>
-                </ul>
-                <a href="#" class="btn btn-outline-custom mt-3" data-bs-toggle="modal" data-bs-target="#calendarModal">
-                View Calendar
-</a>            </div>
-            <div class="col-lg-6">
-                <div class="motorsport-img-container">
-                    <img :src="'/images/gallery/competicion.png'" alt="Racing" class="img-fluid rounded shadow-lg">
+    <section class="motorsport-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0 content-col">
+                    <h4 class="text-accent text-uppercase ls-2">Competition</h4>
+                    <h2 class="display-5 fw-bold text-white mb-4">Racing <br>Spirit</h2>
+                    <p class="text-gray">
+                        Step into the world of high-level competition. We organize exclusive circuit events, track days
+                        and driving experiences.
+                    </p>
+                    <ul class="list-unstyled text-white mt-4 custom-list">
+                        <li><span class="bullet"></span> Monthly Track Days</li>
+                        <li><span class="bullet"></span> Regional GT Championship</li>
+                        <li><span class="bullet"></span> Driver Academy</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline-custom mt-3" data-bs-toggle="modal"
+                        data-bs-target="#calendarModal">
+                        View Calendar
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="motorsport-img-container">
+                        <img :src="'/images/gallery/competicion.png'" alt="Racing" class="img-fluid rounded shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark text-white border-secondary">
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title text-uppercase fw-bold" id="calendarModalLabel">
+                        <span class="text-accent">2024 Season</span> Calendar
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle">
+                            <thead class="text-accent">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Event</th>
+                                    <th>Circuit</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mar 15</td>
+                                    <td class="fw-bold">Track Day Opening</td>
+                                    <td>Montmeló, ESP</td>
+                                    <td><span class="badge bg-success">Open</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Apr 02</td>
+                                    <td class="fw-bold">GT Regional - Round 1</td>
+                                    <td>Jarama, ESP</td>
+                                    <td><span class="badge bg-warning text-dark">Last spots</span></td>
+                                </tr>
+                                <tr>
+                                    <td>May 20</td>
+                                    <td class="fw-bold">Driver Academy</td>
+                                    <td>Ascari, ESP</td>
+                                    <td><span class="badge bg-success">Open</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Jun 12</td>
+                                    <td class="fw-bold">Summer Night Race</td>
+                                    <td>Cheste, ESP</td>
+                                    <td><span class="badge bg-secondary">Coming Soon</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary">
+                    <button type="button" id="btnDescargarPDF" class="btn btn-custom">Download PDF</button>
                 </div>
             </div>
         </div>
     </div>
-</section>
-
-
-
-<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-dark text-white border-secondary">
-            <div class="modal-header border-bottom border-secondary">
-                <h5 class="modal-title text-uppercase fw-bold" id="calendarModalLabel">
-                    <span class="text-accent">2024 Season</span> Calendar
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table-dark table-hover align-middle">
-                        <thead class="text-accent">
-                            <tr>
-                                <th>Date</th>
-                                <th>Event</th>
-                                <th>Circuit</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Mar 15</td>
-                                <td class="fw-bold">Track Day Opening</td>
-                                <td>Montmeló, ESP</td>
-                                <td><span class="badge bg-success">Open</span></td>
-                            </tr>
-                            <tr>
-                                <td>Apr 02</td>
-                                <td class="fw-bold">GT Regional - Round 1</td>
-                                <td>Jarama, ESP</td>
-                                <td><span class="badge bg-warning text-dark">Last spots</span></td>
-                            </tr>
-                            <tr>
-                                <td>May 20</td>
-                                <td class="fw-bold">Driver Academy</td>
-                                <td>Ascari, ESP</td>
-                                <td><span class="badge bg-success">Open</span></td>
-                            </tr>
-                            <tr>
-                                <td>Jun 12</td>
-                                <td class="fw-bold">Summer Night Race</td>
-                                <td>Cheste, ESP</td>
-                                <td><span class="badge bg-secondary">Coming Soon</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer border-top border-secondary">
-                <button type="button" id="btnDescargarPDF" class="btn btn-custom">Download PDF</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
 
     <section class="parallax-trigger section-motos">
         <div class="parallax-content">
@@ -1157,19 +1092,16 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
         </div>
     </section>
 
-
-
-
-
     <section class="motorsport-section py-5 rutas-moto-section">
         <div class="container">
             <div class="row align-items-center">
 
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <div class="motorsport-img-container">
-          <img :src="'/images/gallery/rutamoto.jpeg'" alt="Motorcycle road route" class="img-fluid rounded shadow-lg">
-        </div>
-      </div>
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="motorsport-img-container">
+                        <img :src="'/images/gallery/rutamoto.jpeg'" alt="Motorcycle road route"
+                            class="img-fluid rounded shadow-lg">
+                    </div>
+                </div>
 
                 <div class="col-lg-6 content-col">
                     <h4 class="text-accent text-uppercase ls-2">Routes</h4>
@@ -1193,143 +1125,141 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
         </div>
     </section>
 
+    <div class="modal fade" id="rutasModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content bg-dark text-white border-secondary">
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title text-uppercase fw-bold">
+                        Recommended <span class="text-accent">Routes</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
 
 
-
-<div class="modal fade" id="rutasModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content bg-dark text-white border-secondary">
-            <div class="modal-header border-bottom border-secondary">
-                <h5 class="modal-title text-uppercase fw-bold">
-                    Recommended <span class="text-accent">Routes</span>
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row g-4">
-                    
-
-                    <div class="col-md-4">
-                        <div class="card bg-black border-secondary h-100">
-                            <img :src="'/images/gallery/rutadiablo.jpg'" class="card-img-top" alt="Mountain Route">
-                            <div class="card-body">
-                                <h5 class="card-title text-accent fw-bold">Devil’s Pass</h5>
-                                <p class="small text-gray">
-                                    High-mountain route with tight curves and views of the Pyrenees.
-                                </p>
-                                <div class="d-flex justify-content-between border-top border-secondary pt-2 mt-2">
-                                    <span class="small">
-                                        <i class="fa fa-tachometer-alt text-accent"></i> 150 km
-                                    </span>
-                                    <span class="small">
-                                        <i class="fa fa-clock text-accent"></i> 3h 20m
-                                    </span>
-                                </div>
-                                <span class="badge bg-danger mt-3 w-100">
-                                    Difficulty: High
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card bg-black border-secondary h-100">
-                            <img :src="'/images/gallery/rutacostadelsol.jpg'" class="card-img-top" alt="Coastal Route">
-                            <div class="card-body">
-                                <h5 class="card-title text-accent fw-bold">Costa del Sol</h5>
-                                <p class="small text-gray">
-                                    Coastal route ideal for enjoying the sunset and sea breeze.
-                                </p>
-                                <div class="d-flex justify-content-between border-top border-secondary pt-2 mt-2">
-                                    <span class="small">
-                                        <i class="fa fa-tachometer-alt text-accent"></i> 85 km
-                                    </span>
-                                    <span class="small">
-                                        <i class="fa fa-clock text-accent"></i> 1h 45m
+                        <div class="col-md-4">
+                            <div class="card bg-black border-secondary h-100">
+                                <img :src="'/images/gallery/rutadiablo.jpg'" class="card-img-top" alt="Mountain Route">
+                                <div class="card-body">
+                                    <h5 class="card-title text-accent fw-bold">Devil’s Pass</h5>
+                                    <p class="small text-gray">
+                                        High-mountain route with tight curves and views of the Pyrenees.
+                                    </p>
+                                    <div class="d-flex justify-content-between border-top border-secondary pt-2 mt-2">
+                                        <span class="small">
+                                            <i class="fa fa-tachometer-alt text-accent"></i> 150 km
+                                        </span>
+                                        <span class="small">
+                                            <i class="fa fa-clock text-accent"></i> 3h 20m
+                                        </span>
+                                    </div>
+                                    <span class="badge bg-danger mt-3 w-100">
+                                        Difficulty: High
                                     </span>
                                 </div>
-                                <span class="badge bg-success mt-3 w-100">
-                                    Difficulty: Easy
-                                </span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-4">
-                        <div class="card bg-black border-secondary h-100">
-                            <img :src="'/images/gallery/rutadelsilencio.jpg'" class="card-img-top" alt="Valley Route">
-                            <div class="card-body">
-                                <h5 class="card-title text-accent fw-bold">Valley of Silence</h5>
-                                <p class="small text-gray">
-                                    Mixed route through pine forests and perfectly smooth secondary roads.
-                                </p>
-                                <div class="d-flex justify-content-between border-top border-secondary pt-2 mt-2">
-                                    <span class="small">
-                                        <i class="fa fa-tachometer-alt text-accent"></i> 210 km
-                                    </span>
-                                    <span class="small">
-                                        <i class="fa fa-clock text-accent"></i> 4h 10m
+                        <div class="col-md-4">
+                            <div class="card bg-black border-secondary h-100">
+                                <img :src="'/images/gallery/rutacostadelsol.jpg'" class="card-img-top"
+                                    alt="Coastal Route">
+                                <div class="card-body">
+                                    <h5 class="card-title text-accent fw-bold">Costa del Sol</h5>
+                                    <p class="small text-gray">
+                                        Coastal route ideal for enjoying the sunset and sea breeze.
+                                    </p>
+                                    <div class="d-flex justify-content-between border-top border-secondary pt-2 mt-2">
+                                        <span class="small">
+                                            <i class="fa fa-tachometer-alt text-accent"></i> 85 km
+                                        </span>
+                                        <span class="small">
+                                            <i class="fa fa-clock text-accent"></i> 1h 45m
+                                        </span>
+                                    </div>
+                                    <span class="badge bg-success mt-3 w-100">
+                                        Difficulty: Easy
                                     </span>
                                 </div>
-                                <span class="badge bg-warning text-dark mt-3 w-100">
-                                    Difficulty: Medium
-                                </span>
                             </div>
                         </div>
-                    </div>
 
+                        <div class="col-md-4">
+                            <div class="card bg-black border-secondary h-100">
+                                <img :src="'/images/gallery/rutadelsilencio.jpg'" class="card-img-top"
+                                    alt="Valley Route">
+                                <div class="card-body">
+                                    <h5 class="card-title text-accent fw-bold">Valley of Silence</h5>
+                                    <p class="small text-gray">
+                                        Mixed route through pine forests and perfectly smooth secondary roads.
+                                    </p>
+                                    <div class="d-flex justify-content-between border-top border-secondary pt-2 mt-2">
+                                        <span class="small">
+                                            <i class="fa fa-tachometer-alt text-accent"></i> 210 km
+                                        </span>
+                                        <span class="small">
+                                            <i class="fa fa-clock text-accent"></i> 4h 10m
+                                        </span>
+                                    </div>
+                                    <span class="badge bg-warning text-dark mt-3 w-100">
+                                        Difficulty: Medium
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary">
+                    <button type="button" class="btn btn-custom" onclick="window.abrirFormularioReserva()">
+                        Book Guided Route
+                    </button>
                 </div>
             </div>
-            <div class="modal-footer border-top border-secondary">
-    <button type="button" class="btn btn-custom" onclick="window.abrirFormularioReserva()">
-        Book Guided Route
-    </button>
-</div>
         </div>
     </div>
-</div>
 
-
-
-
-
-
-
-<div class="modal fade" id="reservaFormModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark text-white border-accent" style="border: 1px solid var(--accent-color);">
-            <div class="modal-header border-0">
-                <h5 class="modal-title text-uppercase fw-bold">Request <span class="text-accent">Reservation</span></h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formReservaRuta">
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">SELECT YOUR ROUTE</label>
-                        <select id="rutaSeleccionada" class="form-select bg-black text-white border-secondary" required>
-                            <option value="" disabled selected>Choose a route...</option>
-                            <option value="Devil’s Pass (Paso del Diablo)">Devil’s Pass - High Mountain</option>
-                            <option value="Costa del Sol">Costa del Sol - Coastal</option>
-                            <option value="Valley of Silence (Valle del Silencio)">Valley of Silence - Forest</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small">YOUR NAME</label>
-                        <input type="text" id="nombrePiloto" class="form-control bg-black text-white border-secondary" required placeholder="e.g.: Marc Márquez">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small">EMAIL ADDRESS</label>
-                        <input type="email" id="emailPiloto" class="form-control bg-black text-white border-secondary" required placeholder="your@email.com">
-                    </div>
-                    <button type="submit" class="btn btn-custom w-100 mt-3">Confirm and Download Ticket</button>
-                </form>
+    <div class="modal fade" id="reservaFormModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white border-accent" style="border: 1px solid var(--accent-color);">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-uppercase fw-bold">Request <span class="text-accent">Reservation</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formReservaRuta">
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">SELECT YOUR ROUTE</label>
+                            <select id="rutaSeleccionada" class="form-select bg-black text-white border-secondary"
+                                required>
+                                <option value="" disabled selected>Choose a route...</option>
+                                <option value="Devil’s Pass (Paso del Diablo)">Devil’s Pass - High Mountain</option>
+                                <option value="Costa del Sol">Costa del Sol - Coastal</option>
+                                <option value="Valley of Silence (Valle del Silencio)">Valley of Silence - Forest
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">YOUR NAME</label>
+                            <input type="text" id="nombrePiloto"
+                                class="form-control bg-black text-white border-secondary" required
+                                placeholder="e.g.: Marc Márquez">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">EMAIL ADDRESS</label>
+                            <input type="email" id="emailPiloto"
+                                class="form-control bg-black text-white border-secondary" required
+                                placeholder="your@email.com">
+                        </div>
+                        <button type="submit" class="btn btn-custom w-100 mt-3">Confirm and Download Ticket</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
-
 
     <section class="parallax-trigger section-join-community">
         <div class="parallax-overlay"></div>
@@ -1344,10 +1274,6 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
 
     <section class="motorsport-section py-5">
     </section>
-
-
-
-
 
     <section class="motorsport-section py-5">
         <div class="container">
@@ -1370,25 +1296,18 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                         <li><span class="bullet"></span> Active biker community</li>
                     </ul>
 
-
-
                 </div>
 
-      <div class="col-lg-6">
-        <div class="motorsport-img-container">
-          <img :src="'/images/gallery/comunidad.png'"
-               alt="Group of bikers riding"
-               class="img-fluid rounded shadow-lg">
-        </div>
-      </div>
+                <div class="col-lg-6">
+                    <div class="motorsport-img-container">
+                        <img :src="'/images/gallery/comunidad.png'" alt="Group of bikers riding"
+                            class="img-fluid rounded shadow-lg">
+                    </div>
+                </div>
 
             </div>
         </div>
     </section>
-
-
-
-
 
     <section class="parallax-trigger section-news-banner">
         <div class="parallax-content">
@@ -1414,67 +1333,71 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
             </div>
             <div class="row g-4">
 
-  <!-- News 1 -->
-  <div class="col-md-6 col-lg-4">
-    <div class="news-card h-100">
-      <img :src="'/images/gallery/motoElectrica.jpeg'" class="img-fluid" alt="Motorcycle news">
-      <div class="news-content">
-        <span class="news-date">December 25, 2025</span>
-        <h5 class="fw-bold text-white">
-          Electric motorcycles close 2025 with an increase in registrations: 11,050 units in total
-        </h5>
-        <p class="text-gray">
-          Discover one of the most spectacular routes to enjoy riding on two wheels this year.
-        </p>
-        <a href="https://www.hibridosyelectricos.com/motos/moto-electrica-cierra-2025-con-incremento-en-matriculaciones-mayor-motos-combustion_84497_102.html" class="news-link">
-          Read more →
-        </a>
-      </div>
-    </div>
-  </div>
+                <!-- News 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="news-card h-100">
+                        <img :src="'/images/gallery/motoElectrica.jpeg'" class="img-fluid" alt="Motorcycle news">
+                        <div class="news-content">
+                            <span class="news-date">December 25, 2025</span>
+                            <h5 class="fw-bold text-white">
+                                Electric motorcycles close 2025 with an increase in registrations: 11,050 units in total
+                            </h5>
+                            <p class="text-gray">
+                                Discover one of the most spectacular routes to enjoy riding on two wheels this year.
+                            </p>
+                            <a href="https://www.hibridosyelectricos.com/motos/moto-electrica-cierra-2025-con-incremento-en-matriculaciones-mayor-motos-combustion_84497_102.html"
+                                class="news-link">
+                                Read more →
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-  <!-- News 2 -->
-  <div class="col-md-6 col-lg-4">
-    <div class="news-card h-100">
-      <img :src="'/images/gallery/Lexux.jpg'" class="img-fluid" alt="Car news">
-      <div class="news-content">
-        <span class="news-date">January 2026</span>
-        <h5 class="fw-bold text-white">
-          Presentation of the new Lexus sports model
-        </h5>
-        <p class="text-gray">
-          Radical design and racing technology arrive at the dealership.
-        </p>
-        <a href="https://prensa.lexusauto.es/lexus-presenta-el-estreno-mundial-del-deportivo-lexus-lfa-concept-bev/" class="news-link">
-          Read more →
-        </a>
-      </div>
-    </div>
-  </div>
+                <!-- News 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="news-card h-100">
+                        <img :src="'/images/gallery/Lexux.jpg'" class="img-fluid" alt="Car news">
+                        <div class="news-content">
+                            <span class="news-date">January 2026</span>
+                            <h5 class="fw-bold text-white">
+                                Presentation of the new Lexus sports model
+                            </h5>
+                            <p class="text-gray">
+                                Radical design and racing technology arrive at the dealership.
+                            </p>
+                            <a href="https://prensa.lexusauto.es/lexus-presenta-el-estreno-mundial-del-deportivo-lexus-lfa-concept-bev/"
+                                class="news-link">
+                                Read more →
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-  <!-- News 3 -->
-  <div class="col-md-6 col-lg-4">
-    <div class="news-card h-100">
-      <img :src="'/images/gallery/toyota.jpg'" class="img-fluid" alt="Car news">
-      <div class="news-content">
-        <span class="news-date">October 2025</span>
-        <h5 class="fw-bold text-white">
-          Toyota achieved record sales in 2025 and remains the global automotive leader for the sixth year
-        </h5>
-        <p class="text-gray">
-          The Japanese group, which also includes Daihatsu Motor and Hino Motors, sold 4.6% more vehicles, reaching a total of 11,322,575 units.
-        </p>
-        <a href="https://cincodias.elpais.com/companias/2026-01-29/toyota-logro-ventas-record-en-2025-y-se-mantiene-como-lider-global-del-motor-por-sexto-ano.html" class="news-link">
-          Read more →
-        </a>
-      </div>
-    </div>
-  </div>
+                <!-- News 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="news-card h-100">
+                        <img :src="'/images/gallery/toyota.jpg'" class="img-fluid" alt="Car news">
+                        <div class="news-content">
+                            <span class="news-date">October 2025</span>
+                            <h5 class="fw-bold text-white">
+                                Toyota achieved record sales in 2025 and remains the global automotive leader for the
+                                sixth year
+                            </h5>
+                            <p class="text-gray">
+                                The Japanese group, which also includes Daihatsu Motor and Hino Motors, sold 4.6% more
+                                vehicles, reaching a total of 11,322,575 units.
+                            </p>
+                            <a href="https://cincodias.elpais.com/companias/2026-01-29/toyota-logro-ventas-record-en-2025-y-se-mantiene-como-lider-global-del-motor-por-sexto-ano.html"
+                                class="news-link">
+                                Read more →
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
     </section>
-
 
     <div class="modal fade" id="carModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -1530,8 +1453,6 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
 
 </template>
 
-
 <style scoped>
-/* 'scoped' hace que los estilos solo afecten a este componente */
 @import "../../css/galeria.css";
 </style>
