@@ -19,7 +19,14 @@ const showPasswordSection = ref(false);
 
 // User reactive object
 const user = reactive({
-    first_name: '', last_name: '', email: '', phone: '', address: ''
+    first_name: '',
+    last_name: '',
+    second_last_name: '',
+    dni: '',
+    birth_date: '',
+    email: '',
+    phone: '',
+    address: ''
 });
 
 // Password reactive object
@@ -53,12 +60,38 @@ onMounted(async () => {
 
 
 // SAVE PROFILE ============================================
+// const saveProfile = async () => {
+//     try {
+//         await axios.put('/user/profile', user);
+//         isEditing.value = false;
+//         toast.info("Profile updated!", "Profile info");
+//     } catch (e) { toast.error("Error updating profile", "Profile Error"); }
+// };
+
 const saveProfile = async () => {
     try {
-        await axios.put('/user/profile', user);
+        const payload = {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            second_last_name: user.second_last_name,
+            email: user.email,
+            phone: user.phone,
+            address: user.address
+        };
+
+        const response = await axios.put('/user/profile', payload);
+        
+        Object.assign(user, response.data.user);
+        
         isEditing.value = false;
-        toast.info("Profile updated!", "Profile info");
-    } catch (e) { toast.error("Error updating profile", "Profile Error"); }
+        toast.info("¡Perfil actualizado!", "Info");
+    } catch (e) {
+        if (e.response && e.response.status === 419) {
+            toast.error("La sesión ha expirado. Por favor, recarga la página.", "Error de Sesión");
+        } else {
+            toast.error("Error al actualizar el perfil", "Error");
+        }
+    }
 };
 
 // CHANGE PASSWORD =========================================

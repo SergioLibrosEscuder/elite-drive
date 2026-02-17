@@ -110,13 +110,14 @@ class AuthController extends Controller
     // Method to update user info
     public function updateProfile(Request $request)
     {
-        // The user is got by the session
+        // El usuario se obtiene por la sesión
         $user = Auth::user();
 
-        // Validation of recieved data
+        // Validación de datos recibidos
         $data = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name'  => 'required|string|max:255',
+            'second_last_name' => 'nullable|string|max:255',
             'email'      => 'required|email|unique:users,email,' . $user->id,
             'phone'      => 'nullable|string',
             'address'    => 'nullable|string',
