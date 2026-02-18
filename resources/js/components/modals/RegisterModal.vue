@@ -1,7 +1,7 @@
 <!-- Guillermo Soto -->
 
 <script setup>
-import { reactive, computed, onMounted } from 'vue';
+import { reactive, computed, onMounted, ref } from 'vue';
 import axios from 'axios';
 import { useToast } from '../../composables/useToast';
 import { useRouter } from 'vue-router';
@@ -9,6 +9,7 @@ import { useRouter } from 'vue-router';
 // Created used objects
 const toast = useToast();
 const router = useRouter();
+const loading = ref(false);
 
 const form = reactive({
     dni: '',
@@ -45,6 +46,7 @@ onMounted(() => {
 
 // Registration method handling
 const handleRegister = async () => {
+    loading.value = true;
     // Make sure user isn't under legal age of conduction
     if (isUnderage.value) {
         toast.warning("You must be 18+ to register.", "Age Validation");
@@ -67,6 +69,8 @@ const handleRegister = async () => {
         } else {
             toast.error("An error occurred during registration.", "Registration Error");
         }
+    } finally {
+        loading.value = false;
     }
 }
 // Close modal function
@@ -177,8 +181,10 @@ const resetForm = () => {
                         </div>
 
                         <div class="col-md-12">
-                            <button type="submit" :disabled="isUnderage" class="btn bg-primary-cta w-100 mt-3">Create
-                                account</button>
+                            <button type="submit" :disabled="isUnderage || loading"
+                                class="btn bg-primary-cta w-100 mt-3">{{ loading ? 'Creating Account...'
+                                    : 'Create Account' }}</button>
+
                         </div>
                     </form>
 
