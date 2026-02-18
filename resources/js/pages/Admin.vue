@@ -664,8 +664,8 @@ const formatDateTimeForInput = (dateString) => {
                             <tr v-for="r in filteredReservations" :key="r.id">
                                 <td>{{ r.vehicle.license_plate }}</td>
                                 <td>{{ r.user.dni }}</td>
-                                <td>{{ new Date(r.start_date).toLocaleDateString() }}</td>
-                                <td>{{ new Date(r.end_date).toLocaleDateString() }}</td>
+                                <td>{{ new Date(r.start_date).toLocaleDateString("es-ES") }}</td>
+                                <td>{{ new Date(r.end_date).toLocaleDateString("es-ES") }}</td>
                                 <td>{{ r.status }}</td>
                                 <td>
                                     <!-- Action buttons -->
