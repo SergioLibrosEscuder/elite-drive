@@ -1,7 +1,7 @@
 #ELITE DRIVE
 
 <p align="center">
-<img src="public/images/logo/Elite-Drive_logo.png" width="400" alt="Elite Drive Logo">
+<img src="public/images/logo/elitedrive-logo-square.png" width="400" alt="Elite Drive Logo">
 </p>
 
 
@@ -29,8 +29,15 @@ Main Frameworks and tools:
 - Node.js & NPM
 - Docker
 
+## 4. Dependencies
 
-## 4. Installation and Configuration
+- [Pinia](https://pinia.vuejs.org/)
+- [jspdf](https://www.npmjs.com/package/jspdf)
+- [Swiper](hhttps://swiperjs.com/)
+- [EmailJS](https://www.emailjs.com/)
+
+
+## 5. Installation and Configuration
 
 Steps to clone and launch the project:
 
@@ -50,7 +57,7 @@ Steps to clone and launch the project:
 ```php artisan serve and npm run dev```
 
 
-## 5. Main Features
+## 6. Main Features
 
 - **Auth:** Registration and login with email confirmation via signed URLs.
 - **User Profile:** Personal data management with real-time validation.
@@ -58,11 +65,11 @@ Steps to clone and launch the project:
 - **Admin Panel:** Complete CRUD for fleet, bookings, and customer oversight.
 
 
-## 6. Database Structure
+## 7. Database Structure
 
 Database schema diagram pending. Built with PostgreSQL on Supabase using Eloquent ORM.
 
-## 7. Authors
+## 8. Authors
 
 - Sergio Libros
 - Guillermo Soto
