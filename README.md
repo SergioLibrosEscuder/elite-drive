@@ -1,7 +1,5 @@
-#ELITE DRIVE
-
 <p align="center">
-<img src="public/images/logo/elitedrive-logo-square.png" width="400" alt="Elite Drive Logo">
+<img src="public/images/logo/elitedrive-logo-square.png" width="300" alt="Elite Drive Logo">
 </p>
 
 
