@@ -101,7 +101,17 @@ function getThumbnail(car) {
                             <i class="bi bi-sliders me-2"></i> Filters
                         </h5>
                     </div>
+
                     <div class="panel-content p-3">
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="bi bi-info-circle me-2"></i> Status</label>
+                            <select v-model="filters.status" class="form-select">
+                                <option value="">Any</option>
+                                <option v-for="s in statuses" :key="s" :value="s">{{ s }}</option>
+                            </select>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">
                                 <i class="bi bi-search me-2"></i> Search
@@ -153,15 +163,6 @@ function getThumbnail(car) {
                             </select>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">
-                                <i class="bi bi-info-circle me-2"></i> Status</label>
-                            <select v-model="filters.status" class="form-select">
-                                <option value="">Any</option>
-                                <option v-for="s in statuses" :key="s" :value="s">{{ s }}</option>
-                            </select>
-                        </div>
-
                         <div class="row g-2 mb-3">
                             <div class="col-6">
                                 <label class="form-label">
@@ -193,7 +194,7 @@ function getThumbnail(car) {
             <!-- VEHICLE GRID -->
             <main class="col-12 col-md-9">
                 <div v-if="loading" class="container text-center py-5">
-                    <div class="spinner-border text-dark" role="status"></div>
+                    <div class="spinner-border text-light" role="status"></div>
                     <p class="mt-3 fs-5">Loading vehicles...</p>
                 </div>
 

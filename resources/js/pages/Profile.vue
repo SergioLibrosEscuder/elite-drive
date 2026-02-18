@@ -37,6 +37,9 @@ const passForm = reactive({
 // Reservation array
 const reservations = ref([]);
 
+// Loading controller
+const isLoadingReservations = ref(true);
+
 // LOAD DATA ===============================================
 onMounted(async () => {
     try {
@@ -46,6 +49,7 @@ onMounted(async () => {
         // Get user reservations
         const reservationsResponse = await axios.get('/user/reservations');
         reservations.value = reservationsResponse.data;
+        isLoadingReservations.value = false;
 
         nextTick(() => {
             // If accesed by hash, scroll to section
@@ -80,9 +84,9 @@ const saveProfile = async () => {
         };
 
         const response = await axios.put('/user/profile', payload);
-        
+
         Object.assign(user, response.data.user);
-        
+
         isEditing.value = false;
         toast.info("¡Perfil actualizado!", "Info");
     } catch (e) {
@@ -276,7 +280,13 @@ const cancelReservation = async (reservationId) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="reservation in reservations" :key="reservation.id">
+                        <tr v-if="isLoadingReservations" class="container text-center py-5">
+                            <td colspan="6" class="p-4">
+                                <div class="spinner-border text-light" role="status"></div>
+                                <p class="mt-3 fs-5">Loading Reservations...</p>
+                            </td>
+                        </tr>
+                        <tr v-else v-for="reservation in reservations" :key="reservation.id">
                             <td>
                                 <span v-if="reservation.vehicle">{{ reservation.vehicle.brand }} {{
                                     reservation.vehicle.model }}</span>

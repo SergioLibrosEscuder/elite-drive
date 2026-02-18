@@ -252,7 +252,7 @@ onMounted(async () => {
 
     <!-- LOADING STATE -->
     <div v-else class="container text-center py-5">
-        <div class="spinner-border text-dark" role="status"></div>
+        <div class="spinner-border text-light" role="status"></div>
         <p class="mt-3 fs-5">Loading vehicle…</p>
     </div>
 </template>
