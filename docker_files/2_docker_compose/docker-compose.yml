@@ -1,0 +1,26 @@
+services:
+# Servicio 1: App Laravel
+  app:
+    container_name: elite-app-service
+    build:
+      context: ../../ 
+      dockerfile: docker_files/1_dockerfile/Dockerfile
+      args:
+        - GITHUB_TOKEN=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
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - elite-network
+
+# Servicio 2: Redis
+# Laravel lo utiliza para sesiones y cache acelerando la web
+  cache:
+    image: redis:alpine
+    container_name: elite-redis-service
+    networks:
+      - elite-network
+
+networks:
+  elite-network:
+    driver: bridge

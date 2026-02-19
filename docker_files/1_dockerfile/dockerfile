@@ -2,12 +2,12 @@
 FROM node:20-alpine AS build-stage
 WORKDIR /app
 
-# Instalamos git para poder clonar
+# Instalación de git para poder clonar el repositorio privado
 RUN apk add --no-cache git
 
-# Definimos el argumento para el Token (se pasa al hacer el build)
+# Definición del argumento para el Token de GitHub
 ARG GITHUB_TOKEN
-# Clonamos el repositorio privado usando el token
+# Clonación del repositorio privado usando el token
 # Formato: https://<token>@github.com/<usuario>/<repo>.git
 RUN git clone https://${GITHUB_TOKEN}@github.com/SergioLibrosEscuder/elite-drive.git .
 
@@ -17,7 +17,7 @@ RUN npm run build
 # --- ETAPA 2: Servidor Web (PHP 8.2 + Apache) ---
 FROM php:8.2-apache
 
-# Instalar dependencias del sistema y módulos (MySQL, PostgreSQL, etc.)
+# Instalación de dependencias del sistema y módulos de PHP necesarios para Laravel y la aplicación
 RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev zip libzip-dev \
     unzip git ssl-cert libpq-dev \
@@ -28,27 +28,27 @@ RUN apt-get update && apt-get install -y \
 # Habilitar el sitio SSL por defecto de Apache
 RUN a2ensite default-ssl
 
-# Copiar configuraciones personalizadas
-COPY ./docker-config/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY ./docker-config/php.ini /usr/local/etc/php/conf.d/app-php.ini
+# Copia de configuraciones personalizadas
+COPY ./docker_files/1_dockerfile/docker-config/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker_files/1_dockerfile/docker-config/php.ini /usr/local/etc/php/conf.d/app-php.ini
 
-# 1. Copiamos el proyecto y el .env
+# Copia del proyecto y el archivo .env
 COPY --from=build-stage /app /var/www/html
 COPY .env /var/www/html/.env
 
-# 2. INSTALAR COMPOSER PRIMERO (Indispensable para que funcione 'artisan')
+# Instalación de Composer y dependencias de Laravel
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --optimize-autoloader
 
-# 3. AHORA SÍ, GENERAR LA KEY
+# Generación de la clave de la aplicación Laravel
 RUN php artisan key:generate
 
-# 4. Por último, permisos
+# Habilitación de permisos para Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage
 
-# REQUISITO: Exponer puertos
+# Exposición de los puertos
 EXPOSE 80 443
 
 CMD ["apache2-foreground"]
