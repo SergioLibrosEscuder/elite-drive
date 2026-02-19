@@ -163,7 +163,7 @@ const resetForm = () => {
                                 <i class="bi bi-envelope-at me-2"></i> Email
                             </label>
                             <input type="email" v-model="form.email" class="form-control"
-                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
                                 oninvalid="this.setCustomValidity('Invalid email address!');"
                                 oninput="this.setCustomValidity('')" required>
                         </div>
