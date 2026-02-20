@@ -7,8 +7,10 @@
         <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
             <div class="container">
                 <!-- RouterLink to Home page in logotype-->
-                <RouterLink class="navbar-brand fw-bold" to="/"><img :src="`/images/logo/elitedrive-logo-large.png`"
-                        alt="Elite Drive" width="200px"></RouterLink>
+                <RouterLink class="navbar-brand fw-bold" to="/"><img
+                        :src="`/images/logo/elitedrive-logo-transparent.png`" alt="Elite Drive" class="logo"
+                        style="height: 40px;">
+                </RouterLink>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
