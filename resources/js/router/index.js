@@ -25,6 +25,8 @@ const routes = [
     { path: "/cars/:id", component: Car, props: true },
     { path: "/checkout", component: Checkout },
     { path: "/reset-password/:token", name: "ResetPassword", component: ResetPassword },
+    // Catch all route for 404 Not Found
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../pages/NotFound.vue') },
 ];
 
 // Router set
@@ -79,4 +81,5 @@ router.beforeEach(async (to, from, next) => {
     else {
         next();
     }
+    
 });

@@ -1,0 +1,11 @@
+/* Guillermo Soto ====================================================================================== */
+
+/* Hero ================================================================================================ */
+
+.hero-section {
+    background: url('/images/not_found/abandoned-car.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    min-height: 80vh;
+}
