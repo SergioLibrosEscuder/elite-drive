@@ -7,7 +7,8 @@
         <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
             <div class="container">
                 <!-- RouterLink to Home page in logotype-->
-                <RouterLink class="navbar-brand fw-bold" to="/">ELITE DRIVE</RouterLink>
+                <RouterLink class="navbar-brand fw-bold" to="/"><img :src="`/images/logo/elitedrive-logo-large.png`"
+                        alt="Elite Drive" width="200px"></RouterLink>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -56,8 +57,10 @@
                                 <i class="bi bi-person-circle me-2"></i> Login
                             </button>
 
-                            <button v-else @click="handleLogout" class="btn btn-outline-danger btn-sm">
-                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            <button v-else @click="handleLogout" class="btn btn-outline-danger btn-sm"
+                                :disabled="loadingLogout">
+                                <i class="bi bi-box-arrow-right me-2"></i> {{ loadingLogout ? 'Logging out...' :
+                                    'Logout' }}
                             </button>
                         </li>
                     </ul>
@@ -77,6 +80,8 @@ import { onMounted, ref } from 'vue';
 const router = useRouter();
 const { isAuthenticated, isAdmin, isCustomer, logout, fetchUser } = useAuth();
 
+const loadingLogout = ref(false);
+
 onMounted(async () => {
     // Get current user
     fetchUser();
@@ -87,10 +92,13 @@ const cartStore = useCartStore();
 
 // Logout function
 const handleLogout = async () => {
+    // Set loading state
+    loadingLogout.value = true;
     // Await logout method from useAuth composable
     await logout();
 
     // Redirect to Home page
     router.push('/');
+    loadingLogout.value = false;
 };
 </script>
