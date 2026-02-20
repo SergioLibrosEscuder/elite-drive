@@ -42,17 +42,35 @@ onBeforeUnmount(() => {
 <!-- TOAST ELEMENT -->
 <template>
     <!-- TOAST BODY TEMPLTE -->
-    <div ref="el" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div ref="el" class="toast toast-complete" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-            <!-- Change bg color depending on declared type -->
+            <!-- Change color depending on declared type -->
             <div class="rounded me-2" :class="`bg-${toast.type}`" style="width: 20px; height: 20px;"></div>
 
-            <strong class="me-auto">{{ toast.title }}</strong>
-            <small class="text-muted">Just now</small>
+            <strong class="me-auto toast-title">{{ toast.title }}</strong>
+            <small class="text-light">Just now</small>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">
+        <div class="toast-body text-light">
             {{ toast.message }}
         </div>
     </div>
 </template>
+
+<style scoped>
+.toast-complete {
+    border: 1px solid var(--secondary-color);
+
+    .toast-header {
+        background-color: var(--primary-color);
+
+        & .toast-title {
+            color: var(--secondary-color)
+        }
+    }
+
+    .toast-body {
+        background-color: var(--primary-light-color);
+    }
+}
+</style>

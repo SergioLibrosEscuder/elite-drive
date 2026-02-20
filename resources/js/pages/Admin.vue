@@ -40,6 +40,11 @@ const searchCustomer = ref('');
 const searchVehicle = ref('');
 const searchReservation = ref('');
 
+// Loading controllers
+const isLoadingCustomers = ref(true);
+const isLoadingVehicles = ref(true);
+const isLoadingReservations = ref(true);
+
 // Customers that coincidate with search params
 const filteredCustomers = computed(() => {
     if (!searchCustomer.value) return customers.value;
@@ -193,18 +198,21 @@ const reservationForm = reactive({
 const fetchCustomers = async () => {
     const res = await axios.get('/admin/customers');
     customers.value = res.data;
+    isLoadingCustomers.value = false;
 };
 
 // Get all vehicles
 const fetchVehicles = async () => {
     const res = await axios.get('/api/cars');
     vehicles.value = res.data;
+    isLoadingVehicles.value = false;
 };
 
 // Get all reservations
 const fetchReservations = async () => {
     const res = await axios.get('/reservations');
     reservations.value = res.data;
+    isLoadingReservations.value = false;
 };
 
 // CREATE CUSTOMER MODAL ===================================
@@ -661,11 +669,17 @@ const formatDateTimeForInput = (dateString) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="r in filteredReservations" :key="r.id">
+                            <tr v-if="isLoadingReservations" class="container text-center py-5">
+                                <td colspan="6" class="p-4">
+                                    <div class="spinner-border text-light" role="status"></div>
+                                    <p class="mt-3 fs-5">Loading Reservations...</p>
+                                </td>
+                            </tr>
+                            <tr v-else v-for="r in filteredReservations" :key="r.id">
                                 <td>{{ r.vehicle.license_plate }}</td>
                                 <td>{{ r.user.dni }}</td>
-                                <td>{{ new Date(r.start_date).toLocaleDateString() }}</td>
-                                <td>{{ new Date(r.end_date).toLocaleDateString() }}</td>
+                                <td>{{ new Date(r.start_date).toLocaleDateString("es-ES") }}</td>
+                                <td>{{ new Date(r.end_date).toLocaleDateString("es-ES") }}</td>
                                 <td>{{ r.status }}</td>
                                 <td>
                                     <!-- Action buttons -->
@@ -713,7 +727,13 @@ const formatDateTimeForInput = (dateString) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="v in filteredVehicles" :key="v.id">
+                            <tr v-if="isLoadingVehicles" class="container text-center py-5">
+                                <td colspan="6" class="p-4">
+                                    <div class="spinner-border text-light" role="status"></div>
+                                    <p class="mt-3 fs-5">Loading Vehicles...</p>
+                                </td>
+                            </tr>
+                            <tr v-else v-for="v in filteredVehicles" :key="v.id">
                                 <td>{{ v.license_plate }}</td>
                                 <td>{{ v.brand }}</td>
                                 <td>{{ v.model }}</td>
@@ -769,7 +789,13 @@ const formatDateTimeForInput = (dateString) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="c in filteredCustomers" :key="c.id">
+                            <tr v-if="isLoadingCustomers" class="container text-center py-5">
+                                <td colspan="6" class="p-4">
+                                    <div class="spinner-border text-light" role="status"></div>
+                                    <p class="mt-3 fs-5">Loading Customers...</p>
+                                </td>
+                            </tr>
+                            <tr v-else v-for="c in filteredCustomers" :key="c.id">
                                 <td>{{ c.dni }}</td>
                                 <td>{{ c.first_name }} {{ c.last_name }} {{ c.second_last_name }}</td>
                                 <td>{{ c.email }}</td>

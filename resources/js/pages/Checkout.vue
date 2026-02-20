@@ -75,11 +75,11 @@ const handlePayment = async () => {
 
         <h4 class="dashboard-title mb-4 p-3 shadow-sm">Checkout</h4>
 
-        <div v-if="cartStore.count > 0" class="row g-5">
+        <div class="row g-5">
 
             <!-- PRODUCT ITEM ==================================================== -->
 
-            <div class="col-lg-8">
+            <div class="col-lg-8" v-if="cartStore.count > 0">
                 <div class="card panel-content shadow-sm mb-3" v-for="item in cartStore.cartItems" :key="item.id">
                     <div class="row g-0">
                         <div class="col-md-4">
@@ -93,7 +93,7 @@ const handlePayment = async () => {
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h5 class="card-title fw-bold mb-0 color-secondary">{{ item.vehicle.brand }} {{
                                         item.vehicle.model
-                                    }}</h5>
+                                        }}</h5>
                                     <span class="fs-5 fw-bold text-white">{{
                                         Number(item.price).toLocaleString('es-ES') }}€</span>
                                 </div>
@@ -120,6 +120,15 @@ const handlePayment = async () => {
                     </div>
                 </div>
             </div>
+            <div class="col-lg-8" v-else>
+                <div class="card panel-content shadow-sm mb-3">
+                    <div class="row g-0">
+                        <div class="col p-5 text-center">
+                            THERE ARE NO VEHICLES IN CART
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- SUMARY ========================================================== -->
 
@@ -140,16 +149,22 @@ const handlePayment = async () => {
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <span class="fs-5 fw-bold">Total:</span>
                             <span class="fs-3 fw-bold text-white">{{ Number(cartStore.total).toLocaleString('es-ES')
-                                }}€</span>
+                            }}€</span>
                         </div>
 
-                        <button @click="handlePayment" class="btn bg-primary-cta w-100 py-2" :disabled="isProcessing">
-                            <span v-if="isProcessing" class="spinner-border spinner-border-sm me-2"></span>
+                        <button v-if="cartStore.count > 0" @click="handlePayment" class="btn bg-primary-cta w-100 py-2"
+                            :disabled="isProcessing">
+                            <span v-if="isProcessing" class="me-2"></span>
                             {{ isProcessing ? 'Processing Payment...' : 'Confirm & Pay' }}
                         </button>
 
-                        <div class="text-center mt-3">
-                            <small class="text-white d-block"><i class="bi bi-lock-fill"></i> Secure SSL Payment</small>
+                        <button v-else disabled="true" class="btn bg-dark-subtle w-100 py-2">
+                            <span>Cart is Empty</span>
+                        </button>
+
+                        <div class=" text-center mt-3">
+                            <small class="text-white d-block"><i class="bi bi-lock-fill"></i> Secure SSL
+                                Payment</small>
                             <small class="text-white" style="font-size: 0.75rem;">By clicking, you agree to our
                                 Terms.</small>
                         </div>

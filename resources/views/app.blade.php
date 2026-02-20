@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elite Drive | Motorsport</title>
+    {{-- FAVICON --}}
+    <link rel="icon" href="{{ asset('/images/logo/elitedrive-logo-square.png') }}" sizes="any">
+    {{-- CSRF TOKEN --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- Montserrat font --}}
     <link

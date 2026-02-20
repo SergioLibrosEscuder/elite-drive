@@ -38,6 +38,9 @@ export function useAuth() {
 
     // Login method with form data
     const login = async (formData) => {
+        // Get CSRF cookie before login
+        await axios.get("/sanctum/csrf-cookie");
+        // Post login data
         await axios.post("/login", formData);
 
         // Set logged flag
@@ -52,7 +55,7 @@ export function useAuth() {
         try {
             await axios.post("/logout");
         } catch (e) {
-            // Ignore error
+            // The error will be handled by the axios interceptor in bootstrap.js
         }
         // Remove logged flag and user reference
         localStorage.removeItem("is_logged_in");
