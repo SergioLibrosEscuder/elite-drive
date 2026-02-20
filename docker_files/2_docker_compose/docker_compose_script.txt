@@ -1,0 +1,7 @@
+1. Levantar todo
+
+docker-compose -f docker_files/2_docker_compose/docker-compose.yml up -d --build
+
+2. Apagar todo
+
+docker-compose -f docker_files/2_docker_compose/docker-compose.yml down

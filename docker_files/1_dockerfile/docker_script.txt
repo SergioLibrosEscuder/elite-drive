@@ -1,0 +1,7 @@
+1. Crear imagen
+
+docker build -f docker_files/1_dockerfile/Dockerfile --no-cache --build-arg GITHUB_TOKEN=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 -t elitedrive-app .
+
+2. Levantar contenedor
+
+docker run -d -p 80:80 -p 443:443 --name elite-container elitedrive-app

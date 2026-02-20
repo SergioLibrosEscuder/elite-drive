@@ -1,0 +1,54 @@
+# --- ETAPA 1: Compilación de Frontend (Vue) ---
+FROM node:20-alpine AS build-stage
+WORKDIR /app
+
+# Instalación de git para poder clonar el repositorio privado
+RUN apk add --no-cache git
+
+# Definición del argumento para el Token de GitHub
+ARG GITHUB_TOKEN
+# Clonación del repositorio privado usando el token
+# Formato: https://<token>@github.com/<usuario>/<repo>.git
+RUN git clone https://${GITHUB_TOKEN}@github.com/SergioLibrosEscuder/elite-drive.git .
+
+RUN npm install
+RUN npm run build
+
+# --- ETAPA 2: Servidor Web (PHP 8.2 + Apache) ---
+FROM php:8.2-apache
+
+# Instalación de dependencias del sistema y módulos de PHP necesarios para Laravel y la aplicación
+RUN apt-get update && apt-get install -y \
+    libpng-dev libjpeg-dev libfreetype6-dev zip libzip-dev \
+    unzip git ssl-cert libpq-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql zip \
+    && a2enmod rewrite ssl
+
+# Habilitar el sitio SSL por defecto de Apache
+RUN a2ensite default-ssl
+
+# Copia de configuraciones personalizadas
+COPY ./docker_files/1_dockerfile/docker-config/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker_files/1_dockerfile/docker-config/php.ini /usr/local/etc/php/conf.d/app-php.ini
+
+# Copia del proyecto y el archivo .env
+COPY --from=build-stage /app /var/www/html
+COPY .env /var/www/html/.env
+
+# Instalación de Composer y dependencias de Laravel
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN composer install --no-dev --optimize-autoloader
+
+# Generación de la clave de la aplicación Laravel
+RUN php artisan key:generate
+
+# Habilitación de permisos para Laravel
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage
+
+# Exposición de los puertos
+EXPOSE 80 443
+
+CMD ["apache2-foreground"]
