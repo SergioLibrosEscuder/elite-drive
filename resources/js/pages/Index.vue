@@ -216,7 +216,7 @@ const roadImages4 = [
                             </div>
                         </div>
                     </div>
-                    <div class="service-box p-4 border shadow-sm">
+                    <div class="service-box p-4 mb-3 border shadow-sm">
                         <div class="d-flex align-items-start">
                             <i class="bi bi-map fs-2 me-3 text-orange"></i>
                             <div>
@@ -250,9 +250,9 @@ const roadImages4 = [
 
             <div class="d-flex justify-content-center gap-5 my-5 flex-wrap">
                 <RoadCarousel :images="roadImages1" />
-                <RoadCarousel :images="roadImages2" />
-                <RoadCarousel :images="roadImages3" />
-                <RoadCarousel :images="roadImages4" />
+                <RoadCarousel :images="roadImages2" class="d-none d-md-block" />
+                <RoadCarousel :images="roadImages3" class="d-none d-lg-block" />
+                <RoadCarousel :images="roadImages4" class="d-none d-xl-block" />
             </div>
         </div>
     </section>
