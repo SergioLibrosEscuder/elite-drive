@@ -116,25 +116,32 @@ const resetForm = () => {
                             <label class="form-label">
                                 <i class="bi bi-card-text me-2"></i> DNI
                             </label>
-                            <input type="text" v-model="form.dni" class="form-control" placeholder="12345678A" required>
+                            <input type="text" v-model="form.dni" class="form-control" placeholder="12345678A"
+                                pattern="^[0-9]{8}[a-zA-Z]$" maxlength="9" minlength="9"
+                                title="Please enter a valid DNI (8 digits + 1 letter)" required>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">
                                 <i class="bi bi-person me-2"></i> Name
                             </label>
-                            <input type="text" v-model="form.first_name" class="form-control" required>
+                            <input type="text" v-model="form.first_name" class="form-control"
+                                pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$" title="Please enter a valid name (letters only)"
+                                required>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">
                                 <i class="bi bi-person me-2"></i> First surname
                             </label>
-                            <input type="text" v-model="form.last_name" class="form-control" required>
+                            <input type="text" v-model="form.last_name" class="form-control"
+                                pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$"
+                                title="Please enter a valid surname (letters only)" required>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">
                                 <i class="bi bi-person me-2"></i> Second surname
                             </label>
-                            <input type="text" v-model="form.second_last_name" class="form-control">
+                            <input type="text" v-model="form.second_last_name" pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$"
+                                title="Please enter a valid second surname (letters only)" class="form-control">
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">
@@ -156,7 +163,7 @@ const resetForm = () => {
                                 <i class="bi bi-phone me-2"></i> Phone
                             </label>
                             <input type="tel" v-model="form.phone" class="form-control" minlength="9" maxlength="9"
-                                pattern="^\d{9}$" required>
+                                pattern="^\d{9}$" title="Please enter a valid 9-digit phone number" required>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">
@@ -164,20 +171,22 @@ const resetForm = () => {
                             </label>
                             <input type="email" v-model="form.email" class="form-control"
                                 pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
-                                oninvalid="this.setCustomValidity('Invalid email address!');"
-                                oninput="this.setCustomValidity('')" required>
+                                @invalid="$event.target.setCustomValidity('Invalid email address!');"
+                                @input="$event.target.setCustomValidity('')" title="Please enter a valid email address"
+                                required>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">
                                 <i class="bi bi-key me-2"></i> Password
                             </label>
-                            <input type="password" v-model="form.password" class="form-control" required>
+                            <input type="password" v-model="form.password" class="form-control" minlength="8" required>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">
                                 <i class="bi bi-key me-2"></i> Confirm password
                             </label>
-                            <input type="password" v-model="form.password_confirmation" class="form-control" required>
+                            <input type="password" v-model="form.password_confirmation" class="form-control"
+                                minlength="8" required>
                         </div>
 
                         <div class="col-md-12">
