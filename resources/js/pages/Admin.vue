@@ -616,6 +616,16 @@ const formatDateTimeForInput = (dateString) => {
         </div>
     </div>
 
+    <!-- DIVIDER ============================================================== -->
+
+    <section class="mt-3 mb-4">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
+            </div>
+        </div>
+    </section>
+
     <!-- ADMIN DASHBOARD ============================================================================ -->
 
     <div class="container mt-4 mb-5">

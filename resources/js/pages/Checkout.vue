@@ -173,6 +173,16 @@ const handlePayment = async () => {
             </div>
         </div>
 
+        <!-- DIVIDER ============================================================== -->
+
+        <section class="mt-5 mb-4">
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
+                </div>
+            </div>
+        </section>
+
         <!-- BOTTOM IMAGE ==================================================== -->
 
         <section class="container-fluid px-0 mt-4 mb-5">
