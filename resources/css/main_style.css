@@ -3,7 +3,7 @@
 /* Custom Palette Variables ============================================================================ */
 
 :root {
-    --primary-color: #343434;
+    --primary-color: #2c2c2c;
     --primary-light-color: #444444;
     --secondary-color: #F0A202;
     --cta-color: #7B9E89;
@@ -22,17 +22,17 @@ body {
 }
 
 @font-face {
-    font-family: 'EliteDrive-Font-h1';
-    src: url('../fonts/doctor_glitch.otf') format('truetype');
+    font-family: 'EliteDrive-Font';
+    src: url('../fonts/zenitha_classic.otf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }
 
 h1 {
-    font-family: 'EliteDrive-Font-h1';
+    font-family: 'EliteDrive-Font';
     letter-spacing: 1px;
 
-    background: linear-gradient(var(--primary-color) 60%, var(--secondary-color) 80%);
+    background: linear-gradient(#e8cd7d 60%, #be8d3c 60%);
 
     -webkit-background-clip: text;
     background-clip: text;
@@ -40,14 +40,7 @@ h1 {
     -webkit-text-fill-color: transparent;
     color: transparent;
 
-    -webkit-text-stroke: 0.5px var(--secondary-color);
-}
-
-@font-face {
-    font-family: 'EliteDrive-Font';
-    src: url('../fonts/zenitha_classic.otf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
+    -webkit-text-stroke: 1px #be8d3c;
 }
 
 h2,

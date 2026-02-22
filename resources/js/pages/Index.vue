@@ -33,8 +33,17 @@ const roadImages4 = [
 
     <!-- HERO ================================================================= -->
 
-    <section class="hero-section d-flex align-items-start text-center pt-5">
-        <div class="container mt-5">
+    <section class="hero-video position-relative overflow-hidden">
+        <div class="video-background">
+            <iframe 
+                src="https://www.youtube.com/embed/5WQTtDKM0lE?autoplay=1&mute=1&loop=1&playlist=5WQTtDKM0lE&controls=0&showinfo=0&rel=0&start=15" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="container position-relative z-index-1 text-center pt-5 mt-5">
             <h1 class="display-1 fw-bold">Boost your Motion</h1>
             <h2 class="lead mb-4 d-none d-md-block">Discover the best Luxury Car experiences</h2>
         </div>
