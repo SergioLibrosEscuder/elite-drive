@@ -36,7 +36,26 @@ const roadImages4 = [
     <section class="hero-section d-flex align-items-start text-center pt-5">
         <div class="container mt-5">
             <h1 class="display-1 fw-bold">Boost your Motion</h1>
-            <h2 class="lead mb-4">Discover the best Luxury Car experiences</h2>
+            <h2 class="lead mb-4 d-none d-md-block">Discover the best Luxury Car experiences</h2>
+        </div>
+    </section>
+
+    <!-- 3D MODEL ============================================================= -->
+
+    <section class="d-flex align-items-end text-center pt-5">
+        <div class="container">
+            <div class="sketchfab-embed-wrapper custom-panel shadow-sm p-0 overflow-hidden">
+                <iframe 
+                    class="w-100 v-3d-model"
+                    title="McLaren F1" 
+                    frameborder="0" 
+                    allowfullscreen 
+                    mozallowfullscreen="true" 
+                    webkitallowfullscreen="true" 
+                    allow="autoplay; fullscreen; xr-spatial-tracking" 
+                    src="https://sketchfab.com/models/d96ebc208df54311964cad24f83e1656/embed"> 
+                </iframe>
+            </div>
         </div>
     </section>
 
@@ -133,14 +152,14 @@ const roadImages4 = [
                     class="img-fluid shadow-lg w-100 object-fit-cover" style="max-height: 300px;">
             </div>
 
-            <div class="row g-4 justify-content-center">
-
+            <div class="row g-4 justify-content-center align-items-stretch">
+                
                 <div class="col-md-4">
-                    <div class="custom-panel p-4 shadow-sm text-center">
-                        <i class="bi bi-car-front fs-1 mb-3e"></i>
+                    <div class="custom-panel p-4 shadow-sm text-center h-100 d-flex flex-column">
+                        <i class="bi bi-car-front fs-1 mb-3"></i>
                         <h3 class="fw-bold text-white mb-3">
                             <span class="color-secondary">First</span>
-                            Choose Your Dream Car
+                            choose your dream car
                         </h3>
                         <p class="mb-0">
                             Browse our exclusive fleet of luxury vehicles. From powerful sports cars to elegant sedans,
@@ -150,11 +169,11 @@ const roadImages4 = [
                 </div>
 
                 <div class="col-md-4">
-                    <div class="custom-panel p-4 shadow-sm text-center">
+                    <div class="custom-panel p-4 shadow-sm text-center h-100 d-flex flex-column">
                         <i class="bi bi-calendar-check fs-1 mb-3 text-orange"></i>
                         <h3 class="fw-bold text-white mb-3">
                             <span class="color-secondary">Second</span>
-                            Select Dates & Location
+                            select dates & location
                         </h3>
                         <p class="mb-0">
                             Pick your desired pick-up and drop-off dates and locations. We offer flexible options
@@ -164,11 +183,11 @@ const roadImages4 = [
                 </div>
 
                 <div class="col-md-4">
-                    <div class="custom-panel p-4 shadow-sm text-center">
+                    <div class="custom-panel p-4 shadow-sm text-center h-100 d-flex flex-column">
                         <i class="bi bi-credit-card fs-1 mb-3 text-orange"></i>
                         <h3 class="fw-bold text-white mb-3">
                             <span class="color-secondary">Finally</span>
-                            Complete Your Secure Payment
+                            complete your secure payment
                         </h3>
                         <p class="mb-0">
                             Finalize your booking with our easy and secure payment process.
@@ -176,6 +195,7 @@ const roadImages4 = [
                         </p>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
