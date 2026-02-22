@@ -21,6 +21,9 @@
                                 <i class="bi bi-envelope-at me-2"></i> Email address
                             </label>
                             <input v-model="form.email" type="email" class="form-control" placeholder="name@example.com"
+                                pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                                @invalid="$event.target.setCustomValidity('Invalid email address!');"
+                                @input="$event.target.setCustomValidity('')" title="Please enter a valid email address"
                                 required>
                         </div>
                         <div class="mb-3">
