@@ -91,6 +91,16 @@ function getThumbnail(car) {
             </button>
         </div>
 
+        <!-- DIVIDER ============================================================== -->
+
+        <section class="mt-3 mb-4">
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
+                </div>
+            </div>
+        </section>
+
         <div class="row">
             <!-- SIDEBAR FILTERS -->
             <aside class="col-12 col-md-3 mb-4">

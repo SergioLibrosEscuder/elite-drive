@@ -1,4 +1,19 @@
+<!-- Guillermo Soto ============================================================================= -->
+
 <template>
+
+    <!-- DIVIDER ============================================================== -->
+
+    <section class="mt-5 mb-5">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
+            </div>
+        </div>
+    </section>
+    
+    <!-- SET NEW PASSWORD FORM ================================================ -->
+    
     <div class="container py-5 mt-5 mb-5">
         <div class="row justify-content-center mb-3">
             <div class="col-md-5">
@@ -39,6 +54,17 @@
             </div>
         </div>
     </div>
+    
+    <!-- DIVIDER ============================================================== -->
+
+    <section class="mb-5">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
+            </div>
+        </div>
+    </section>
+
 </template>
 
 <script setup>
@@ -54,7 +80,7 @@ const loading = ref(false);
 
 const form = reactive({
     token: route.params.token,
-    email: route.query.email, // El email suele venir como parámetro en la URL del mail
+    email: route.query.email,
     password: '',
     password_confirmation: ''
 });
@@ -64,7 +90,7 @@ const handleReset = async () => {
     try {
         await axios.post('/reset-password', form);
         toast.success("Password updated! You can now login.", "Success");
-        router.push('/'); // Redirigir a la home para que loguee
+        router.push('/'); // Redirect to home
     } catch (error) {
         toast.error("The link expired or data is invalid.", "Error");
     } finally {

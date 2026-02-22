@@ -136,6 +136,16 @@ onMounted(async () => {
             </button>
         </div>
 
+        <!-- DIVIDER ============================================================== -->
+
+        <section class="mt-3 mb-4">
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
+                </div>
+            </div>
+        </section>
+
         <!-- DESCRIPTION -->
         <section class="dashboard-title mb-4 p-3 shadow-sm">
             <h4 class="mb-3">Description</h4>
@@ -143,6 +153,16 @@ onMounted(async () => {
             <p class="fs-5 mb-4 p-3 text-white">{{ car.description }}</p>
         </section>
 
+        <!-- DIVIDER ============================================================== -->
+
+        <section class="mt-3 mb-4">
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
+                </div>
+            </div>
+        </section>
+        
         <!-- SPECIFICATIONS -->
         <section class="dashboard-title mb-4 p-3 shadow-sm">
             <h4 class="mb-3">Specifications</h4>

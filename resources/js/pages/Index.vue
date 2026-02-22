@@ -68,6 +68,16 @@ const roadImages4 = [
         </div>
     </section>
 
+    <!-- DIVIDER ============================================================== -->
+
+    <section class="mt-5">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
+            </div>
+        </div>
+    </section>
+
     <!-- DESCRIPTION ========================================================== -->
 
     <section class="py-5">
@@ -84,6 +94,16 @@ const roadImages4 = [
                     <br><br>
                     We offer the most exclusive brands.
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIVIDER ============================================================== -->
+
+    <section class="mt-3">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
             </div>
         </div>
     </section>
@@ -149,6 +169,16 @@ const roadImages4 = [
         </div>
     </section>
 
+    <!-- DIVIDER ============================================================== -->
+
+    <section class="mt-3">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
+            </div>
+        </div>
+    </section>
+
     <!-- HOW IT WORKS ========================================================= -->
 
     <section class="py-5">
@@ -205,6 +235,16 @@ const roadImages4 = [
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <!-- DIVIDER ============================================================== -->
+
+    <section class="mt-3">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
             </div>
         </div>
     </section>
@@ -267,6 +307,16 @@ const roadImages4 = [
                     </div>
 
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIVIDER ============================================================== -->
+
+    <section class="mt-3">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <img :src="'/images/decorations/divider.png'" alt="Divider" class="w-50">
             </div>
         </div>
     </section>
