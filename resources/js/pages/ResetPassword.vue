@@ -4,9 +4,9 @@
             <div class="col-md-5">
                 <div class="shadow-lg panel-content">
                     <div class="panel-header color-secondary border-0 p-3">
-                            <h5 class="modal-title fw-bold">Set New Password</h5>
-                        </div>
-                    <div class="p-4">                     
+                        <h5 class="modal-title fw-bold">Set New Password</h5>
+                    </div>
+                    <div class="p-4">
                         <form @submit.prevent="handleReset">
                             <div class="mb-3">
                                 <label class="form-label">
@@ -18,13 +18,17 @@
                                 <label class="form-label">
                                     <i class="bi bi-key me-2"></i> New Password
                                 </label>
-                                <input v-model="form.password" type="password" class="form-control" required minlength="8">
+                                <input v-model="form.password" type="password" id="password" class="form-control"
+                                    required minlength="8">
                             </div>
                             <div class="mb-4">
                                 <label class="form-label">
                                     <i class="bi bi-key me-2"></i> Confirm New Password
                                 </label>
-                                <input v-model="form.password_confirmation" type="password" class="form-control" required>
+                                <input v-model="form.password_confirmation" type="password" class="form-control"
+                                    minlength="8"
+                                    @input="$event.target.setCustomValidity($event.target.value != form.password ? 'Passwords do not match.' : '')"
+                                    title="Passwords must match" required>
                             </div>
                             <button type="submit" class="btn bg-primary-cta w-100" :disabled="loading">
                                 {{ loading ? 'Updating...' : 'Reset Password' }}
