@@ -519,21 +519,25 @@ const formatDateTimeForInput = (dateString) => {
                     <label class="fw-bold">
                         <i class="bi bi-person me-2"></i> Name
                     </label>
-                    <input v-if="isEditingProfile" v-model="user.first_name" class="form-control">
+                    <input v-if="isEditingProfile" v-model="user.first_name" class="form-control"
+                        pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$" title="Please enter a valid name (letters only)">
                     <p v-else class="form-control-plaintext text-white">{{ user.first_name }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <label class="fw-bold">
                         <i class="bi bi-person me-2"></i> First surname
                     </label>
-                    <input v-if="isEditingProfile" v-model="user.last_name" class="form-control">
+                    <input v-if="isEditingProfile" v-model="user.last_name" class="form-control"
+                        pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$" title="Please enter a valid surname (letters only)">
                     <p v-else class="form-control-plaintext text-white">{{ user.last_name }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <label class="fw-bold">
                         <i class="bi bi-person me-2"></i> Second surname
                     </label>
-                    <input v-if="isEditingProfile" v-model="user.second_last_name" class="form-control">
+                    <input v-if="isEditingProfile" v-model="user.second_last_name" class="form-control"
+                        pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$"
+                        title="Please enter a valid second surname (letters only)">
                     <p v-else class="form-control-plaintext text-white">{{ user.second_last_name }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
@@ -558,14 +562,18 @@ const formatDateTimeForInput = (dateString) => {
                     <label class="fw-bold">
                         <i class="bi bi-phone me-2"></i> Phone
                     </label>
-                    <input v-if="isEditingProfile" v-model="user.phone" class="form-control">
+                    <input v-if="isEditingProfile" v-model="user.phone" class="form-control" pattern="^\d{9}$"
+                        title="Please enter a valid 9-digit phone number">
                     <p v-else class="form-control-plaintext text-white">{{ user.phone }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <label class="fw-bold">
                         <i class="bi bi-envelope-at me-2"></i> Email
                     </label>
-                    <input v-if="isEditingProfile" v-model="user.email" class="form-control">
+                    <input v-if="isEditingProfile" v-model="user.email" class="form-control"
+                        pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                        @invalid="$event.target.setCustomValidity('Invalid email address!');"
+                        @input="$event.target.setCustomValidity('')" title="Please enter a valid email address">
                     <p v-else class="form-control-plaintext text-white">{{ user.email }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
@@ -597,9 +605,9 @@ const formatDateTimeForInput = (dateString) => {
                     <div class="mb-2"><input type="password" v-model="passForm.current_password"
                             placeholder="Current Password" class="form-control"></div>
                     <div class="mb-2"><input type="password" v-model="passForm.password" placeholder="New Password"
-                            class="form-control"></div>
+                            class="form-control" minlength="8" required></div>
                     <div class="mb-2"><input type="password" v-model="passForm.password_confirmation"
-                            placeholder="Confirm New Password" class="form-control"></div>
+                            placeholder="Confirm New Password" class="form-control" minlength="8" required></div>
                     <button @click="changePassword" class="btn bg-primary-cta">
                         <i class="bi bi-floppy me-2"></i> Update Password
                     </button>
@@ -838,7 +846,8 @@ const formatDateTimeForInput = (dateString) => {
                                         <i class="bi bi-card-text me-2"></i> DNI
                                     </label>
                                     <input v-model="userForm.dni" :disabled="isEditingCustomer" class="form-control"
-                                        required>
+                                        pattern="^[0-9]{8}[a-zA-Z]$" maxlength="9" minlength="9"
+                                        title="Please enter a valid DNI (8 digits + 1 letter)" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small fw-bold">
@@ -857,37 +866,49 @@ const formatDateTimeForInput = (dateString) => {
                                     <label class="small fw-bold">
                                         <i class="bi bi-person me-2"></i> First Name
                                     </label>
-                                    <input v-model="userForm.first_name" class="form-control" required>
+                                    <input v-model="userForm.first_name" class="form-control"
+                                        pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$"
+                                        title="Please enter a valid name (letters only)" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="small fw-bold">
                                         <i class="bi bi-person me-2"></i> First Surname
                                     </label>
-                                    <input v-model="userForm.last_name" class="form-control" required>
+                                    <input v-model="userForm.last_name" class="form-control"
+                                        pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$"
+                                        title="Please enter a valid surname (letters only)" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="small fw-bold">
                                         <i class="bi bi-person me-2"></i> Second Surname
                                     </label>
-                                    <input v-model="userForm.second_last_name" class="form-control">
+                                    <input v-model="userForm.second_last_name" class="form-control"
+                                        pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$"
+                                        title="Please enter a valid second surname (letters only)">
                                 </div>
                                 <div class="col-md-12">
                                     <label class="small fw-bold">
                                         <i class="bi bi-envelope-at me-2"></i> Email
                                     </label>
-                                    <input v-model="userForm.email" type="email" class="form-control" required>
+                                    <input v-model="userForm.email" type="email" class="form-control"
+                                        pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                                        @invalid="$event.target.setCustomValidity('Invalid email address!');"
+                                        @input="$event.target.setCustomValidity('')"
+                                        title="Please enter a valid email address" required>
                                 </div>
                                 <div class="col-md-12" v-if="!isEditingCustomer">
                                     <label class="small fw-bold">
                                         <i class="bi bi-key me-2"></i> Password
                                     </label>
-                                    <input v-model="userForm.password" type="password" class="form-control" required>
+                                    <input v-model="userForm.password" type="password" class="form-control"
+                                        minlength="8" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small fw-bold">
                                         <i class="bi bi-phone me-2"></i> Phone
                                     </label>
-                                    <input v-model="userForm.phone" class="form-control" required>
+                                    <input v-model="userForm.phone" class="form-control" minlength="9" maxlength="9"
+                                        pattern="^\d{9}$" title="Please enter a valid 9-digit phone number" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small fw-bold">
@@ -930,7 +951,8 @@ const formatDateTimeForInput = (dateString) => {
                                         <i class="bi bi-card-text me-2"></i> License Plate
                                     </label>
                                     <input v-model="vehicleForm.license_plate" :disabled="isEditingVehicle"
-                                        class="form-control" required>
+                                        class="form-control" pattern="[0-9]{4}\-[A-Z]{3}"
+                                        title="Please enter a valid license plate (e.g. 1234-ABC)" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small fw-bold">
@@ -962,8 +984,8 @@ const formatDateTimeForInput = (dateString) => {
                                     <label class="small fw-bold">
                                         <i class="bi bi-calendar me-2"></i> Year
                                     </label>
-                                    <input v-model="vehicleForm.manufacturing_year" type="number" class="form-control"
-                                        required>
+                                    <input v-model="vehicleForm.manufacturing_year" type="number" minlength="4"
+                                        maxlength="4" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small fw-bold">

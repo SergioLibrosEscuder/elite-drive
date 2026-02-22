@@ -165,21 +165,25 @@ const cancelReservation = async (reservationId) => {
                     <label class="fw-bold">
                         <i class="bi bi-person me-2"></i> Name
                     </label>
-                    <input v-if="isEditing" v-model="user.first_name" class="form-control">
+                    <input v-if="isEditing" v-model="user.first_name" class="form-control"
+                        pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$" title="Please enter a valid name (letters only)">
                     <p v-else class="form-control-plaintext text-white">{{ user.first_name }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <label class="fw-bold">
                         <i class="bi bi-person me-2"></i> First surname
                     </label>
-                    <input v-if="isEditing" v-model="user.last_name" class="form-control">
+                    <input v-if="isEditing" v-model="user.last_name" class="form-control"
+                        pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$" title="Please enter a valid surname (letters only)">
                     <p v-else class="form-control-plaintext text-white">{{ user.last_name }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <label class="fw-bold">
                         <i class="bi bi-person me-2"></i> Second surname
                     </label>
-                    <input v-if="isEditing" v-model="user.second_last_name" class="form-control">
+                    <input v-if="isEditing" v-model="user.second_last_name" class="form-control"
+                        pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$"
+                        title="Please enter a valid second surname (letters only)">
                     <p v-else class="form-control-plaintext text-white">{{ user.second_last_name }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
@@ -204,14 +208,18 @@ const cancelReservation = async (reservationId) => {
                     <label class="fw-bold">
                         <i class="bi bi-phone me-2"></i> Phone
                     </label>
-                    <input v-if="isEditing" v-model="user.phone" class="form-control">
+                    <input v-if="isEditing" v-model="user.phone" class="form-control" minlength="9" maxlength="9"
+                        pattern="^\d{9}$" title="Please enter a valid 9-digit phone number">
                     <p v-else class="form-control-plaintext text-white">{{ user.phone }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <label class="fw-bold">
                         <i class="bi bi-envelope-at me-2"></i> Email
                     </label>
-                    <input v-if="isEditing" v-model="user.email" class="form-control">
+                    <input v-if="isEditing" v-model="user.email" class="form-control"
+                        pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                        @invalid="$event.target.setCustomValidity('Invalid email address!');"
+                        @input="$event.target.setCustomValidity('')" title="Please enter a valid email address">
                     <p v-else class="form-control-plaintext text-white">{{ user.email }}</p>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
@@ -243,9 +251,9 @@ const cancelReservation = async (reservationId) => {
                     <div class="mb-2"><input type="password" v-model="passForm.current_password"
                             placeholder="Current Password" class="form-control"></div>
                     <div class="mb-2"><input type="password" v-model="passForm.password" placeholder="New Password"
-                            class="form-control"></div>
+                            class="form-control" minlength="8" required></div>
                     <div class="mb-2"><input type="password" v-model="passForm.password_confirmation"
-                            placeholder="Confirm New Password" class="form-control"></div>
+                            placeholder="Confirm New Password" class="form-control" minlength="8" required></div>
                     <button @click="changePassword" class="btn bg-primary-cta">
                         <i class="bi bi-floppy me-2"></i> Update Password
                     </button>
