@@ -17,13 +17,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register the policies for the application.
         $this->registerPolicies();
 
-        // Custom URL that is sent in the email
+        // Custom URL that is sent in the email for password reset
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            return 'http://localhost:8000/reset-password/'.$token.'?email='.$user->email;
+            return 'http://localhost:8000/reset-password/' . $token . '?email=' . $user->email;
         });
-
+        // Custom URL that is sent in the email for email verification
         VerifyEmail::createUrlUsing(function ($notifiable) {
             // Create signed route
             $signedUrl = URL::temporarySignedRoute(
