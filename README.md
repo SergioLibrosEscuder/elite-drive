@@ -18,6 +18,10 @@ Main Frameworks and tools:
 - [![Vue.js](https://img.shields.io/badge/vue.js-v3-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)](https://vuejs.org/)
 - [![Bootstrap](https://img.shields.io/badge/bootstrap-v5.3.8-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 - [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-%233ECF8E.svg?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+- [![Laravel](https://img.shields.io/badge/laravel-v11-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com/)
+- [![Vue.js](https://img.shields.io/badge/vue.js-v3-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)](https://vuejs.org/)
+- [![Bootstrap](https://img.shields.io/badge/bootstrap-v5.3.8-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+- [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-%233ECF8E.svg?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 
 
 ## 3. Prerequisites
@@ -33,6 +37,10 @@ Main Frameworks and tools:
 - [jsPDF](https://www.npmjs.com/package/jspdf) - PDF generation
 - [Swiper](https://swiperjs.com/) - Modern sliders
 - [EmailJS](https://www.emailjs.com/) - Email services
+- [Pinia](https://pinia.vuejs.org/) - State Management
+- [jsPDF](https://www.npmjs.com/package/jspdf) - PDF generation
+- [Swiper](https://swiperjs.com/) - Modern sliders
+- [EmailJS](https://www.emailjs.com/) - Email services
 
 
 ## 5. Installation and Configuration
@@ -41,7 +49,7 @@ Steps to clone and launch the project:
 
 1. Clone repository:
 ```bash
-git clone https://github.com/your-user/elite-drive.git
+git clone https://github.com/SergioLibrosEscuder/elite-drive.git
 ```
 2. Install dependencies for PHP:
 ``` bash
@@ -86,18 +94,25 @@ npm run dev
 ## 8. Authors
 
 <div align="center" style="display: flex; justify-content: space-around;">
+<div>
   <a href="https://github.com/SergioLibrosEscuder">
     <b>Sergio Libros</b><br>
     <img src="https://avatars.githubusercontent.com/u/238160125?v=4" width="120" alt="Sergio Libros">
   </a>
+</div>
 
+<div>
   <a href="https://github.com/AlumnoAbastos">
     <b>Guillermo Soto</b><br>
     <img src="https://avatars.githubusercontent.com/u/238160364?v=4" width="120" alt="Guillermo Soto">
   </a>
+</div>
 
+<div>
   <a href="https://github.com/IvanRequenaPuig">
     <b>Iván Requena</b><br>
     <img src="https://avatars.githubusercontent.com/u/150246848?v=4" width="120" alt="Iván Requena">
   </a>
+</div>
+
 </div>
