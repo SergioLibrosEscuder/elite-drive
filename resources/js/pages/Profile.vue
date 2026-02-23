@@ -62,18 +62,9 @@ onMounted(async () => {
     }
 });
 
-
-// SAVE PROFILE ============================================
-// const saveProfile = async () => {
-//     try {
-//         await axios.put('/user/profile', user);
-//         isEditing.value = false;
-//         toast.info("Profile updated!", "Profile info");
-//     } catch (e) { toast.error("Error updating profile", "Profile Error"); }
-// };
-
 const saveProfile = async () => {
     try {
+        // Payload to send to API
         const payload = {
             first_name: user.first_name,
             last_name: user.last_name,
@@ -82,17 +73,19 @@ const saveProfile = async () => {
             phone: user.phone,
             address: user.address
         };
-
+        // Send update request
         const response = await axios.put('/user/profile', payload);
-
+        // Update user object with response data
         Object.assign(user, response.data.user);
 
         isEditing.value = false;
         toast.info("¡Perfil actualizado!", "Info");
     } catch (e) {
+        // If session expired, show specific message
         if (e.response && e.response.status === 419) {
             toast.error("La sesión ha expirado. Por favor, recarga la página.", "Error de Sesión");
         } else {
+            // For other errors, show generic message
             toast.error("Error al actualizar el perfil", "Error");
         }
     }
@@ -101,6 +94,7 @@ const saveProfile = async () => {
 // CHANGE PASSWORD =========================================
 const changePassword = async () => {
     try {
+        // Send password change request
         await axios.put('/user/password', passForm);
         toast.info("Password updated!", "Password Info");
         showPasswordSection.value = false;
@@ -112,7 +106,9 @@ const changePassword = async () => {
 // Function to confirm a reservation
 const completeReservation = async (reservationId) => {
     try {
+        // Send confirm request
         await axios.put(`/reservations/${reservationId}/confirm`);
+        // Update reservation status in list
         const reservation = reservations.value.find(r => r.id === reservationId);
         if (reservation) reservation.status = 'confirmed';
         toast.success("Reservation confirmed!", "Reservation Info");
@@ -124,7 +120,9 @@ const completeReservation = async (reservationId) => {
 // Function to cancel a reservation
 const cancelReservation = async (reservationId) => {
     try {
+        // Send cancel request
         await axios.put(`/reservations/${reservationId}/cancel`);
+        // Update reservation status in list
         const reservation = reservations.value.find(r => r.id === reservationId);
         if (reservation) reservation.status = 'cancelled';
         toast.success("Reservation cancelled!", "Reservation Info");

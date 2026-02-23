@@ -47,7 +47,9 @@ const isLoadingReservations = ref(true);
 
 // Customers that coincidate with search params
 const filteredCustomers = computed(() => {
+    // If no search params, return all customers
     if (!searchCustomer.value) return customers.value;
+    // Search by DNI, email, phone or full name
     const query = searchCustomer.value.toLowerCase();
     return customers.value.filter(c =>
         c.dni.toLowerCase().startsWith(query) ||
@@ -59,7 +61,9 @@ const filteredCustomers = computed(() => {
 
 // Vehicles that coincidate with search params
 const filteredVehicles = computed(() => {
+    // If no search params, return all vehicles
     if (!searchVehicle.value) return vehicles.value;
+    // Search by license plate, brand, model or status
     const query = searchVehicle.value.toLowerCase();
     return vehicles.value.filter(v =>
         v.license_plate.toLowerCase().startsWith(query) ||
@@ -71,7 +75,9 @@ const filteredVehicles = computed(() => {
 
 // Reservations that coincidate with search params
 const filteredReservations = computed(() => {
+    // If no search params, return all reservations
     if (!searchReservation.value) return reservations.value;
+    // Search by user DNI, vehicle license plate or reservation status
     const query = searchReservation.value.toLowerCase();
     return reservations.value.filter(r =>
         r.user.dni.toLowerCase().startsWith(query) ||
@@ -143,6 +149,7 @@ const showVehicleModal = ref(false);
 const showUploadVehicleImagesModal = ref(false);
 const showReservationModal = ref(false);
 
+// Vehicle selected for image upload
 const selectVehicleForImageUpload = ref(null);
 
 // Images reference
@@ -393,6 +400,7 @@ const age = computed(() => {
     return ageCalc;
 });
 
+// Check if user is underage based on age computed property
 const isUnderage = computed(() => age.value !== null && age.value < 18);
 
 // DETECT VEHICLE IMAGE FILES ==============================
@@ -446,6 +454,7 @@ const estimatedPrice = computed(() => {
         return 0;
     }
 
+    // Get selected car by id from vehicles list
     const selectedCar = vehicles.value.find(v => v.id === reservationForm.vehicle_id);
     // If no selected car, price us 0
     if (!selectedCar) return 0;
@@ -460,7 +469,7 @@ const estimatedPrice = computed(() => {
 
     // No negative price
     if (diffHours <= 0) return 0;
-
+    // Return estimated price based on hours and car price, with 2 decimals
     return (diffHours * Number(selectedCar.hourly_price)).toFixed(2);
 });
 
@@ -478,6 +487,7 @@ const formatDateTimeForInput = (dateString) => {
     const date = new Date(dateString);
 
     const year = date.getFullYear();
+    // Pad month, day, hours and minutes with leading zeros if needed
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const hours = String(date.getHours()).padStart(2, '0');
