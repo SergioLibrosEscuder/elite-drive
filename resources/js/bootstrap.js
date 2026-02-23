@@ -10,6 +10,7 @@ window.axios.defaults.withXSRFToken = true;
 window.axios.interceptors.response.use(
     (response) => response,
     async (error) => {
+        // Store the original request configuration
         const originalRequest = error.config;
 
         // Verify if the error is a 419 and we haven't already tried to refresh the token
@@ -48,6 +49,7 @@ window.axios.interceptors.response.use(
                 return Promise.reject(retryError);
             }
         }
+        // For other errors, reject the promise with the original error
         return Promise.reject(error);
     },
 );
