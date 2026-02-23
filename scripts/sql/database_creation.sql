@@ -1,7 +1,7 @@
 -- Enum for user roles
 CREATE TYPE user_role AS ENUM ('admin', 'customer');
 
--- Tabla USUARIOS
+-- USERS table
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
     dni VARCHAR(9) NOT NULL UNIQUE,
@@ -22,7 +22,7 @@ CREATE TABLE users (
 -- Enum for vehicle status
 CREATE TYPE vehicle_status AS ENUM ('available', 'reserved', 'maintenance');
 
--- Tabla VEHÍCULOS
+-- VEHICLES table
 CREATE TABLE vehicles (
     id BIGSERIAL PRIMARY KEY,
     hourly_price NUMERIC(10, 2) NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE vehicles (
 -- Enum for reservation status
 CREATE TYPE reservation_status AS ENUM ('pending', 'confirmed', 'cancelled', 'completed');
 
--- Tabla RESERVAS
+-- RESERVATIONS table
 CREATE TABLE reservations (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -76,13 +76,13 @@ CREATE TABLE reservations (
         CHECK (end_date > start_date)
 );
 
--- Indices for better performance
+-- Indexes for performance optimization
 CREATE INDEX idx_reservations_user_id ON reservations(user_id);
 CREATE INDEX idx_reservations_vehicle_id ON reservations(vehicle_id);
 CREATE INDEX idx_reservations_start_date ON reservations(start_date);
 CREATE INDEX idx_reservations_status ON reservations(status);
 
--- Función para actualizar automáticamente updated_at
+-- Trigger function to update updated_at column on update
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -91,14 +91,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger para tabla users
+-- Trigger for table users to update updated_at on update
 CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
 FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- Trigger para tabla vehicles
+-- Trigger for table vehicles to update updated_at on update
 CREATE TRIGGER update_vehicles_updated_at BEFORE UPDATE ON vehicles
 FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- Trigger para tabla reservations
+-- Trigger for table reservations to update updated_at on update
 CREATE TRIGGER update_reservations_updated_at BEFORE UPDATE ON reservations
 FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
