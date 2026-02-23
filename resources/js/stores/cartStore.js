@@ -16,6 +16,7 @@ export const useCartStore = defineStore("cart", () => {
 
     // Total amount of price in cart
     const total = computed(() =>
+        // Sum all item prices in cart
         cartItems.value.reduce(
             (total, item) => Number(total) + Number(item.price),
             0,
@@ -33,6 +34,7 @@ export const useCartStore = defineStore("cart", () => {
             return;
         }
 
+        // Convert start and end dates to Date objects
         const start = new Date(startDate);
         const end = new Date(endDate);
         // Get difference between selected hours
