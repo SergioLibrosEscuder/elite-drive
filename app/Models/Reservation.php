@@ -1,4 +1,5 @@
 <?php
+// Sergio Libros
 
 namespace App\Models;
 
@@ -6,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
+    // Define the table associated with the model
     protected $table = 'reservations';
-
+    // Define the primary key of the table
     protected $primaryKey = 'id';
-
+    // Enable timestamps for created_at and updated_at fields
     public $timestamps = true;
-
+    // Define fillable fields for mass assignment
     protected $fillable = [
         'user_id',
         'vehicle_id',
@@ -21,7 +23,7 @@ class Reservation extends Model
         'status',
     ];
 
-    // Set special types of fields
+    // Define casts for date and amount fields
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
