@@ -1,23 +1,23 @@
-# --- ETAPA 1: Compilación de Frontend (Vue) ---
+# --- STAGE 1: Frontend compilation ---
 FROM node:20-alpine AS build-stage
 WORKDIR /app
 
-# Instalación de git para poder clonar el repositorio privado
+# Install Git to clone the private repository
 RUN apk add --no-cache git
 
-# Definición del argumento para el Token de GitHub
+# Define the build argument for the GitHub token
 ARG GITHUB_TOKEN
-# Clonación del repositorio privado usando el token
-# Formato: https://<token>@github.com/<usuario>/<repo>.git
+# Clone the private repository using the provided GitHub token
 RUN git clone https://${GITHUB_TOKEN}@github.com/SergioLibrosEscuder/elite-drive.git .
 
+# Install dependencies and build the frontend assets
 RUN npm install
 RUN npm run build
 
-# --- ETAPA 2: Servidor Web (PHP 8.2 + Apache) ---
+# --- STAGE 2: Web Server (PHP 8.2 + Apache) ---
 FROM php:8.2-apache
 
-# Instalación de dependencias del sistema y módulos de PHP necesarios para Laravel y la aplicación
+# Install necessary packages and PHP extensions
 RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev zip libzip-dev \
     unzip git ssl-cert libpq-dev \
@@ -25,30 +25,30 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql zip \
     && a2enmod rewrite ssl
 
-# Habilitar el sitio SSL por defecto de Apache
+# Enable the default SSL site in Apache
 RUN a2ensite default-ssl
 
-# Copia de configuraciones personalizadas
+# Copy custom Apache configuration and PHP settings
 COPY ./docker_files/1_dockerfile/docker-config/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY ./docker_files/1_dockerfile/docker-config/php.ini /usr/local/etc/php/conf.d/app-php.ini
 
-# Copia del proyecto y el archivo .env
+# Copy the built frontend assets and Laravel application from the build stage to the Apache document root
 COPY --from=build-stage /app /var/www/html
 COPY .env /var/www/html/.env
 
-# Instalación de Composer y dependencias de Laravel
+# Install Composer and Laravel dependencies
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --optimize-autoloader
 
-# Generación de la clave de la aplicación Laravel
+# Generate the application key for Laravel
 RUN php artisan key:generate
 
-# Habilitación de permisos para Laravel
+# Set permissions for storage and cache directories
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage
 
-# Exposición de los puertos
+# Expose ports 80 and 443 for HTTP and HTTPS traffic
 EXPOSE 80 443
-
+# Start Apache in the foreground
 CMD ["apache2-foreground"]

@@ -1,26 +1,31 @@
 services:
-# Servicio 1: App Laravel
+# Service 1: Application - Apache with PHP and Laravel
   app:
     container_name: elite-app-service
+    # Build the image using the Dockerfile
     build:
       context: ../../ 
       dockerfile: docker_files/1_dockerfile/Dockerfile
+      # Pass the GitHub token as a build argument to the Dockerfile
       args:
         - GITHUB_TOKEN=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
+    # Expose ports 80 and 443 for HTTP and HTTPS traffic
     ports:
       - "80:80"
       - "443:443"
+    # Connect the app service to the elite-network
     networks:
       - elite-network
 
-# Servicio 2: Redis
-# Laravel lo utiliza para sesiones y cache acelerando la web
+# Service 2: Cache - Redis
   cache:
     image: redis:alpine
     container_name: elite-redis-service
+    # Connect the cache service to the elite-network
     networks:
       - elite-network
-
+      
+# Network configuration for the services
 networks:
   elite-network:
     driver: bridge
