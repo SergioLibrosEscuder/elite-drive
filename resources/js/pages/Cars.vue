@@ -46,6 +46,7 @@ const statuses = computed(() => getAll("status"));
 
 // Get cars that correspond with filtered data
 const filteredCars = computed(() => {
+    // Filter by query, brand, fuel, doors, status, price and year
     return cars.value.filter((c) => {
         if (filters.value.query && !(c.brand + " " + c.model).toLowerCase().includes(filters.value.query.toLowerCase())) return false;
         if (filters.value.brand && c.brand !== filters.value.brand) return false;
@@ -56,6 +57,7 @@ const filteredCars = computed(() => {
         if (filters.value.maxPrice && Number(c.hourly_price) > Number(filters.value.maxPrice)) return false;
         if (filters.value.minYear && Number(c.manufacturing_year) < Number(filters.value.minYear)) return false;
         if (filters.value.maxYear && Number(c.manufacturing_year) > Number(filters.value.maxYear)) return false;
+        // If all filters passed, return true
         return true;
     });
 });

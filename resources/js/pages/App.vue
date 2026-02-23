@@ -13,7 +13,7 @@ import ToastContainer from '../components/toasts/ToastContainer.vue';
 
 <template>
     <HeaderCustom />
-    <!-- Where the view os loaded -->
+    <!-- Where the view is loaded -->
     <router-view />
     <FooterCustom />
 

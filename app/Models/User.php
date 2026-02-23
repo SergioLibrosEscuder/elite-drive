@@ -1,4 +1,5 @@
 <?php
+// Guillermo Soto
 
 namespace App\Models;
 
@@ -11,7 +12,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
-    // Campos de tu base de datos
+    // Define fillable fields for mass assignment
     protected $fillable = [
         'dni',
         'first_name',

@@ -36,6 +36,7 @@ const estimatedPrice = computed(() => {
         const start = new Date(startDate.value);
         const end = new Date(endDate.value);
         const diffTime = Math.abs(end - start);
+        // Calculate hours, rounded up to the next hour
         const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
 
         // No negative hours
@@ -51,6 +52,7 @@ const estimatedPrice = computed(() => {
 const minDate = computed(() => {
     const now = new Date();
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    // Return in format YYYY-MM-DDTHH:MM for datetime-local input
     return now.toISOString().slice(0, 16);
 });
 
@@ -162,7 +164,7 @@ onMounted(async () => {
                 </div>
             </div>
         </section>
-        
+
         <!-- SPECIFICATIONS -->
         <section class="dashboard-title mb-4 p-3 shadow-sm">
             <h4 class="mb-3">Specifications</h4>

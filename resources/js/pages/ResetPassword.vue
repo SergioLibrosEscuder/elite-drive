@@ -11,9 +11,9 @@
             </div>
         </div>
     </section>
-    
+
     <!-- SET NEW PASSWORD FORM ================================================ -->
-    
+
     <div class="container py-5 mt-5 mb-5">
         <div class="row justify-content-center mb-3">
             <div class="col-md-5">
@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- DIVIDER ============================================================== -->
 
     <section class="mb-5">
@@ -73,11 +73,13 @@ import { useRoute, useRouter } from 'vue-router';
 import { useToast } from '../composables/useToast';
 import axios from 'axios';
 
+// State and utilities for password reset
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
 const loading = ref(false);
 
+// Form data for password reset
 const form = reactive({
     token: route.params.token,
     email: route.query.email,
@@ -85,12 +87,15 @@ const form = reactive({
     password_confirmation: ''
 });
 
+// Function to handle password reset submission
 const handleReset = async () => {
     loading.value = true;
     try {
+        // Send reset request to API
         await axios.post('/reset-password', form);
         toast.success("Password updated! You can now login.", "Success");
-        router.push('/'); // Redirect to home
+        // Redirect to home page after successful reset
+        router.push('/');
     } catch (error) {
         toast.error("The link expired or data is invalid.", "Error");
     } finally {

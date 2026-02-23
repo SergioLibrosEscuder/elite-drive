@@ -1,4 +1,5 @@
 <?php
+// <!-- Sergio Libros -->
 
 namespace App\Http\Controllers;
 
@@ -42,7 +43,7 @@ class ReservationController extends Controller
             // Make sure end date is after start date
             'end_date' => 'required|date|after:start_date',
         ]);
-
+        // Get the associated vehicle of the reservation
         $vehicle = Vehicle::findOrFail($data['vehicle_id']);
 
         // If no user id is passed, the user is set to be the actual user
@@ -70,7 +71,7 @@ class ReservationController extends Controller
 
         // Default reservation status is always pending
         $data['status'] = 'pending';
-
+        // Create the reservation with the validated data
         $reservation = Reservation::create($data);
 
         return response()->json($reservation, 201);
@@ -79,6 +80,7 @@ class ReservationController extends Controller
     // Update reservation data
     public function update(Request $request, $id)
     {
+        // Get the reservation to update
         $reservation = Reservation::findOrFail($id);
 
         // Validate recieved data
@@ -90,6 +92,7 @@ class ReservationController extends Controller
 
         // Control cases if a status is recieved
         if ($request->has('status')) {
+            // Get old and new status of the reservation
             $oldStatus = $reservation->status;
             $newStatus = $request->status;
 
@@ -158,12 +161,12 @@ class ReservationController extends Controller
             if ($hours < 1) {
                 $hours = 1;
             }
-
+            // Get the associated vehicle of the reservation
             $vehicle = Vehicle::findOrFail($reservation->vehicle_id);
             // Recalculate total amount of price of reservation
             $data['amount'] = $hours * $vehicle->hourly_price;
         }
-
+        // Update the reservation with the validated data
         $reservation->update($data);
 
         return response()->json($reservation);
@@ -172,7 +175,9 @@ class ReservationController extends Controller
     // Delete a reservation
     public function destroy($id)
     {
+        // Get the reservation to delete
         $reservation = Reservation::findOrFail($id);
+        // Delete the reservation
         $reservation->delete();
 
         return response()->json(null, 204);
@@ -195,15 +200,15 @@ class ReservationController extends Controller
     {
         // Begin a transaction to ensure correct working
         return DB::transaction(function () use ($id) {
+            // Ensure the reservation is not cancelled nor completed
             $query = Reservation::where('id', $id)
-                // Ensure status is not cancelled nor completed
                 ->whereIn('status', ['confirmed', 'pending']);
 
             // If current user is not admin, the user is set to the current session
             if (Auth::user()->role !== 'admin') {
                 $query->where('user_id', Auth::id());
             }
-
+            // Get the reservation
             $reservation = $query->firstOrFail();
 
             // If actual status is completed, you cannot cancel it
@@ -214,11 +219,13 @@ class ReservationController extends Controller
             // If actual status is confirmed, the vehicle status is changeed to available
             if ($reservation->status === 'confirmed') {
                 $vehicle = $reservation->vehicle;
+                // If vehicle is found the status is changed to available
                 if ($vehicle) {
                     $vehicle->status = 'available';
                     $vehicle->save();
                 }
             }
+            // Change reservation status to cancelled
             $reservation->status = 'cancelled';
             $reservation->save();
 
@@ -239,9 +246,9 @@ class ReservationController extends Controller
             if (Auth::user()->role !== 'admin') {
                 $query->where('user_id', Auth::id());
             }
-
+            // Get the reservation
             $reservation = $query->firstOrFail();
-
+            // Get the associated vehicle of the reservation
             $vehicle = $reservation->vehicle;
 
             // Make sure ony pending reservations can be confirmed
@@ -257,7 +264,7 @@ class ReservationController extends Controller
             // Change associated vehicle status
             $vehicle->status = 'reserved';
             $vehicle->save();
-
+            // Change reservation status to confirmed
             $reservation->status = 'confirmed';
             $reservation->save();
 

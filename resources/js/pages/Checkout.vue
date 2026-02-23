@@ -39,6 +39,7 @@ const handlePayment = async () => {
     // Make a reservation for every item in cart
     for (const item of cartStore.cartItems) {
         try {
+            // Add reservation to database
             await axios.post('/reservations', {
                 vehicle_id: item.vehicle.id,
                 start_date: item.start,
@@ -54,9 +55,11 @@ const handlePayment = async () => {
 
     isProcessing.value = false;
 
+    // If there are errors, show them in a toast
     if (errors.length > 0) {
         toast.error(`Could not book: ${errors.join(', ')}. Please try again.`, "Checkout Error");
     } else {
+        // If no errors, clear cart and show success message
         cartStore.clearCart();
         toast.success('Reservation confirmed successfully! Thank you.', "Checkout");
         // Redirect to reservation list profile section
