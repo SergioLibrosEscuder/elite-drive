@@ -61,13 +61,17 @@ onMounted(() => {
     document.getElementById("recoverPasswordModal")?.addEventListener('hidden.bs.modal', resetForm)
 })
 
+// Handle recover password function
 const handleRecover = async () => {
     loading.value = true;
     try {
+        // Send recover password request to server
         const response = await axios.post('/forgot-password', { email: form.email });
+        // Show success message and close modal
         toast.success(response.data.message, "Request Sent");
         closeModal();
     } catch (error) {
+        // Show error message
         toast.error("User not found or server error", "Error");
     } finally {
         loading.value = false;

@@ -2,7 +2,7 @@
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref } from 'vue';
-
+// Props declaration for toast object
 const props = defineProps({
     toast: Object
 });
@@ -27,13 +27,14 @@ onMounted(() => {
         el.value.addEventListener('hidden.bs.toast', () => {
             emit('close', props.toast.id);
         });
-
+        // Show toast on mount
         bsToast.show();
     } else {
+        // Log error if bootstrap isn't loaded
         console.error("Bootstrap JS no está cargado");
     }
 });
-
+// Dispose of toast instance on unmount
 onBeforeUnmount(() => {
     if (bsToast) bsToast.dispose();
 });

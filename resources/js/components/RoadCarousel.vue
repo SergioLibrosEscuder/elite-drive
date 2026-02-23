@@ -16,6 +16,7 @@ const props = defineProps({
 const currentIndex = ref(Math.floor(Math.random() * props.images.length));
 let timeoutId = null;
 
+// Function to get random interval for carousels
 const getRandomInterval = () => Math.random() * (8000 - 4000) + 4000;
 
 // Carousel play logic
@@ -33,6 +34,7 @@ onMounted(() => {
     timeoutId = setTimeout(playCarousel, Math.random() * 3000);
 });
 
+// Clear timeout on unmount to prevent memory leaks
 onUnmounted(() => clearTimeout(timeoutId));
 </script>
 
