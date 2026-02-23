@@ -41,7 +41,7 @@ Steps to clone and launch the project:
 
 1. Clone repository:
 ```bash
-git clone https://github.com/your-user/elite-drive.git
+git clone https://github.com/SergioLibrosEscuder/elite-drive.git
 ```
 2. Install dependencies for PHP:
 ``` bash
@@ -85,19 +85,27 @@ npm run dev
 
 ## 8. Authors
 
-<div align="center" style="display: flex; justify-content: space-around;">
-  <a href="https://github.com/SergioLibrosEscuder">
-    <b>Sergio Libros</b><br>
-    <img src="https://avatars.githubusercontent.com/u/238160125?v=4" width="120" alt="Sergio Libros">
-  </a>
-
-  <a href="https://github.com/AlumnoAbastos">
-    <b>Guillermo Soto</b><br>
-    <img src="https://avatars.githubusercontent.com/u/238160364?v=4" width="120" alt="Guillermo Soto">
-  </a>
-
-  <a href="https://github.com/IvanRequenaPuig">
-    <b>Iván Requena</b><br>
-    <img src="https://avatars.githubusercontent.com/u/150246848?v=4" width="120" alt="Iván Requena">
-  </a>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/SergioLibrosEscuder">
+          <img src="https://avatars.githubusercontent.com/u/238160125?v=4&s=120" width="120" alt="Sergio Libros"><br>
+          <b>Sergio Libros</b>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/AlumnoAbastos">
+          <img src="https://avatars.githubusercontent.com/u/238160364?v=4&s=120" width="120" alt="Guillermo Soto"><br>
+          <b>Guillermo Soto</b>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/IvanRequenaPuig">
+          <img src="https://avatars.githubusercontent.com/u/150246848?v=4&s=120" width="120" alt="Iván Requena"><br>
+          <b>Iván Requena</b>
+        </a>
+      </td>
+    </tr>
+  </table>
 </div>
