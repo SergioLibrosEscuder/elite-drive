@@ -1,4 +1,5 @@
 <?php
+// <!-- Guillermo Soto  -->
 
 namespace App\Http\Controllers;
 
@@ -17,6 +18,7 @@ class AdminController extends Controller
     // Create a new customer
     public function store(Request $request)
     {
+        // Validate data recieved
         $data = $request->validate([
             'dni' => 'required|unique:users',
             'first_name' => 'required|string|max:100',
@@ -33,7 +35,7 @@ class AdminController extends Controller
         $data['password'] = Hash::make($data['password']);
         // Force role to be customer
         $data['role'] = 'customer';
-
+        // Create user with the validated data
         $user = User::create($data);
         return response()->json($user, 201);
     }
@@ -51,7 +53,7 @@ class AdminController extends Controller
             'phone' => 'nullable',
             'address' => 'nullable'
         ]);
-
+        // Update user with the validated data
         $user->update($data);
         return response()->json($user);
     }
@@ -60,6 +62,7 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        // Delete user from database
         $user->delete();
         return response()->json(['message' => 'User deleted']);
     }
