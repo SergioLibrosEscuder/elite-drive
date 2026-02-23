@@ -824,10 +824,10 @@ window.openViewMore = (title, desc, director, cast, year, bannerUrl) => {
                             </div>
                         </div>
 
-                        <div class="menu-item" data-bg="/images/gallery/timelessIcon.png" data-title="Timeless Icon"
+                        <div class="menu-item" data-bg="/images/gallery/timelessicon.png" data-title="Timeless Icon"
                             data-desc="Experience the heritage of the most successful sports car.">
                             <div class="d-flex align-items-center">
-                                <img :src="'/images/gallery/timelessIcon.png'" alt="Poster" class="poster-thumb">
+                                <img :src="'/images/gallery/timelessicon.png'" alt="Poster" class="poster-thumb">
                                 <div class="ms-3 text-white">
                                     <h5>Timeless Icon</h5>
                                     <span class="badge bg-secondary">Heritage</span>
