@@ -14,10 +14,10 @@ The system allows users to register, verify their identity via email, manage the
 
 Main Frameworks and tools:
 
-- **Backend:** [Laravel 11](https://laravel.com/)
-- **Frontend:** [Vue.js 3 (Composition API) + Vite](https://vuejs.org/)
-- **Frontend:** [Bootstrap v5.3.8](https://getbootstrap.com/)
-- **Database:** [Supabase (PostgreSQL)](https://supabase.com/)
+- [![Laravel](https://img.shields.io/badge/laravel-v11-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com/)
+- [![Vue.js](https://img.shields.io/badge/vue.js-v3-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)](https://vuejs.org/)
+- [![Bootstrap](https://img.shields.io/badge/bootstrap-v5.3.8-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+- [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-%233ECF8E.svg?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 
 
 ## 3. Prerequisites
@@ -29,10 +29,10 @@ Main Frameworks and tools:
 
 ## 4. Dependencies
 
-- [Pinia](https://pinia.vuejs.org/)
-- [jspdf](https://www.npmjs.com/package/jspdf)
-- [Swiper](hhttps://swiperjs.com/)
-- [EmailJS](https://www.emailjs.com/)
+- [Pinia](https://pinia.vuejs.org/) - State Management
+- [jsPDF](https://www.npmjs.com/package/jspdf) - PDF generation
+- [Swiper](https://swiperjs.com/) - Modern sliders
+- [EmailJS](https://www.emailjs.com/) - Email services
 
 
 ## 5. Installation and Configuration
@@ -40,19 +40,35 @@ Main Frameworks and tools:
 Steps to clone and launch the project:
 
 1. Clone repository:
-```bash git clone https://github.com/your-user/elite-drive.git```
-3. Install dependencies PHP:
-```composer install```
-4. Install dependencies JS:
-```npm install```
-5. Environment config:
-```cp .env.example .env```
-6. Key app generation:
-```php artisan key:generate```
-7. Migrations:
-```php artisan migrate --seed```
-8. Execute:
-```php artisan serve and npm run dev```
+```bash
+git clone https://github.com/your-user/elite-drive.git
+```
+2. Install dependencies for PHP:
+``` bash
+composer install
+```
+3. Install dependencies for JS:
+```bash
+npm install
+```
+4. Configure the environment:
+```bash
+cp .env.example .env
+```
+- (Make sure to configure it correctly) <br><br>
+
+5. Generate the app key
+```bash
+php artisan key:generate
+```
+6. Execute:
+```bash
+php artisan serve
+```
+```bash
+npm run dev
+```
+- (Execute them in separated terminals)
 
 
 ## 6. Main Features
@@ -65,10 +81,23 @@ Steps to clone and launch the project:
 
 ## 7. Database Structure
 
-Database schema diagram pending. Built with PostgreSQL on Supabase using Eloquent ORM.
+![Database Structure](public/images/db_diagram/supabase-schema-evyujthtrhdgvuymnaot.png)
 
 ## 8. Authors
 
-- Sergio Libros
-- Guillermo Soto
-- Iván Requena
+<div align="center" style="display: flex; justify-content: space-around;">
+  <a href="https://github.com/SergioLibrosEscuder">
+    <b>Sergio Libros</b><br>
+    <img src="https://avatars.githubusercontent.com/u/238160125?v=4" width="120" alt="Sergio Libros">
+  </a>
+
+  <a href="https://github.com/AlumnoAbastos">
+    <b>Guillermo Soto</b><br>
+    <img src="https://avatars.githubusercontent.com/u/238160364?v=4" width="120" alt="Guillermo Soto">
+  </a>
+
+  <a href="https://github.com/IvanRequenaPuig">
+    <b>Iván Requena</b><br>
+    <img src="https://avatars.githubusercontent.com/u/150246848?v=4" width="120" alt="Iván Requena">
+  </a>
+</div>
