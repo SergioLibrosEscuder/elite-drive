@@ -109,6 +109,12 @@ onMounted(async () => {
 <style scoped>
 @import "../../css/admin_style.css";
 @import "../../css/cars_style.css";
+
+.yeseva-one-regular {
+    font-family: "Yeseva One", serif;
+    font-weight: 400;
+    font-style: normal;
+}
 </style>
 
 <template>
@@ -125,7 +131,7 @@ onMounted(async () => {
                     );
                     width: 100%;
                 ">
-                <h2 class="fw-bold">{{ car.brand }} {{ car.model }}</h2>
+                <h2 class="fw-bold yeseva-one-regular fs-1">{{ car.brand }} {{ car.model }}</h2>
                 <p class="fs-4"> {{ car.hourly_price }}€ per hour</p>
             </div>
         </div>
