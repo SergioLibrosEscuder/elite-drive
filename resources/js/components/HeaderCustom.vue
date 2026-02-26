@@ -4,7 +4,7 @@
     <!-- HEADER / NAVBAR ============================================================================ -->
 
     <header>
-        <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm" data-bs-theme="dark">
             <div class="container">
                 <!-- RouterLink to Home page in logotype-->
                 <RouterLink class="navbar-brand fw-bold" to="/"><img
